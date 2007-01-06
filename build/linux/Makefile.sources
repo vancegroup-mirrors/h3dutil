@@ -1,0 +1,13 @@
+SOURCES=../../src/Console.cpp \
+../../src/Exception.cpp \
+../../src/Matrix3d.cpp \
+../../src/Matrix3f.cpp \
+../../src/Matrix4d.cpp \
+../../src/Matrix4f.cpp \
+../../src/Quaternion.cpp \
+../../src/RefCountedClass.cpp \
+../../src/Rotation.cpp \
+../../src/TimeStamp.cpp \
+../../src/Vec2f.cpp \
+../../src/Vec3f.cpp \
+../../src/Vec4f.cpp \

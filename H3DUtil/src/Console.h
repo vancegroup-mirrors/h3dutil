@@ -66,9 +66,9 @@ namespace H3DUtil {
     bool showlevel;
   public:
     basic_debugbuf(  ) : 
-      outputstream( &cerr ),
       outputlevel( 3 ),
       level( 0 ),
+      outputstream( &cerr ),
       showtime(false),
       showlevel( true ) {
     }

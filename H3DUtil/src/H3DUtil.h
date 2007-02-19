@@ -43,19 +43,25 @@
 // exported.
 #ifdef WIN32
 #include <windows.h>
+
+#ifdef H3DUTIL_LIB
+#define H3DUTIL_API
+#else
+
 #ifdef H3DUTIL_EXPORTS
 #define H3DUTIL_API __declspec(dllexport)
 #else
 #define H3DUTIL_API __declspec(dllimport)
-#if defined(_MSC_VER) || defined(__BORLANDC__)
-#pragma comment( lib, "H3DUtil.lib" )
-#endif
+//#if defined(_MSC_VER) || defined(__BORLANDC__)
+//#pragma comment( lib, "H3DUtil.lib" )
+//#endif
 #endif
 #ifdef _MSC_VER
 // disable dll-interface warnings for stl-exports 
 #pragma warning( disable: 4251 )
 #endif
 
+#endif
 
 #endif
 

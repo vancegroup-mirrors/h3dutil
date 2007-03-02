@@ -1,8 +1,8 @@
 // !$*UTF8*$!
 {
 	0867D690FE84028FC02AAC07 /* Project object */ = {
-		activeBuildConfigurationName = Debug;
-		activeTarget = D2AAC09C05546B4700DB518D /* H3DUtil */;
+		activeBuildConfigurationName = Release;
+		activeTarget = 96CCB1CD0B95832500DA703A /* H3DUtil Framework */;
 		addToTargets = (
 			D2AAC09C05546B4700DB518D /* H3DUtil */,
 		);
@@ -24,8 +24,8 @@
 				);
 			};
 			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
-				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
-				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnSortingDirectionKey = 1;
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Target_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
 					243,
@@ -115,6 +115,17 @@
 			sepNavVisRect = "{{0, 0}, {778, 168}}";
 			sepNavWindowFrame = "{{199, 147}, {750, 558}}";
 		};
+	};
+	9618F1530B8B45D300C83BBA /* H3DUtil Framework-Info.plist */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {711, 429}}";
+			sepNavSelRange = "{384, 0}";
+			sepNavVisRect = "{{0, 0}, {711, 429}}";
+			sepNavWindowFrame = "{{38, 294}, {750, 558}}";
+		};
+	};
+	96CCB1CD0B95832500DA703A /* H3DUtil Framework */ = {
+		activeExec = 0;
 	};
 	D2AAC09C05546B4700DB518D /* H3DUtil */ = {
 		activeExec = 0;

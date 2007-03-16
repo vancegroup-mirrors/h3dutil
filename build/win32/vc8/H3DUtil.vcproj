@@ -117,8 +117,8 @@
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="2"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\src"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
@@ -137,9 +137,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="winmm.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories=""
+				AdditionalLibraryDirectories="&quot;$(H3D_EXTERNAL_ROOT)\lib&quot;"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -216,6 +217,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\Rotation.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Threads.cpp"
 				>
 			</File>
 			<File
@@ -306,6 +311,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\TemplateOperators.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Threads.h"
 				>
 			</File>
 			<File

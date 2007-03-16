@@ -27,10 +27,11 @@
 #ifndef __REFCOUNTEDCLASS_H__
 #define __REFCOUNTEDCLASS_H__
 
-#include <H3DUtil.h>
+#include "Threads.h"
 #include <Console.h>
 #include <string>
 #include <iostream>
+
 using namespace std;
 
 namespace H3DUtil {
@@ -39,20 +40,13 @@ namespace H3DUtil {
   public:
 
     /// Constructor.
-    RefCountedClass( ):
-      ref_count( 0 ),
-      name( "" ),
-      type_name( "RefCountedClass" ),
-      is_initialized( false ),
-      manual_initialize( false ){}
+    RefCountedClass( );
+
+    RefCountedClass( bool _use_lock );
 
 
     /// Destructor.
-    virtual ~RefCountedClass() {
-#ifdef REF_COUNT_DEBUG
-      Console(1) << "~RefCountedClass: " << this << endl;
-#endif
-    }
+    virtual ~RefCountedClass();
 
     /// Initialize is called once upon the first reference of the 
     /// RefCountedClass.
@@ -61,16 +55,7 @@ namespace H3DUtil {
     }
 
     /// Increase the reference count for this instance.
-    inline void ref() { 
-      ref_count++;
-#ifdef REF_COUNT_DEBUG
-      Console(1) << "Ref " << getName() << " " << this << ": " 
-                 << ref_count << endl;
-#endif
-      if( !manual_initialize && ref_count == 1 ) {
-        initialize();
-      }
-    }
+    inline void ref();
 
     /// If true, the initialize() function will not be called automatically
     /// on first reference of the instance but must be called manually
@@ -86,16 +71,7 @@ namespace H3DUtil {
 
     /// Decrease the reference count for this instance. If the reference
     /// count reaches 0 it is deleted.
-    inline void unref() {
-      ref_count--;
-#ifdef REF_COUNT_DEBUG
-      Console(1) << "Unref " << getName() << " " << this << ": " 
-                 << ref_count << endl;
-#endif
-      if( ref_count == 0 ) {
-        delete this;
-      }
-    }
+    inline void unref();
 
     /// Get the name of the node.
     inline string getName() { 
@@ -141,6 +117,11 @@ namespace H3DUtil {
     /// on first reference of the instance but must be called manually
     /// by the creator of the instance.
     bool manual_initialize;
+
+    // lock for thread access to ref_count
+    MutexLock *ref_count_lock_pointer;
+    // decides where to create and use a ref_count_lock_pointer
+    bool use_ref_count_lock;
   };
     
 }

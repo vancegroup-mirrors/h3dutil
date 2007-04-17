@@ -40,8 +40,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\src"
-				PreprocessorDefinitions="_CRTDBG_MAP_ALLOC ;WIN32;_DEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
+				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRTDBG_MAP_ALLOC ;WIN32;_DEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -63,6 +63,8 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:msvcrt "
+				AdditionalDependencies="winmm.lib"
+				AdditionalLibraryDirectories="&quot;$(H3D_EXTERNAL_ROOT)\lib&quot;"
 				GenerateDebugInformation="true"
 			/>
 			<Tool

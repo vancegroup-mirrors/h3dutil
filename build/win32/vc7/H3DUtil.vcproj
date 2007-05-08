@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\src"
+				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -33,7 +33,9 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib"
 				OutputFile="$(OutDir)/H3DUtil_d.dll"
+				AdditionalLibraryDirectories="$(H3D_EXTERNAL_ROOT)\lib"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(OutDir)/H3DUtil_d.pdb"
 				ImportLibrary="$(OutDir)/H3DUtil_d.lib"/>
@@ -69,7 +71,7 @@
 				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="2"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\src"
+				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"
@@ -84,7 +86,7 @@
 				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\Siena Robotics and Systems Lab\Haptik Library\RSLib\Lib&quot;;&quot;$(H3D_EXTERNAL_ROOT)\lib&quot;;&quot;$(3DTOUCH_BASE)\lib&quot;;&quot;$(3DTOUCH_BASE)\utilities\lib&quot;"
+				AdditionalLibraryDirectories="$(H3D_EXTERNAL_ROOT)\lib"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="TRUE"
 				SubSystem="2"
@@ -122,7 +124,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\src"
+				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;H3DUTIL_LIB"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -167,7 +169,7 @@
 				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="2"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\src"
+				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;H3DUTIL_LIB"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"
@@ -233,6 +235,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\Rotation.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\Threads.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\TimeStamp.cpp">

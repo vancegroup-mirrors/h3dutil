@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004, SenseGraphics AB
+//    Copyright 2004-2007, SenseGraphics AB
 //
 //    This file is part of H3D API.
 //
@@ -36,7 +36,7 @@
 #include <iostream>
 
 using namespace std;
-#include "Threads.h"
+#include <Threads.h>
 #include <errno.h>
 
 #ifdef MACOSX

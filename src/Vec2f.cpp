@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004, SenseGraphics AB
+//    Copyright 2004-2007, SenseGraphics AB
 //
 //    This file is part of H3D API.
 //
@@ -27,8 +27,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Vec2f.h"
-#include "Vec2d.h"
+#include <Vec2f.h>
+#include <Vec2d.h>
 
 H3DUtil::ArithmeticTypes::Vec2f::Vec2f( const Vec2d &v ): x( (H3DFloat)v.x ), 
                                                       y( (H3DFloat)v.y ) {}

@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004, SenseGraphics AB
+//    Copyright 2004-2007, SenseGraphics AB
 //
 //    This file is part of H3D API.
 //
@@ -27,8 +27,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Matrix4d.h"
-#include "TypeOperators.h"
+#include <Matrix4d.h>
+#include <TypeOperators.h>
 
 using namespace H3DUtil;
 using namespace ArithmeticTypes;

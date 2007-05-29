@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004, SenseGraphics AB
+//    Copyright 2004-2007, SenseGraphics AB
 //
 //    This file is part of H3D API.
 //
@@ -28,7 +28,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Exception.h"
+#include <Exception.h>
 
 void H3DUtil::Exception::H3DAPIException::print( ostream &os ) const {
   os << className();

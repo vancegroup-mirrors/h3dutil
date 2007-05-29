@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004, SenseGraphics AB
+//    Copyright 2004-2007, SenseGraphics AB
 //
 //    This file is part of H3D API.
 //
@@ -27,7 +27,7 @@
 #ifndef __REFCOUNTEDCLASS_H__
 #define __REFCOUNTEDCLASS_H__
 
-#include "Threads.h"
+#include <Threads.h>
 #include <Console.h>
 #include <string>
 #include <iostream>

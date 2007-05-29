@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004, SenseGraphics AB
+//    Copyright 2004-2007, SenseGraphics AB
 //
 //    This file is part of H3D API.
 //
@@ -27,11 +27,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include "Quaternion.h"
-#include "Matrix3f.h"
-#include "Rotation.h"
-#include "Matrix4f.h"
-#include "Vec3d.h"
+#include <Quaternion.h>
+#include <Matrix3f.h>
+#include <Rotation.h>
+#include <Matrix4f.h>
+#include <Vec3d.h>
 
 using namespace H3DUtil;
 using namespace ArithmeticTypes;

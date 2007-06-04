@@ -12,7 +12,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug DLL|Win32"
-			OutputDirectory="..\..\..\lib"
+			OutputDirectory="..\..\..\..\bin"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="2">
@@ -34,11 +34,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib"
-				OutputFile="$(OutDir)/H3DUtil_d.dll"
+				OutputFile="$(OutDir)/H3DUtil10_vc7_d.dll"
 				AdditionalLibraryDirectories="$(H3D_EXTERNAL_ROOT)\lib"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/H3DUtil_d.pdb"
-				ImportLibrary="$(OutDir)/H3DUtil_d.lib"/>
+				ProgramDatabaseFile="$(OutDir)/H3DUtil10_vc7_d.pdb"
+				ImportLibrary="..\..\..\..\lib/H3DUtil10_vc7_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -62,7 +62,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release DLL|Win32"
-			OutputDirectory="..\..\..\lib"
+			OutputDirectory="..\..\..\..\bin"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
 			CharacterSet="2">
@@ -84,15 +84,16 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib"
-				OutputFile="$(OutDir)/$(ProjectName).dll"
+				OutputFile="$(OutDir)/H3DUtil10_vc7_r.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(H3D_EXTERNAL_ROOT)\lib"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(OutDir)/H3DUtil10_vc7_r.pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="$(OutDir)/$(TargetName).lib"
+				ImportLibrary="..\..\..\..\lib/H3DUtil10_vc7_r.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -306,6 +307,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\TemplateOperators.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\Threads.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\TimeStamp.h">

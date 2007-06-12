@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004-2007, SenseGraphics AB
+//    Copyright 2004, SenseGraphics AB
 //
 //    This file is part of H3D API.
 //
@@ -144,6 +144,53 @@ namespace H3DUtil {
   /// Test two RGBA instances for inequality.
   inline bool operator!=( const RGBA &r1, const RGBA &r2 ) {
     return !(r1==r2);
+  }
+  
+  /// Multiply a RGB with a float.
+  inline RGB operator*( const RGB &v, const float &f ) {
+    return RGB( v.r * f, v.g * f, v.b * f );
+  }
+  
+  /// Multiply a RGB with a double.
+  inline RGB operator*( const RGB &v, const double &d ) {
+    return RGB( (H3DFloat)(v.r * d),
+                (H3DFloat)(v.g * d), 
+                (H3DFloat)(v.b * d) );
+  }
+  
+  /// Multiplication with float.
+  inline RGB operator*( const float &a, const RGB &b ) { return b * a; }
+  
+  /// Multiplication with double.
+  inline RGB operator*( const double &a, const RGB &b ) { return b * a; }
+
+  /// Addition between two RGB.
+  inline RGB operator+( const RGB &v1, const RGB &v2 ) {
+    return RGB( v1.r + v2.r, v1.g + v2.g, v1.b + v2.b );
+  }
+
+  /// Multiply a RGBA with a float.
+  inline RGBA operator*( const RGBA &v, const float &f ) {
+    return RGBA( v.r * f, v.g * f, v.b * f, v.a *f );
+  }
+  
+  /// Multiply a RGBA with a double.
+  inline RGBA operator*( const RGBA &v, const double &d ) {
+    return RGBA( (H3DFloat)(v.r * d),
+                 (H3DFloat)(v.g * d), 
+                 (H3DFloat)(v.b * d),
+                 (H3DFloat)(v.a * d) );
+  }
+  
+  /// Multiplication with float.
+  inline RGBA operator*( const float &a, const RGBA &b ) { return b * a; }
+  
+  /// Multiplication with double.
+  inline RGBA operator*( const double &a, const RGBA &b ) { return b * a; }
+
+  /// Addition between two RGBA.
+  inline RGBA operator+( const RGBA &v1, const RGBA &v2 ) {
+    return RGBA( v1.r + v2.r, v1.g + v2.g, v1.b + v2.b, v1.a + v2.a );
   }
 
 }

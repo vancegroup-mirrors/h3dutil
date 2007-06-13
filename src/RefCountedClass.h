@@ -55,7 +55,7 @@ namespace H3DUtil {
     }
 
     /// Increase the reference count for this instance.
-    inline void ref();
+    void ref();
 
     /// If true, the initialize() function will not be called automatically
     /// on first reference of the instance but must be called manually
@@ -71,7 +71,7 @@ namespace H3DUtil {
 
     /// Decrease the reference count for this instance. If the reference
     /// count reaches 0 it is deleted.
-    inline void unref();
+    void unref();
 
     /// Get the name of the node.
     inline string getName() { 

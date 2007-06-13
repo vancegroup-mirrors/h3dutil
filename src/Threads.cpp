@@ -151,7 +151,6 @@ void *PeriodicThread::thread_func( void * _data ) {
                               THREAD_TIME_CONSTRAINT_POLICY, (thread_policy_t)&ttcpolicy,
                               THREAD_TIME_CONSTRAINT_POLICY_COUNT)) != KERN_SUCCESS) {
     H3DUtil::Console(4) << "Threads: set_realtime() failed" << endl;
-    return 0;
   }
 #endif
   
@@ -182,6 +181,8 @@ void *PeriodicThread::thread_func( void * _data ) {
     }
   }
 
+#else
+  TimeStamp last_time;
 #endif
 
   while( true ) {
@@ -195,9 +196,17 @@ void *PeriodicThread::thread_func( void * _data ) {
         H3DUtil::Console(4) << "SetWaitableTimer failed (%d)\n" << GetLastError() << endl;
         return NULL;
       }
+#else
+      TimeStamp a;
+      TimeStamp current_time;
+      double dt =  current_time - last_time;
+      double delay = 1.0 / thread->frequency - dt;
+      if( delay > 0 ) {
+         usleep( 1e6 * delay );
+      }
+      last_time = TimeStamp();
 #endif
     }
-
     thread->callback_lock.lock();
     vector< PeriodicThread::CallbackList::iterator > to_remove( 30 );
     to_remove.clear();
@@ -208,7 +217,7 @@ void *PeriodicThread::thread_func( void * _data ) {
         to_remove.push_back( i );
       }
     }
-    
+
     // remove all callbacks that returned CALLBACK_DONE.
     for( vector< PeriodicThread::CallbackList::iterator >::iterator i = 
            to_remove.begin();

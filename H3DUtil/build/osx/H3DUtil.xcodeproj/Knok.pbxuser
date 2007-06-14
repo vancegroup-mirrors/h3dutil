@@ -1,10 +1,15 @@
 // !$*UTF8*$!
 {
 	0867D690FE84028FC02AAC07 /* Project object */ = {
-		activeBuildConfigurationName = Release;
+		activeBuildConfigurationName = Debug;
 		activeTarget = 96CCB1CD0B95832500DA703A /* H3DUtil Framework */;
 		addToTargets = (
 			D2AAC09C05546B4700DB518D /* H3DUtil */,
+			96CCB1CD0B95832500DA703A /* H3DUtil Framework */,
+		);
+		breakpoints = (
+			96F44F770C1FE94F00C92F68 /* Threads.cpp:209 */,
+			96F44F790C1FE96000C92F68 /* Threads.cpp:213 */,
 		);
 		breakpointsGroup = 9618F0A50B8B3F4900C83BBA /* XCBreakpointsBucket */;
 		codeSenseManager = 9618F0320B8B3BEC00C83BBA /* Code sense */;
@@ -67,8 +72,8 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 194346776;
-			PBXWorkspaceStateSaveDate = 194346776;
+			PBXPerProjectTemplateStateSaveDate = 203360699;
+			PBXWorkspaceStateSaveDate = 203360699;
 		};
 		sourceControlManager = 9618F0310B8B3BEC00C83BBA /* Source Control */;
 		userBuildSettings = {
@@ -106,6 +111,8 @@
 		isa = XCBreakpointsBucket;
 		name = "Project Breakpoints";
 		objects = (
+			96F44F770C1FE94F00C92F68 /* Threads.cpp:209 */,
+			96F44F790C1FE96000C92F68 /* Threads.cpp:213 */,
 		);
 	};
 	9618F0FF0B8B403700C83BBA /* Console.cpp */ = {
@@ -114,6 +121,11 @@
 			sepNavSelRange = "{1, 21}";
 			sepNavVisRect = "{{0, 0}, {778, 168}}";
 			sepNavWindowFrame = "{{199, 147}, {750, 558}}";
+		};
+	};
+	9618F1120B8B403700C83BBA /* RefCountedClass.h */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{60, 316}, {750, 558}}";
 		};
 	};
 	9618F1530B8B45D300C83BBA /* H3DUtil Framework-Info.plist */ = {
@@ -126,6 +138,44 @@
 	};
 	96CCB1CD0B95832500DA703A /* H3DUtil Framework */ = {
 		activeExec = 0;
+	};
+	96D4554F0BE0BCE5001E8F3F /* Threads.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {778, 5866}}";
+			sepNavSelRange = "{6417, 0}";
+			sepNavVisRect = "{{0, 2843}, {778, 168}}";
+			sepNavWindowFrame = "{{38, 203}, {750, 558}}";
+		};
+	};
+	96F44F770C1FE94F00C92F68 /* Threads.cpp:209 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 96D4554F0BE0BCE5001E8F3F /* Threads.cpp */;
+		functionName = "PeriodicThread::thread_func()";
+		hitCount = 1;
+		lineNumber = 209;
+		location = H3DUtil;
+		modificationTime = 203418007.937235;
+		state = 1;
+	};
+	96F44F790C1FE96000C92F68 /* Threads.cpp:213 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		delayBeforeContinue = 0;
+		fileReference = 96D4554F0BE0BCE5001E8F3F /* Threads.cpp */;
+		functionName = "PeriodicThread::thread_func()";
+		hitCount = 1;
+		lineNumber = 213;
+		location = H3DUtil;
+		modificationTime = 203417996.059758;
+		state = 1;
 	};
 	D2AAC09C05546B4700DB518D /* H3DUtil */ = {
 		activeExec = 0;

@@ -84,6 +84,10 @@
 		96CCB1FB0B95840700DA703A /* TemplateOperators.h in Headers */ = {isa = PBXBuildFile; fileRef = 9618F1150B8B403700C83BBA /* TemplateOperators.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96CCB1FC0B95840700DA703A /* Quaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9618F10F0B8B403700C83BBA /* Quaternion.cpp */; };
 		96CCB1FD0B95840800DA703A /* Matrix4d.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9618F10B0B8B403700C83BBA /* Matrix4d.cpp */; };
+		96D455510BE0BCE5001E8F3F /* Threads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D4554F0BE0BCE5001E8F3F /* Threads.cpp */; };
+		96D455520BE0BCE5001E8F3F /* Threads.h in Headers */ = {isa = PBXBuildFile; fileRef = 96D455500BE0BCE5001E8F3F /* Threads.h */; };
+		96D455530BE0BCE5001E8F3F /* Threads.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 96D4554F0BE0BCE5001E8F3F /* Threads.cpp */; };
+		96D455540BE0BCE5001E8F3F /* Threads.h in Headers */ = {isa = PBXBuildFile; fileRef = 96D455500BE0BCE5001E8F3F /* Threads.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -130,6 +134,8 @@
 		9618F1210B8B403700C83BBA /* Vec4f.h */ = {isa = PBXFileReference; fileEncoding = 5; lastKnownFileType = sourcecode.c.h; name = Vec4f.h; path = ../../src/Vec4f.h; sourceTree = SOURCE_ROOT; };
 		9618F1530B8B45D300C83BBA /* H3DUtil Framework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "H3DUtil Framework-Info.plist"; sourceTree = "<group>"; };
 		96CCB1CE0B95832500DA703A /* H3DUtil.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = H3DUtil.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		96D4554F0BE0BCE5001E8F3F /* Threads.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = Threads.cpp; path = ../../src/Threads.cpp; sourceTree = SOURCE_ROOT; };
+		96D455500BE0BCE5001E8F3F /* Threads.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = Threads.h; path = ../../src/Threads.h; sourceTree = SOURCE_ROOT; };
 		D2AAC09D05546B4700DB518D /* libH3DUtil.a */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libH3DUtil.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -183,6 +189,8 @@
 		08FB77ACFE841707C02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				96D4554F0BE0BCE5001E8F3F /* Threads.cpp */,
+				96D455500BE0BCE5001E8F3F /* Threads.h */,
 				9618F0FC0B8B403700C83BBA /* AutoPtrVector.h */,
 				9618F0FD0B8B403700C83BBA /* AutoRef.h */,
 				9618F0FE0B8B403700C83BBA /* AutoRefVector.h */,
@@ -275,6 +283,7 @@
 				96CCB1F80B95840100DA703A /* RefCountedClass.h in Headers */,
 				96CCB1FA0B95840300DA703A /* Matrix3d.h in Headers */,
 				96CCB1FB0B95840700DA703A /* TemplateOperators.h in Headers */,
+				96D455540BE0BCE5001E8F3F /* Threads.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,6 +316,7 @@
 				9618F1440B8B403700C83BBA /* Vec3f.h in Headers */,
 				9618F1450B8B403700C83BBA /* Vec4d.h in Headers */,
 				9618F1470B8B403700C83BBA /* Vec4f.h in Headers */,
+				96D455520BE0BCE5001E8F3F /* Threads.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -393,6 +403,7 @@
 				96CCB1F90B95840200DA703A /* RefCountedClass.cpp in Sources */,
 				96CCB1FC0B95840700DA703A /* Quaternion.cpp in Sources */,
 				96CCB1FD0B95840800DA703A /* Matrix4d.cpp in Sources */,
+				96D455530BE0BCE5001E8F3F /* Threads.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -413,6 +424,7 @@
 				9618F1400B8B403700C83BBA /* Vec2f.cpp in Sources */,
 				9618F1430B8B403700C83BBA /* Vec3f.cpp in Sources */,
 				9618F1460B8B403700C83BBA /* Vec4f.cpp in Sources */,
+				96D455510BE0BCE5001E8F3F /* Threads.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -506,6 +518,7 @@
 		96CCB1D10B95835800DA703A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = i386;
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;

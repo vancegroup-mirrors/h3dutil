@@ -84,7 +84,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib"
-				OutputFile="$(OutDir)/H3DUtil10_vc7_r.dll"
+				OutputFile="$(OutDir)/H3DUtil10_vc7.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(H3D_EXTERNAL_ROOT)\lib"
 				DelayLoadDLLs=""
@@ -93,7 +93,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\..\..\lib/H3DUtil10_vc7_r.lib"
+				ImportLibrary="..\..\..\..\lib/H3DUtil10_vc7.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>

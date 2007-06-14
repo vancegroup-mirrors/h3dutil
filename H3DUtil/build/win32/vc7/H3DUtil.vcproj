@@ -89,7 +89,7 @@
 				AdditionalLibraryDirectories="$(H3D_EXTERNAL_ROOT)\lib"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/H3DUtil10_vc7_r.pdb"
+				ProgramDatabaseFile="$(OutDir)/H3DUtil10_vc7.pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"

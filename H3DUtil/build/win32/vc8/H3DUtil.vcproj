@@ -152,7 +152,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\..\..\lib/H3DUtil10_vc8_r.lib"
+				ImportLibrary="..\..\..\..\lib/$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool

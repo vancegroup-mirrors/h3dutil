@@ -144,7 +144,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="winmm.lib"
-				OutputFile="$(OutDir)/H3DUtil10_vc8_r.dll"
+				OutputFile="$(OutDir)/H3DUtil10_vc8.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(H3D_EXTERNAL_ROOT)\lib&quot;"
 				DelayLoadDLLs=""

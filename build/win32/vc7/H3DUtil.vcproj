@@ -84,16 +84,16 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib"
-				OutputFile="$(OutDir)/H3DUtil10_vc7_r.dll"
+				OutputFile="$(OutDir)/H3DUtil10_vc7.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(H3D_EXTERNAL_ROOT)\lib"
 				DelayLoadDLLs=""
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/H3DUtil10_vc7_r.pdb"
+				ProgramDatabaseFile="$(OutDir)/H3DUtil10_vc7.pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\..\..\lib/H3DUtil10_vc7_r.lib"
+				ImportLibrary="..\..\..\..\lib/H3DUtil10_vc7.lib"
 				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -111,92 +111,6 @@
 				Name="VCXMLDataGeneratorTool"/>
 			<Tool
 				Name="VCWebDeploymentTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
-		</Configuration>
-		<Configuration
-			Name="Debug Static|Win32"
-			OutputDirectory="..\..\..\lib"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="4"
-			CharacterSet="2">
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;H3DUTIL_LIB"
-				MinimalRebuild="TRUE"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="2"
-				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="FALSE"
-				DebugInformationFormat="4"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/lib$(ProjectName)_d.lib"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"/>
-			<Tool
-				Name="VCManagedWrapperGeneratorTool"/>
-			<Tool
-				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
-		</Configuration>
-		<Configuration
-			Name="Release Static|Win32"
-			OutputDirectory="..\..\..\lib"
-			IntermediateDirectory="$(ConfigurationName)"
-			ConfigurationType="4"
-			CharacterSet="2">
-			<Tool
-				Name="VCCLCompilerTool"
-				GlobalOptimizations="TRUE"
-				InlineFunctionExpansion="2"
-				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;H3DUTIL_LIB"
-				RuntimeLibrary="2"
-				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="0"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="FALSE"
-				DebugInformationFormat="3"/>
-			<Tool
-				Name="VCCustomBuildTool"/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/lib$(ProjectName).lib"/>
-			<Tool
-				Name="VCMIDLTool"/>
-			<Tool
-				Name="VCPostBuildEventTool"/>
-			<Tool
-				Name="VCPreBuildEventTool"/>
-			<Tool
-				Name="VCPreLinkEventTool"/>
-			<Tool
-				Name="VCResourceCompilerTool"/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"/>
 			<Tool
 				Name="VCManagedWrapperGeneratorTool"/>
 			<Tool

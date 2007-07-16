@@ -15,8 +15,8 @@
 	</ToolFiles>
 	<Configurations>
 		<Configuration
-			Name="Debug|Win32"
-			OutputDirectory="Debug"
+			Name="Debug DLL|Win32"
+			OutputDirectory="..\..\..\..\bin"
 			IntermediateDirectory="Debug\obj"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
@@ -45,6 +45,7 @@
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				TreatWChar_tAsBuiltInType="false"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -64,8 +65,10 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:msvcrt "
 				AdditionalDependencies="winmm.lib"
+				OutputFile="$(OutDir)/H3DUtil10_vc8_d.dll"
 				AdditionalLibraryDirectories="&quot;$(H3D_EXTERNAL_ROOT)\lib&quot;"
 				GenerateDebugInformation="true"
+				ImportLibrary="..\..\..\..\lib/H3DUtil10_vc8_d.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -93,8 +96,8 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="Release"
+			Name="Release DLL|Win32"
+			OutputDirectory="..\..\..\..\bin"
 			IntermediateDirectory="Release\obj"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
@@ -122,6 +125,7 @@
 				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				RuntimeLibrary="2"
+				TreatWChar_tAsBuiltInType="false"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -140,7 +144,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="winmm.lib"
-				OutputFile="$(OutDir)/$(ProjectName).dll"
+				OutputFile="$(OutDir)/H3DUtil10_vc8.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(H3D_EXTERNAL_ROOT)\lib&quot;"
 				DelayLoadDLLs=""
@@ -148,7 +152,7 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="$(OutDir)/$(TargetName).lib"
+				ImportLibrary="..\..\..\..\lib/$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool

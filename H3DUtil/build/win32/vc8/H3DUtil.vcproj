@@ -194,6 +194,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\DynamicLibrary.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\Exception.cpp"
 				>
 			</File>
@@ -265,6 +269,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\Console.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\DynamicLibrary.h"
 				>
 			</File>
 			<File

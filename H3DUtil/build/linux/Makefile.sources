@@ -1,4 +1,5 @@
 SOURCES=../../src/Console.cpp \
+../../src/DynamicLibrary.cpp \
 ../../src/Exception.cpp \
 ../../src/Matrix3d.cpp \
 ../../src/Matrix3f.cpp \

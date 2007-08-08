@@ -99,9 +99,18 @@ namespace H3DUtil {
     /// \param p The new Node pointer to encapsulate.
     void reset(NodeType* p = 0) throw() {
       if( p != node_ptr ) {
+        // Increase ref_count to not get early deletion of node
+        NodeType *old_p = node_ptr;
+        if( old_p ) old_p->ref();
+
+        // These two have to be in this order, then unless
+        // the above ref is done the ptr might disappear to early.
         if ( node_ptr ) unref( node_ptr );
         node_ptr = p;
         if ( node_ptr ) ref( node_ptr );
+
+        // unref to even out the previous ref
+        if( old_p ) old_p->unref();
       }
     }
 

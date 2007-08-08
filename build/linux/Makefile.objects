@@ -1,4 +1,5 @@
 OBJECTS=../../src/Console.o \
+../../src/DynamicLibrary.o \
 ../../src/Exception.o \
 ../../src/Matrix3d.o \
 ../../src/Matrix3f.o \

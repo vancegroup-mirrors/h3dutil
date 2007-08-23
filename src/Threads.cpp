@@ -166,7 +166,7 @@ void *PeriodicThread::thread_func( void * _data ) {
     timeBeginPeriod(1); 
     
     // Create a waitable timer.
-    hTimer = CreateWaitableTimer(NULL, TRUE, "WaitableTimer");
+    hTimer = CreateWaitableTimer(NULL, TRUE, NULL );
     if (!hTimer) {
       H3DUtil::Console(4) << "CreateWaitableTimer failed (%d)" << endl 
                          << GetLastError() << endl;

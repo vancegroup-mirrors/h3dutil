@@ -134,6 +134,9 @@
 				RelativePath="..\..\..\src\Exception.cpp">
 			</File>
 			<File
+				RelativePath="..\..\..\src\Image.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\Matrix3d.cpp">
 			</File>
 			<File
@@ -193,6 +196,9 @@
 				RelativePath="..\..\..\src\Exception.h">
 			</File>
 			<File
+				RelativePath="..\..\..\src\ExtremaFindingAlgorithms.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\H3DBasicTypes.h">
 			</File>
 			<File
@@ -200,6 +206,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\H3DUtil.h">
+			</File>
+			<File
+				RelativePath="..\..\..\src\Image.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\LinAlgTypes.h">

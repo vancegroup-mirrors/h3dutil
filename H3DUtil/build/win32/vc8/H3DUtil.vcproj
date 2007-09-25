@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
-				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;_CRTDBG_MAP_ALLOC ;WIN32;_DEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
+				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -202,6 +202,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\Image.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\Matrix3d.cpp"
 				>
 			</File>
@@ -280,6 +284,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\src\ExtremaFindingAlgorithms.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\src\H3DBasicTypes.h"
 				>
 			</File>
@@ -289,6 +297,10 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\H3DUtil.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\..\src\Image.h"
 				>
 			</File>
 			<File

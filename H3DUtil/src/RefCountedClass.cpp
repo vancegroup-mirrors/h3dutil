@@ -22,8 +22,6 @@ RefCountedClass::RefCountedClass( bool _use_lock ):
       use_ref_count_lock( _use_lock ){
   if( _use_lock ) {
     ref_count_lock_pointer = new MutexLock();
-    ref_count_lock_pointer->lock();
-    ref_count_lock_pointer->unlock();
   }
 }
 

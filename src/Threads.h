@@ -250,6 +250,12 @@ namespace H3DUtil {
     /// thread will continue executing after adding the callback and will 
     /// not wait for the callback function to execute. 
     virtual void asynchronousCallback( CallbackFunc func, void *data );
+
+    /// Exit the thread_func. Will not destroy the PeriodicThread instance.
+    inline void exitThread() {
+      thread_func_is_running = false;
+    }
+
   protected:
     // The function that handles callbacks. Is also the main function that
     // is run in the thread.
@@ -266,6 +272,10 @@ namespace H3DUtil {
 
     /// Thre frequency of the thread. -1 means run as fast as possible.
     int frequency;
+
+    /// Flag used to exit the thread by making thread_func return when
+    /// set to false.
+    bool thread_func_is_running;
 
   };
 

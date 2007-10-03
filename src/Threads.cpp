@@ -58,7 +58,7 @@ MutexLock::MutexLock() {
  
 /// Destructor.
 MutexLock::~MutexLock() {
-  int a = pthread_mutex_destroy( &mutex );
+  pthread_mutex_destroy( &mutex );
 }
 
 /// Locks the mutex.
@@ -185,7 +185,7 @@ void *PeriodicThread::thread_func( void * _data ) {
   TimeStamp last_time;
 #endif
 
-  while( true ) {
+  while( thread->thread_func_is_running ) {
     if( thread->frequency > 0 ) {
 #ifdef WIN32
       if (WaitForSingleObject(hTimer, INFINITE) != WAIT_OBJECT_0)
@@ -228,6 +228,7 @@ void *PeriodicThread::thread_func( void * _data ) {
     thread->callback_lock.signal();
     thread->callback_lock.unlock();
   }
+  return NULL;
 } 
 
 ThreadBase::ThreadId ThreadBase::main_thread_id = ThreadBase::getCurrentThreadId();
@@ -251,7 +252,8 @@ namespace ThreadsInternal {
 PeriodicThread::PeriodicThread( int _thread_priority,
                                 int _thread_frequency ):
   priority( _thread_priority ),
-  frequency( _thread_frequency ) {
+  frequency( _thread_frequency ),
+  thread_func_is_running( true ) {
   pthread_attr_t attr;
   sched_param p;
   p.sched_priority = priority;
@@ -265,7 +267,7 @@ PeriodicThread::~PeriodicThread() {
   ThreadId this_thread = getCurrentThreadId();
   
   if( !pthread_equal( this_thread, thread_id ) ) {
-    asynchronousCallback( ThreadsInternal::exitThread, NULL );
+    exitThread();
     pthread_join( thread_id, NULL );
   } else {
     pthread_exit(0);

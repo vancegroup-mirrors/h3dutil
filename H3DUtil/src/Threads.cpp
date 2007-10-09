@@ -260,6 +260,7 @@ PeriodicThread::PeriodicThread( int _thread_priority,
   pthread_attr_init( &attr );
   pthread_attr_setschedparam( &attr, &p );
   pthread_create( &thread_id, &attr, thread_func, this ); 
+  pthread_attr_destroy( &attr );
 }
 
 
@@ -283,6 +284,7 @@ SimpleThread::SimpleThread( void *(func) (void *),
   pthread_attr_init( &attr );
   pthread_attr_setschedparam( &attr, &p );
   pthread_create( &thread_id, &attr, func, args ); 
+  pthread_attr_destroy( &attr );
 }
 
 SimpleThread::~SimpleThread() {

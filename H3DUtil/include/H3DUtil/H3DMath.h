@@ -27,7 +27,7 @@
 #ifndef __H3DMATH_H__
 #define __H3DMATH_H__
 
-#include <Exception.h>
+#include <H3DUtil/Exception.h>
 #include <math.h>
 
 namespace H3DUtil {

@@ -30,11 +30,11 @@
 #ifndef __ROTATION_H__
 #define __ROTATION_H__
 
-#include <H3DUtil.h>
-#include <H3DBasicTypes.h>
-#include <H3DMath.h>
-#include <Vec3f.h>
-#include <TemplateOperators.h>
+#include <H3DUtil/H3DUtil.h>
+#include <H3DUtil/H3DBasicTypes.h>
+#include <H3DUtil/H3DMath.h>
+#include <H3DUtil/Vec3f.h>
+#include <H3DUtil/TemplateOperators.h>
 
 namespace H3DUtil {
   namespace ArithmeticTypes {

@@ -29,7 +29,7 @@
 #ifndef __AUTOPTRVECTOR_H__
 #define __AUTOPTRVECTOR_H__
 
-#include <H3DUtil.h>
+#include <H3DUtil/H3DUtil.h>
 #include <vector>
 
 using namespace std;

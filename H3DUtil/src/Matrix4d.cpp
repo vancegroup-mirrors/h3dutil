@@ -27,8 +27,8 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <Matrix4d.h>
-#include <TypeOperators.h>
+#include <H3DUtil/Matrix4d.h>
+#include <H3DUtil/TypeOperators.h>
 
 using namespace H3DUtil;
 using namespace ArithmeticTypes;

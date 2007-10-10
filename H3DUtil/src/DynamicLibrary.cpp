@@ -29,7 +29,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <DynamicLibrary.h>
+#include <H3DUtil/DynamicLibrary.h>
 #ifndef WIN32
 #include <dlfcn.h>
 #endif

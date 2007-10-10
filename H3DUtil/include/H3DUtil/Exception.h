@@ -32,7 +32,7 @@
 
 #include <string>
 #include <iostream>
-#include <H3DUtil.h>
+#include <H3DUtil/H3DUtil.h>
 using namespace std;
 
 namespace H3DUtil {

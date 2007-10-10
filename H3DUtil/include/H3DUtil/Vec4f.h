@@ -30,10 +30,10 @@
 #ifndef __VEC4F_H__
 #define __VEC4F_H__
 
-#include <H3DUtil.h>
-#include <H3DBasicTypes.h>
-#include <TemplateOperators.h>
-#include <Exception.h>
+#include <H3DUtil/H3DUtil.h>
+#include <H3DUtil/H3DBasicTypes.h>
+#include <H3DUtil/TemplateOperators.h>
+#include <H3DUtil/Exception.h>
 #include <ostream>
 using namespace std;
 

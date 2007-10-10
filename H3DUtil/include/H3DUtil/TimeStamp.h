@@ -31,7 +31,7 @@
 #ifndef __TIMESTAMP_H__
 #define __TIMESTAMP_H__
 
-#include <H3DUtil.h>
+#include <H3DUtil/H3DUtil.h>
 
 #ifdef WIN32
 #include <sys/timeb.h>
@@ -42,7 +42,7 @@
 #error Compiler does not support any of the default getCurrentTime() implementations in TimeStamp.h
 #endif
 #endif
-#include <Exception.h>
+#include <H3DUtil/Exception.h>
 
 
 namespace H3DUtil {

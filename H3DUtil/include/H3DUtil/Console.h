@@ -47,12 +47,13 @@
 #ifndef __CONSOLE_H__
 #define __CONSOLE_H__
 
+#include <H3DUtil/H3DUtil.h>
+#include <H3DUtil/TimeStamp.h>
+
 #include <ostream>
 #include <sstream>
 #include <string>
 #include <iostream>
-#include <H3DUtil.h>
-#include <TimeStamp.h>
 #include <iomanip>
 
 namespace H3DUtil {

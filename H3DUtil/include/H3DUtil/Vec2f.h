@@ -30,11 +30,11 @@
 #ifndef __VEC2F_H__
 #define __VEC2F_H__
 
-#include <H3DUtil.h>
-#include <H3DBasicTypes.h>
-#include <H3DMath.h>
-#include <TemplateOperators.h>
-#include <Exception.h>
+#include <H3DUtil/H3DUtil.h>
+#include <H3DUtil/H3DBasicTypes.h>
+#include <H3DUtil/H3DMath.h>
+#include <H3DUtil/TemplateOperators.h>
+#include <H3DUtil/Exception.h>
 
 namespace H3DUtil {
   namespace ArithmeticTypes {

@@ -29,9 +29,9 @@
 #ifndef __IMAGE_H__
 #define __IMAGE_H__
 
-#include <H3DUtil.h>
-#include <LinAlgTypes.h>
-#include <RefCountedClass.h>
+#include <H3DUtil/H3DUtil.h>
+#include <H3DUtil/LinAlgTypes.h>
+#include <H3DUtil/RefCountedClass.h>
 #include <assert.h>
 
 /// H3D API namespace

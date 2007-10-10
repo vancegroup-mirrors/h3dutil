@@ -30,12 +30,12 @@
 #ifndef __MATRIX4D_H__
 #define __MATRIX4D_H__
 
-#include <H3DUtil.h>
-#include <H3DBasicTypes.h>
-#include <Vec4d.h>
-#include <TemplateOperators.h>
-#include <Exception.h>
-#include <Matrix3d.h>
+#include <H3DUtil/H3DUtil.h>
+#include <H3DUtil/H3DBasicTypes.h>
+#include <H3DUtil/Vec4d.h>
+#include <H3DUtil/TemplateOperators.h>
+#include <H3DUtil/Exception.h>
+#include <H3DUtil/Matrix3d.h>
 
 namespace H3DUtil {
   namespace ArithmeticTypes {

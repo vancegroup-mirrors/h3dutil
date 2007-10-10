@@ -1,5 +1,5 @@
 
-#include <RefCountedClass.h>
+#include <H3DUtil/RefCountedClass.h>
 
 using namespace H3DUtil;
 

@@ -27,11 +27,11 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <Quaternion.h>
-#include <Matrix3f.h>
-#include <Rotation.h>
-#include <Matrix4f.h>
-#include <Vec3d.h>
+#include <H3DUtil/Quaternion.h>
+#include <H3DUtil/Matrix3f.h>
+#include <H3DUtil/Rotation.h>
+#include <H3DUtil/Matrix4f.h>
+#include <H3DUtil/Vec3d.h>
 
 using namespace H3DUtil;
 using namespace ArithmeticTypes;

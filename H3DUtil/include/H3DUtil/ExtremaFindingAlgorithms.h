@@ -30,8 +30,8 @@
 #ifndef __EXTREMUMFINDINGALGORITHMS_H__
 #define __EXTREMUMFINDINGALGORITHMS_H__
 
-#include <H3DUtil.h>
-#include <LinAlgTypes.h>
+#include <H3DUtil/H3DUtil.h>
+#include <H3DUtil/LinAlgTypes.h>
 
 namespace H3DUtil {
 

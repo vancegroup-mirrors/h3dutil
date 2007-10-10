@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -71,7 +71,7 @@
 				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="2"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"

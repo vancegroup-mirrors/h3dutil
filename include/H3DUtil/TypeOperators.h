@@ -31,18 +31,18 @@
 #ifndef __H3DTYPEOPERATORS_H__
 #define __H3DTYPEOPERATORS_H__
 
-#include <Vec2f.h>
-#include <Vec2d.h>
-#include <Vec3f.h>
-#include <Vec3d.h>
-#include <Vec4f.h>
-#include <Vec4d.h>
-#include <Rotation.h>
-#include <Matrix3f.h>
-#include <Matrix3d.h>
-#include <Matrix4f.h>
-#include <Matrix4d.h>
-#include <Quaternion.h>
+#include <H3DUtil/Vec2f.h>
+#include <H3DUtil/Vec2d.h>
+#include <H3DUtil/Vec3f.h>
+#include <H3DUtil/Vec3d.h>
+#include <H3DUtil/Vec4f.h>
+#include <H3DUtil/Vec4d.h>
+#include <H3DUtil/Rotation.h>
+#include <H3DUtil/Matrix3f.h>
+#include <H3DUtil/Matrix3d.h>
+#include <H3DUtil/Matrix4f.h>
+#include <H3DUtil/Matrix4d.h>
+#include <H3DUtil/Quaternion.h>
 
 namespace H3DUtil {
   ////////////////////////////////////////////////////////////////////

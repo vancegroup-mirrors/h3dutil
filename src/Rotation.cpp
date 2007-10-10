@@ -27,9 +27,9 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <Rotation.h>
-#include <Matrix3f.h>
-#include <Quaternion.h>
+#include <H3DUtil/Rotation.h>
+#include <H3DUtil/Matrix3f.h>
+#include <H3DUtil/Quaternion.h>
 
 using namespace H3DUtil;
 using namespace ArithmeticTypes;

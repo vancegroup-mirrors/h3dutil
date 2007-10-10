@@ -30,10 +30,10 @@
 #ifndef __MATRIX3D_H__
 #define __MATRIX3D_H__
 
-#include <H3DUtil.h>
-#include <H3DBasicTypes.h>
-#include <Vec3d.h>
-#include <Exception.h>
+#include <H3DUtil/H3DUtil.h>
+#include <H3DUtil/H3DBasicTypes.h>
+#include <H3DUtil/Vec3d.h>
+#include <H3DUtil/Exception.h>
 
 namespace H3DUtil {
   namespace ArithmeticTypes {

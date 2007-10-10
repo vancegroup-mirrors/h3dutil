@@ -36,7 +36,7 @@
 #include <iostream>
 
 using namespace std;
-#include <Threads.h>
+#include <H3DUtil/Threads.h>
 #include <errno.h>
 
 #ifdef MACOSX
@@ -45,7 +45,7 @@ using namespace std;
 #include <mach/thread_act.h>
 #endif
 
-#include <Console.h>
+#include <H3DUtil/Console.h>
 
 
 using namespace H3DUtil;

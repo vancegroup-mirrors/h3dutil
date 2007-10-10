@@ -27,8 +27,8 @@
 #ifndef __LINALGTYPES_H__
 #define __LINALGTYPES_H__
 
-#include <H3DBasicTypes.h>
-#include <TypeOperators.h>
+#include <H3DUtil/H3DBasicTypes.h>
+#include <H3DUtil/TypeOperators.h>
 
 namespace H3DUtil {
   // move the Arithmetic types into the H3D namespace.

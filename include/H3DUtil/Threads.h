@@ -30,7 +30,7 @@
 #ifndef __THREADS_H__
 #define __THREADS_H__
 
-#include <H3DUtil.h>
+#include <H3DUtil/H3DUtil.h>
 #include <list>
 #include <vector>
 #include <pthread.h>

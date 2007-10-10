@@ -29,7 +29,7 @@
 #ifndef __AUTOREFVECTOR_H__
 #define __AUTOREFVECTOR_H__
 
-#include <H3DUtil.h>
+#include <H3DUtil/H3DUtil.h>
 #include <vector>
 #include <algorithm>
 

@@ -27,8 +27,8 @@
 #ifndef __REFCOUNTEDCLASS_H__
 #define __REFCOUNTEDCLASS_H__
 
-#include <Threads.h>
-#include <Console.h>
+#include <H3DUtil/Threads.h>
+#include <H3DUtil/Console.h>
 #include <string>
 #include <iostream>
 

@@ -28,7 +28,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 
-#include <Exception.h>
+#include <H3DUtil/Exception.h>
 
 void H3DUtil::Exception::H3DAPIException::print( ostream &os ) const {
   os << className();

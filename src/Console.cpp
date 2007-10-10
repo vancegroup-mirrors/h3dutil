@@ -1,5 +1,5 @@
 
-#include <Console.h>
+#include <H3DUtil/Console.h>
 
 #include <iomanip>
 

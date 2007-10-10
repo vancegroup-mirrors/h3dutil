@@ -32,7 +32,7 @@
 #define __DYNAMICLIBRARY_H__
 
 #include <string>
-#include <Exception.h>
+#include <H3DUtil/Exception.h>
 
 namespace H3DUtil {
   struct H3DUTIL_API DynamicLibrary {

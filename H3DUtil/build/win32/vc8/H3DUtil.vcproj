@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;_DEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -48,6 +48,7 @@
 				TreatWChar_tAsBuiltInType="false"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(IntDir)\$(TargetName).pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -65,10 +66,10 @@
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:msvcrt "
 				AdditionalDependencies="winmm.lib"
-				OutputFile="$(OutDir)/H3DUtil10_vc8_d.dll"
+				OutputFile="$(OutDir)\H3DUtil10_vc8_d.dll"
 				AdditionalLibraryDirectories="&quot;$(H3D_EXTERNAL_ROOT)\lib&quot;"
 				GenerateDebugInformation="true"
-				ImportLibrary="..\..\..\..\lib/H3DUtil10_vc8_d.lib"
+				ImportLibrary="..\..\..\..\lib\$(TargetName).lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -122,7 +123,7 @@
 				Name="VCCLCompilerTool"
 				InlineFunctionExpansion="2"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\src;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
+				AdditionalIncludeDirectories="..\..\..\include;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
 				PreprocessorDefinitions="_CRT_SECURE_NO_DEPRECATE;WIN32;NDEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				RuntimeLibrary="2"
 				TreatWChar_tAsBuiltInType="false"
@@ -260,119 +261,119 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\..\..\src\AutoPtrVector.h"
+				RelativePath="..\..\..\include\H3DUtil\AutoPtrVector.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\AutoRef.h"
+				RelativePath="..\..\..\include\H3DUtil\AutoRef.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\AutoRefVector.h"
+				RelativePath="..\..\..\include\H3DUtil\AutoRefVector.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Console.h"
+				RelativePath="..\..\..\include\H3DUtil\Console.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\DynamicLibrary.h"
+				RelativePath="..\..\..\include\H3DUtil\DynamicLibrary.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Exception.h"
+				RelativePath="..\..\..\include\H3DUtil\Exception.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\ExtremaFindingAlgorithms.h"
+				RelativePath="..\..\..\include\H3DUtil\ExtremaFindingAlgorithms.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\H3DBasicTypes.h"
+				RelativePath="..\..\..\include\H3DUtil\H3DBasicTypes.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\H3DMath.h"
+				RelativePath="..\..\..\include\H3DUtil\H3DMath.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\H3DUtil.h"
+				RelativePath="..\..\..\include\H3DUtil\H3DUtil.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Image.h"
+				RelativePath="..\..\..\include\H3DUtil\Image.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\LinAlgTypes.h"
+				RelativePath="..\..\..\include\H3DUtil\LinAlgTypes.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Matrix3d.h"
+				RelativePath="..\..\..\include\H3DUtil\Matrix3d.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Matrix3f.h"
+				RelativePath="..\..\..\include\H3DUtil\Matrix3f.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Matrix4d.h"
+				RelativePath="..\..\..\include\H3DUtil\Matrix4d.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Matrix4f.h"
+				RelativePath="..\..\..\include\H3DUtil\Matrix4f.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Quaternion.h"
+				RelativePath="..\..\..\include\H3DUtil\Quaternion.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\RefCountedClass.h"
+				RelativePath="..\..\..\include\H3DUtil\RefCountedClass.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Rotation.h"
+				RelativePath="..\..\..\include\H3DUtil\Rotation.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\TemplateOperators.h"
+				RelativePath="..\..\..\include\H3DUtil\TemplateOperators.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Threads.h"
+				RelativePath="..\..\..\include\H3DUtil\Threads.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\TimeStamp.h"
+				RelativePath="..\..\..\include\H3DUtil\TimeStamp.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\TypeOperators.h"
+				RelativePath="..\..\..\include\H3DUtil\TypeOperators.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Vec2d.h"
+				RelativePath="..\..\..\include\H3DUtil\Vec2d.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Vec2f.h"
+				RelativePath="..\..\..\include\H3DUtil\Vec2f.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Vec3d.h"
+				RelativePath="..\..\..\include\H3DUtil\Vec3d.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Vec3f.h"
+				RelativePath="..\..\..\include\H3DUtil\Vec3f.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Vec4d.h"
+				RelativePath="..\..\..\include\H3DUtil\Vec4d.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\src\Vec4f.h"
+				RelativePath="..\..\..\include\H3DUtil\Vec4f.h"
 				>
 			</File>
 		</Filter>

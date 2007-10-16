@@ -85,7 +85,7 @@ namespace H3DUtil {
 
         get_psum< InputType, OutputType >( psum, p, sum, mpts );
 
-        while( max_iterations < 0 || nr_iterations < max_iterations ) {
+        while( max_iterations < 0 || (int)nr_iterations < max_iterations ) {
           // find highest, lowest and next-highest point
           ilo = 0;
           ihi = y[1] > y[2] ? (inhi=2,1) : (inhi = 1,2);

@@ -120,8 +120,6 @@ namespace H3DUtil {
 
     // lock for thread access to ref_count
     MutexLock *ref_count_lock_pointer;
-    // decides where to create and use a ref_count_lock_pointer
-    bool use_ref_count_lock;
   };
     
 }

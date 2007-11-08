@@ -111,7 +111,8 @@ bool ConditionLock::timedWait( unsigned int millisecs ) {
   timeval sys_time;
   gettimeofday( &sys_time, NULL );
   secs = sys_time.tv_sec;
-  nanosecs = ((int) (millisecs + sys_time.tv_usec * 1e-3)) * NANOSEC_PER_MILLISEC;
+  nanosecs = ((int) (millisecs + sys_time.tv_usec * 1e-3)) *
+    NANOSEC_PER_MILLISEC;
 #endif
   
   if (nanosecs >= NANOSEC_PER_SEC) {
@@ -147,9 +148,10 @@ void *PeriodicThread::thread_func( void * _data ) {
   ttcpolicy.computation=  20000;
   ttcpolicy.constraint=  100000;
   ttcpolicy.preemptible=  1;
-  if ((ret=thread_policy_set( mach_thread_self(),
-                              THREAD_TIME_CONSTRAINT_POLICY, (thread_policy_t)&ttcpolicy,
-                              THREAD_TIME_CONSTRAINT_POLICY_COUNT)) != KERN_SUCCESS) {
+  if (( ret=thread_policy_set(
+          mach_thread_self(),
+          THREAD_TIME_CONSTRAINT_POLICY, (thread_policy_t)&ttcpolicy,
+          THREAD_TIME_CONSTRAINT_POLICY_COUNT)) != KERN_SUCCESS ) {
     H3DUtil::Console(4) << "Threads: set_realtime() failed" << endl;
   }
 #endif
@@ -175,7 +177,8 @@ void *PeriodicThread::thread_func( void * _data ) {
     }
   
     if (!SetWaitableTimer(hTimer, &liDueTime, 0, NULL, NULL, 0)) {
-      H3DUtil::Console(4) << "SetWaitableTimer failed (%d)\n" << GetLastError() << endl;
+      H3DUtil::Console(4) << "SetWaitableTimer failed (%d)\n"
+        << GetLastError() << endl;
       timeEndPeriod(1); 
       return NULL;
     }
@@ -193,7 +196,8 @@ void *PeriodicThread::thread_func( void * _data ) {
 
       // Set a timer to wait for.
       if (!SetWaitableTimer(hTimer, &liDueTime, 0, NULL, NULL, 0)) {
-        H3DUtil::Console(4) << "SetWaitableTimer failed (%d)\n" << GetLastError() << endl;
+        H3DUtil::Console(4) << "SetWaitableTimer failed (%d)\n"
+          << GetLastError() << endl;
         return NULL;
       }
 #else
@@ -212,7 +216,8 @@ void *PeriodicThread::thread_func( void * _data ) {
     to_remove.clear();
     for( PeriodicThread::CallbackList::iterator i = thread->callbacks.begin();
          i != thread->callbacks.end(); i++ ) {
-      PeriodicThread::CallbackCode c = (*i).first( (*i).second );
+      PeriodicThread::CallbackCode c = ( (*i).second ).first(
+        ( (*i).second ).second );
       if( c == PeriodicThread::CALLBACK_DONE ) {
         to_remove.push_back( i );
       }
@@ -222,6 +227,7 @@ void *PeriodicThread::thread_func( void * _data ) {
     for( vector< PeriodicThread::CallbackList::iterator >::iterator i = 
            to_remove.begin();
          i != to_remove.end(); i++ ) {
+      thread->free_ids.push_back( (*(*i) ).first );
       thread->callbacks.erase( *i );
     }
   
@@ -231,7 +237,8 @@ void *PeriodicThread::thread_func( void * _data ) {
   return NULL;
 } 
 
-ThreadBase::ThreadId ThreadBase::main_thread_id = ThreadBase::getCurrentThreadId();
+ThreadBase::ThreadId ThreadBase::main_thread_id =
+  ThreadBase::getCurrentThreadId();
 ConditionLock HapticThreadBase::haptic_lock; 
 ConditionLock HapticThreadBase::sg_lock; 
 int HapticThreadBase::haptic_threads_left = -1;
@@ -246,6 +253,18 @@ namespace ThreadsInternal {
   PeriodicThreadBase::CallbackCode exitThread( void *data ) { 
     pthread_exit(0); 
     return PeriodicThreadBase::CALLBACK_DONE; 
+  }
+}
+
+PeriodicThreadBase::PeriodicThreadBase() : next_id(0) {}
+
+int PeriodicThreadBase::genCallbackId() {
+  if( free_ids.empty() ) {
+    return next_id++;
+  } else {
+    int id = free_ids.back();
+    free_ids.pop_back();
+    return id;
   }
 }
 
@@ -299,15 +318,32 @@ SimpleThread::~SimpleThread() {
 
 void PeriodicThread::synchronousCallback( CallbackFunc func, void *data ) {
   callback_lock.lock();
-  callbacks.push_back( make_pair( func, data ) );
+  callbacks.push_back( make_pair( genCallbackId(), make_pair( func, data ) ) );
   callback_lock.wait();
   callback_lock.unlock();
 }
 
-void PeriodicThread::asynchronousCallback( CallbackFunc func, void *data ) {
+int PeriodicThread::asynchronousCallback( CallbackFunc func, void *data ) {
   callback_lock.lock();
-  callbacks.push_back( make_pair( func, data ) );
+  int cb_id = genCallbackId();
+  callbacks.push_back( make_pair( cb_id, make_pair( func, data ) ) );
   callback_lock.unlock();
+  return cb_id;
+}
+
+bool PeriodicThread::removeAsynchronousCallback( int callback_handle ) {
+  callback_lock.lock();
+  for( CallbackList::iterator i = callbacks.begin();
+       i != callbacks.end(); i++ ) {
+    if( (*i).first == callback_handle ) {
+      free_ids.push_back( callback_handle );
+      callbacks.erase( i );
+      callback_lock.unlock();
+      return true;
+    }
+  }
+  callback_lock.unlock();
+  return false;
 }
 
 HapticThreadBase::HapticThreadBase() {

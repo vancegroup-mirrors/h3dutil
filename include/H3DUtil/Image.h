@@ -38,6 +38,7 @@
 namespace H3DUtil {
   /// Virtual base class for all images containing virtual functions that
   /// all Image classes must define.
+  /// For functions that load images check ImageLoaderFunctions.h
   ///
   class H3DUTIL_API Image: public RefCountedClass {
   public:

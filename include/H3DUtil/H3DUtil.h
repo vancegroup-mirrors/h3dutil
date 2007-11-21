@@ -33,6 +33,23 @@
 #ifndef __H3DUTIL_H__
 #define __H3DUTIL_H__
 
+/// Undef if you do not have zlib(http://www.zlib.net/) installed. 
+/// Required for support for parsing zipped files.
+#define HAVE_ZLIB
+
+/// Undef if you do not have FreeImage(freeimage.sourceforge.net) installed.
+/// Image files will not be possible to read (see ImageLoaderFunctions.h).
+#define HAVE_FREEIMAGE
+
+// Define this if you want to link static link as many external
+// libraries as possible.
+//#define H3DUTIL_LINK_STATIC_EXTERNALS
+
+#ifdef H3DUTIL_LINK_STATIC_EXTERNALS
+// Define this if you are linking Freeimage as a static library
+#define FREEIMAGE_LIB
+#endif
+
 // The following ifdef block is the standard way of creating macros
 // which make exporting from a DLL simpler. All files within this DLL
 // are compiled with the H3DUTIL_EXPORTS symbol defined on the command
@@ -77,6 +94,13 @@
 #define HAVE_SYS_TIME_H
 #endif
 
+namespace H3DUtil {
+  /// Initialize H3DUtil(only needed if using H3DUtil as a static library)?
+  void initializeH3DUtil();
+
+  /// Deinitialize H3DUtil(only needed if using H3DUtil as a static library)?
+  void deinitializeH3DUtil();
+}
 
 #endif
 

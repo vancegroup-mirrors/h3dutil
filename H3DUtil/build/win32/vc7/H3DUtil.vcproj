@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\..\include;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
+				AdditionalIncludeDirectories="&quot;$(H3D_EXTERNAL_ROOT)\include\zlib&quot;;&quot;$(H3D_EXTERNAL_ROOT)\include\FreeImage\Dist&quot;;..\..\..\include;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -71,7 +71,7 @@
 				GlobalOptimizations="TRUE"
 				InlineFunctionExpansion="2"
 				FavorSizeOrSpeed="1"
-				AdditionalIncludeDirectories="..\..\..\include;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
+				AdditionalIncludeDirectories="&quot;$(H3D_EXTERNAL_ROOT)\include\zlib&quot;;&quot;$(H3D_EXTERNAL_ROOT)\include\FreeImage\Dist&quot;;..\..\..\include;&quot;$(H3D_EXTERNAL_ROOT)\include\pthread&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;H3DUTIL_EXPORTS"
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"
@@ -134,7 +134,13 @@
 				RelativePath="..\..\..\src\Exception.cpp">
 			</File>
 			<File
+				RelativePath="..\..\..\src\H3DUtil.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\Image.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\LoadImageFunctions.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\Matrix3d.cpp">
@@ -147,6 +153,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\Matrix4f.cpp">
+			</File>
+			<File
+				RelativePath="..\..\..\src\PixelImage.cpp">
 			</File>
 			<File
 				RelativePath="..\..\..\src\Quaternion.cpp">
@@ -199,6 +208,9 @@
 				RelativePath="..\..\..\src\ExtremaFindingAlgorithms.h">
 			</File>
 			<File
+				RelativePath="..\..\..\include\H3DUtil\FreeImageImage.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\H3DBasicTypes.h">
 			</File>
 			<File
@@ -214,6 +226,9 @@
 				RelativePath="..\..\..\src\LinAlgTypes.h">
 			</File>
 			<File
+				RelativePath="..\..\..\include\H3DUtil\LoadImageFunctions.h">
+			</File>
+			<File
 				RelativePath="..\..\..\src\Matrix3d.h">
 			</File>
 			<File
@@ -224,6 +239,9 @@
 			</File>
 			<File
 				RelativePath="..\..\..\src\Matrix4f.h">
+			</File>
+			<File
+				RelativePath="..\..\..\include\H3DUtil\PixelImage.h">
 			</File>
 			<File
 				RelativePath="..\..\..\src\Quaternion.h">

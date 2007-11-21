@@ -63,14 +63,14 @@ void Image::getSample( void *value,
   H3DFloat zd = pz - fz;
 
   // interpolate in z
-  H3DUtil::RGBA fff = getPixel( fx, fy, fz );
-  H3DUtil::RGBA ffc = getPixel( fx, fy, cz );
-  H3DUtil::RGBA fcf = getPixel( fx, cy, fz );
-  H3DUtil::RGBA fcc = getPixel( fx, cy, cz );
-  H3DUtil::RGBA cff = getPixel( cx, fy, fz );
-  H3DUtil::RGBA cfc = getPixel( cx, fy, cz );
-  H3DUtil::RGBA ccf = getPixel( cx, cy, fz );
-  H3DUtil::RGBA ccc = getPixel( cx, cy, cz );
+  H3DUtil::RGBA fff = getPixel( (int)fx, (int)fy, (int)fz );
+  H3DUtil::RGBA ffc = getPixel( (int)fx, (int)fy, (int)cz );
+  H3DUtil::RGBA fcf = getPixel( (int)fx, (int)cy, (int)fz );
+  H3DUtil::RGBA fcc = getPixel( (int)fx, (int)cy, (int)cz );
+  H3DUtil::RGBA cff = getPixel( (int)cx, (int)fy, (int)fz );
+  H3DUtil::RGBA cfc = getPixel( (int)cx, (int)fy, (int)cz );
+  H3DUtil::RGBA ccf = getPixel( (int)cx, (int)cy, (int)fz );
+  H3DUtil::RGBA ccc = getPixel( (int)cx, (int)cy, (int)cz );
   
   H3DUtil::RGBA i1 = fff * (1-zd) + ffc * zd;
   H3DUtil::RGBA i2 = fcf * (1-zd) + fcc * zd;

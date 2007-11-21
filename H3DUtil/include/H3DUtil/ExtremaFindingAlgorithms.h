@@ -22,7 +22,8 @@
 //
 //
 /// \file ExtremumFindingAlgorithms.h
-/// \brief Base class for all H3D ExtremumFindingAlgorithmss
+/// \brief Collection of ExtremumFindingAlgorithms. The algorithms are:
+/// DownhillSimplexMethod.
 ///
 //
 //

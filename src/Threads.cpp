@@ -249,11 +249,6 @@ namespace ThreadsInternal {
   PeriodicThreadBase::CallbackCode doNothing( void * ) { 
     return PeriodicThreadBase::CALLBACK_DONE; 
   }
-  
-  PeriodicThreadBase::CallbackCode exitThread( void *data ) { 
-    pthread_exit(0); 
-    return PeriodicThreadBase::CALLBACK_DONE; 
-  }
 }
 
 PeriodicThreadBase::PeriodicThreadBase() : next_id(0) {}

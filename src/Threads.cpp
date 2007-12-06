@@ -253,16 +253,6 @@ namespace ThreadsInternal {
 
 PeriodicThreadBase::PeriodicThreadBase() : next_id(0) {}
 
-int PeriodicThreadBase::genCallbackId() {
-  if( free_ids.empty() ) {
-    return next_id++;
-  } else {
-    int id = free_ids.back();
-    free_ids.pop_back();
-    return id;
-  }
-}
-
 PeriodicThread::PeriodicThread( int _thread_priority,
                                 int _thread_frequency ):
   priority( _thread_priority ),

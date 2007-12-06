@@ -186,7 +186,15 @@ namespace H3DUtil {
 
   protected:
     // internal function used to generate id for each callback.
-    inline int genCallbackId();
+    inline int genCallbackId() {
+      if( free_ids.empty() ) {
+        return next_id++;
+      } else {
+        int id = free_ids.back();
+        free_ids.pop_back();
+        return id;
+      }
+    }
 
     // the next id to use.
     int next_id;

@@ -284,6 +284,27 @@ namespace H3DUtil {
     /// the callback.
     virtual int asynchronousCallback( CallbackFunc func, void *data );
 
+    /// Add several asynchronous callbacks at once in order to minimize
+    /// synchronization time in transferring the callbacks.
+    /// The InputIterator must be an iterator where *i is of 
+    /// type pair< CallbackFunc, void * >
+    /// No handles to the functions will be given so the functions them 
+    /// self must finish with CALLBACK_DONE in order for them to be removed.
+    template< class InputIterator >
+    void asynchronousCallbacks( InputIterator begin, 
+                                                InputIterator end ) {
+      callback_lock.lock();
+      // signal the thread that a new callback is available if it is waiting for one.
+      if( frequency < 0 && callbacks.size() == 0 ) callback_lock.signal();    
+      
+      for( InputIterator i = begin; i != end; i++ ) {
+        int cb_id = genCallbackId();
+        // add the new callback
+        callbacks.push_back( make_pair( cb_id, *i ) );
+      }
+      callback_lock.unlock();
+    }
+
     /// Attempts to remove a callback. returns true if succeded. returns
     /// false if the callback does not exist. This function should be handled
     /// with care. It can remove the wrong callback if the callback that

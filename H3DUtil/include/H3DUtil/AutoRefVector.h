@@ -193,7 +193,11 @@ namespace H3DUtil {
     }
     /// Set value at index i to v.
     inline void set( size_type i, const value_type &v ) {
-      vector<NodeClass*>::operator[]( i ) = v;
+      if( v != vector<NodeClass*>::operator[]( i ) ) {
+        unref( vector<NodeClass*>::operator[]( i ) );
+        ref( v );
+        vector<NodeClass*>::operator[]( i ) = v;
+      }
     }
     /// Returns the first element.
     inline const_reference front() const { return vector<NodeClass*>::front(); }

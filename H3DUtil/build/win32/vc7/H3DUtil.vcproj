@@ -26,6 +26,7 @@
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(IntDir)/$(TargetName).pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="4"/>
@@ -37,7 +38,7 @@
 				OutputFile="$(OutDir)/H3DUtil10_vc7_d.dll"
 				AdditionalLibraryDirectories="$(H3D_EXTERNAL_ROOT)\lib"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/H3DUtil10_vc7_d.pdb"
+				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
 				ImportLibrary="..\..\..\..\lib/H3DUtil10_vc7_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -76,6 +77,7 @@
 				RuntimeLibrary="2"
 				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(IntDir)/$(TargetName).pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="3"/>
@@ -88,8 +90,8 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(H3D_EXTERNAL_ROOT)\lib"
 				DelayLoadDLLs=""
-				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(OutDir)/H3DUtil10_vc7.pdb"
+				GenerateDebugInformation="FALSE"
+				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"

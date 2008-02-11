@@ -69,6 +69,7 @@
 				OutputFile="$(OutDir)\H3DUtil10_vc8_d.dll"
 				AdditionalLibraryDirectories="&quot;$(H3D_EXTERNAL_ROOT)\lib&quot;"
 				GenerateDebugInformation="true"
+				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
 				ImportLibrary="..\..\..\..\lib\$(TargetName).lib"
 			/>
 			<Tool
@@ -129,6 +130,7 @@
 				TreatWChar_tAsBuiltInType="false"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
+				ProgramDataBaseFileName="$(IntDir)\$(TargetName).pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
@@ -149,11 +151,12 @@
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;$(H3D_EXTERNAL_ROOT)\lib&quot;"
 				DelayLoadDLLs=""
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
+				ProgramDatabaseFile="$(TargetDir)$(TargetName).pdb"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				ImportLibrary="..\..\..\..\lib/$(TargetName).lib"
+				ImportLibrary="..\..\..\..\lib\$(TargetName).lib"
 				TargetMachine="1"
 			/>
 			<Tool

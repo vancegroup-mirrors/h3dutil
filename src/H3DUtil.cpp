@@ -26,6 +26,9 @@
 
 #include <H3DUtil/H3DUtil.h>
 
+#include <iostream>
+using namespace std;
+
 #ifdef HAVE_FREEIMAGE
 #include <FreeImage.h>
 #if defined(_MSC_VER) || defined(__BORLANDC__)
@@ -79,10 +82,10 @@ BOOL APIENTRY DllMain( HANDLE hModule,
 #ifdef __cplusplus
 extern "C" {
 #endif
-  void __attribute__((constructor)) initAPI( void ) {
+  void __attribute__((constructor)) initH3DUtil( void ) {
     initializeH3DUtil();
   }
-  void __attribute__((destructor)) finiAPI( void ) {
+  void __attribute__((destructor)) finiH3DUtil( void ) {
     deinitializeH3DUtil();
   }
 #ifdef __cplusplus

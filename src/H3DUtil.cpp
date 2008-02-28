@@ -27,6 +27,7 @@
 #include <H3DUtil/H3DUtil.h>
 
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 #ifdef HAVE_FREEIMAGE
@@ -57,6 +58,13 @@ void H3DUtil::deinitializeH3DUtil() {
 #endif
 }
 
+double H3DUtil::getH3DUtilVersion(){
+  std::stringstream stm;
+  stm << H3DUTIL_MAJOR_VERSION;
+  stm << ".";
+  stm << H3DUTIL_MINOR_VERSION;
+  return atof( stm.str().c_str() );
+}
 
 #ifdef WIN32
 BOOL APIENTRY DllMain( HANDLE hModule, 

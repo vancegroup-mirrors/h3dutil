@@ -136,6 +136,9 @@
 				RelativePath="..\..\..\src\Exception.cpp">
 			</File>
 			<File
+				RelativePath="..\..\..\src\FreeImageImage.cpp">
+			</File>
+			<File
 				RelativePath="..\..\..\src\H3DUtil.cpp">
 			</File>
 			<File

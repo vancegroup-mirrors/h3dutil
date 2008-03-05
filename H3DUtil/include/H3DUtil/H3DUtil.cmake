@@ -94,12 +94,19 @@
 #define HAVE_SYS_TIME_H
 #endif
 
+#define H3DUTIL_MAJOR_VERSION 1
+#define H3DUTIL_MINOR_VERSION 0
+
 namespace H3DUtil {
   /// Initialize H3DUtil(only needed if using H3DUtil as a static library)?
   void initializeH3DUtil();
 
   /// Deinitialize H3DUtil(only needed if using H3DUtil as a static library)?
   void deinitializeH3DUtil();
+
+  /// Will return the version of H3DUtil as a double on the form
+  /// H3DUTIL_MAJOR_VERSION.H3DUTIL_MINOR_VERSION
+  double H3DUTIL_API getH3DUtilVersion();
 }
 
 #endif

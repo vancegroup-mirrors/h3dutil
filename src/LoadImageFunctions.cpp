@@ -33,9 +33,9 @@
 
 #ifdef HAVE_FREEIMAGE
 #include <H3DUtil/FreeImageImage.h>
+#include <FreeImage.h>
 #endif
 #include <H3DUtil/PixelImage.h>
-#include <FreeImage.h>
 #include <fstream>
 
 using namespace H3DUtil;

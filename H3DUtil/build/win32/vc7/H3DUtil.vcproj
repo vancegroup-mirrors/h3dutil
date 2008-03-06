@@ -34,7 +34,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib"
+				AdditionalDependencies="winmm.lib"
 				OutputFile="$(OutDir)/H3DUtil10_vc7_d.dll"
 				AdditionalLibraryDirectories="$(H3D_EXTERNAL_ROOT)\lib"
 				GenerateDebugInformation="TRUE"
@@ -85,7 +85,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="opengl32.lib glu32.lib winmm.lib"
+				AdditionalDependencies="winmm.lib"
 				OutputFile="$(OutDir)/H3DUtil10_vc7.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(H3D_EXTERNAL_ROOT)\lib"

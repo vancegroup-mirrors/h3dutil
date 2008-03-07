@@ -94,8 +94,9 @@
 #define HAVE_SYS_TIME_H
 #endif
 
-#define H3DUTIL_MAJOR_VERSION 1
-#define H3DUTIL_MINOR_VERSION 0
+#define H3DUTIL_MAJOR_VERSION ${H3DUTIL_MAJOR_VERSION}
+#define H3DUTIL_MINOR_VERSION ${H3DUTIL_MINOR_VERSION}
+#define H3DUTIL_BUILD_VERSION ${H3DUTIL_BUILD_VERSION}
 
 namespace H3DUtil {
   /// Initialize H3DUtil(only needed if using H3DUtil as a static library)?

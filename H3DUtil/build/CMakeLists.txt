@@ -104,8 +104,6 @@ ENDIF(MSVC70 OR MSVC71)
 # autogenerate H3DUtil.h depending on the libraries available.
 CONFIGURE_FILE( ../include/H3DUtil/H3DUtil.cmake ../include/H3DUtil/H3DUtil.h )
 
-SET( CMAKE_INSTALL_PREFIX ${H3DUtil_SOURCE_DIR}/../.. )
-
 INSTALL( TARGETS H3DUtil 
          LIBRARY DESTINATION lib
          RUNTIME DESTINATION bin

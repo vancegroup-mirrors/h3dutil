@@ -45,7 +45,7 @@
 #ifdef HAVE_FREEIMAGE
 
 
-class FIBITMAP;
+struct FIBITMAP;
 
 namespace H3DUtil {
 

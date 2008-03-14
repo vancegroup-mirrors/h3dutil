@@ -44,7 +44,7 @@ namespace H3DUtil {
     class Matrix4f;
 
     /// Representation of a 4x4 matrix.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     class H3DUTIL_API Matrix4d {
     public:
       /// Thrown when trying to perform operations on a singular matrix
@@ -161,7 +161,7 @@ namespace H3DUtil {
     /// \brief Operators on Matrix4d instances. See also the 
     /// \ref TemplateOperators "template operators" for more operators
     /// automatically defined from the explicit ones defined here.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     /// \{
 
     /// Multiplication between two Matrix4d instances.

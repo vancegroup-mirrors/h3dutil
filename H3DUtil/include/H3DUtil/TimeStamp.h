@@ -46,30 +46,45 @@
 
 
 namespace H3DUtil {
+  /// This struct stores time and contains routines to get system time.
+  /// It stores an internal time value that represents the seconds
+  /// elapsed since January 1, 1970.
   struct H3DUTIL_API TimeStamp {
     H3D_API_EXCEPTION( PerformanceCounterNotSupported );
 
+    /// Constructor, will set its time to the time of creation.
     TimeStamp() {
       time = getCurrentTime();
     }
+    /// Constructor, sets it time to the inputed time.
     TimeStamp( double _time ) : time( _time ) {}
-        
+    
+    /// Get a Timestamp with current system time in seconds elapsed
+    /// since January 1, 1970.
     static TimeStamp now() {
       return TimeStamp( getCurrentTime() );
     }
 
-        
+    /// Get the time stored in a timestamp.
     operator double() const { return time; }
+    /// Comparasion operator of the time in two Timestamps.
     bool operator==( const TimeStamp &arg ) const { return time==arg.time; }
+    /// Comparasion operator of the time in two Timestamps.
     bool operator!=( const TimeStamp &arg ) const { return time!=arg.time; }
+    /// Comparasion operator of the time in two Timestamps.
     bool operator> ( const TimeStamp &arg ) const { return time>arg.time;  }
+    /// Comparasion operator of the time in two Timestamps.
     bool operator< ( const TimeStamp &arg ) const { return time<arg.time;  }
+    /// Comparasion operator of the time in two Timestamps.
     bool operator>=( const TimeStamp &arg ) const { return time>=arg.time; }
+    /// Comparasion operator of the time in two Timestamps.
     bool operator<=( const TimeStamp &arg ) const { return time<=arg.time; }
 
   protected:
-    double time; // seconds since epoch
+    /// The time stored.
+    double time;
 
+    /// Get time in seconds elapsed since January 1, 1970.
     static double getCurrentTime();
 
 #ifdef WIN32

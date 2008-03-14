@@ -22,7 +22,7 @@
 //
 //
 /// \file LoadImageFunctions.h
-/// \brief cpp file for the LoadImageFunctions struct
+/// \brief cpp file for functions to load images
 ///
 //
 //////////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@
 using namespace H3DUtil;
 
 #ifdef HAVE_FREEIMAGE
-Image *LoadImageFunctions::loadFreeImage( const string &url ) {
+Image *H3DUtil::loadFreeImage( const string &url ) {
   FREE_IMAGE_FORMAT format = FreeImage_GetFileType( url.c_str() );
   if( format == FIF_UNKNOWN ) {
     format = FreeImage_GetFIFFromFilename( url.c_str() );
@@ -65,8 +65,8 @@ Image *LoadImageFunctions::loadFreeImage( const string &url ) {
 }
 #endif
 
-Image *LoadImageFunctions::loadRawImage( const string &url,
-                    RawImageInfo &raw_image_info ) {  
+Image *H3DUtil::loadRawImage( const string &url,
+                              RawImageInfo &raw_image_info ) {
   Image::PixelType pixel_type;
   if( raw_image_info.pixel_type_string == "LUMINANCE" )
     pixel_type = Image::LUMINANCE;

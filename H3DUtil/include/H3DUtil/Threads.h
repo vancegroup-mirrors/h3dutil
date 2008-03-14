@@ -247,8 +247,9 @@ namespace H3DUtil {
   class H3DUTIL_API SimpleThread : public ThreadBase {
   public:
     /// Constructor.
-    /// \param thread_priority The priority of the thread.
     /// \param func The function to run in the thread. 
+    /// \param args Arguments to the function in argument func.
+    /// \param thread_priority The priority of the thread.
     SimpleThread( void *(func) (void *),
                   void *args = NULL,
                   int thread_priority = DEFAULT_THREAD_PRIORITY );
@@ -344,7 +345,7 @@ namespace H3DUtil {
 
   /// HapticThread is a thread class that should be used by haptics devices
   /// when creating threads. It is the same as PeriodicThread, but also inherits
-  /// from HapticThreadBase to make it aware that it is a haptic thread/
+  /// from HapticThreadBase to make it aware that it is a haptic thread.
   class H3DUTIL_API HapticThread : public HapticThreadBase,
                                 public PeriodicThread {
   public:

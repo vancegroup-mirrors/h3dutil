@@ -36,12 +36,16 @@ using namespace std;
 
 namespace H3DUtil {
 
+  /// Base class for all classes that should be reference counted.
   class H3DUTIL_API RefCountedClass {
   public:
 
     /// Constructor.
     RefCountedClass( );
 
+    /// Constructor
+    /// \param _use_lock If true locks will be used when reference counting.
+    /// Used to make class thread safe.
     RefCountedClass( bool _use_lock );
 
 
@@ -118,7 +122,7 @@ namespace H3DUtil {
     /// by the creator of the instance.
     bool manual_initialize;
 
-    // lock for thread access to ref_count
+    /// Lock for thread access to ref_count.
     MutexLock *ref_count_lock_pointer;
   };
     

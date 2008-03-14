@@ -22,59 +22,76 @@
 //
 //
 /// \file LoadImageFunctions.h
-/// \brief Header file for the LoadImageFunctions struct which contains
-/// functions for loading image files.
+/// \brief Header file for the which contains functions for loading
+/// image files.
 ///
 //
 //////////////////////////////////////////////////////////////////////////////
-#ifndef __LoadImageFunctions_H__
-#define __LoadImageFunctions_H__
+#ifndef __LOADIMAGEFUNCTIONS_H__
+#define __LOADIMAGEFUNCTIONS_H__
 
 #include <H3DUtil/Image.h>
 
 namespace H3DUtil {
-  /// LoadImageFunctions is a struct containing static functions
-  /// used to load image files. Most of the common image formats
-  /// is loaded by the loadFreeImage() function and raw-files can
-  /// be loaded by the loadRawImage() function.
-  struct H3DUTIL_API LoadImageFunctions {
 
+  /// \ingroup H3DUtilClasses
+  /// \defgroup ImageLoaderFunctions Image loader functions
+  /// These functions can be used to load an image of a certain type.
+ 
 #ifdef HAVE_FREEIMAGE
-    /// Loads an image using FreeImage.
-    static Image *loadFreeImage( const string &url );
+  /// \ingroup ImageLoaderFunctions
+  /// Loads an image using FreeImage.
+  H3DUTIL_API Image *loadFreeImage( const string &url );
 #endif
 
-    struct H3DUTIL_API RawImageInfo {
-    public:
-      RawImageInfo( int _width,
-                    int _height,
-                    int _depth,
-                    std::string _pixel_type_string,
-                    std::string _pixel_component_type_string,
-                    int _bits_per_pixel,
-                    Vec3f _pixel_size ) :
-        width( _width ),
-        height( _height ),
-        depth( _depth ),
-        pixel_type_string( _pixel_type_string ),
-        pixel_component_type_string( _pixel_component_type_string ),
-        bits_per_pixel( _bits_per_pixel ),
-        pixel_size( _pixel_size ) {}
+  /// Contains information needed by the loadRawImage function
+  /// to correctly load the raw file.
+  struct H3DUTIL_API RawImageInfo {
+  public:
+    /// Constructor
+    RawImageInfo( int _width,
+                  int _height,
+                  int _depth,
+                  std::string _pixel_type_string,
+                  std::string _pixel_component_type_string,
+                  int _bits_per_pixel,
+                  Vec3f _pixel_size ) :
+      width( _width ),
+      height( _height ),
+      depth( _depth ),
+      pixel_type_string( _pixel_type_string ),
+      pixel_component_type_string( _pixel_component_type_string ),
+      bits_per_pixel( _bits_per_pixel ),
+      pixel_size( _pixel_size ) {}
 
-        int width;
-        int height;
-        int depth;
-        std::string pixel_type_string;
-        std::string pixel_component_type_string;
-        int bits_per_pixel;
-        Vec3f pixel_size;
-    };
-    /// Read the data from the file pointed to by the parameter url
-    /// and creates and returns a PixelImage containing this data.
-    /// How to interpret the data is specified by the raw_image_info parameter.
-    static Image *loadRawImage( const string &url,
-                                RawImageInfo &raw_image_info );
+      /// Width of image.
+      int width;
+      /// Height of image
+      int height;
+      /// Depth of image.
+      int depth;
+
+      /// Contains a string describing the pixel_type.
+      /// Should be a string that looks like one of Image::PixelType.
+      std::string pixel_type_string;
+
+      /// Contains a string describing the pixel_component_type. Should be
+      /// a string that looks like one of Image::PixelComponentType.
+      std::string pixel_component_type_string;
+
+      /// The number of bits per pixel.
+      int bits_per_pixel;
+
+      /// The size of the pixel in x, y and z direction in metres.
+      Vec3f pixel_size;
   };
+
+  /// \ingroup ImageLoaderFunctions
+  /// Read the data from the file pointed to by the parameter url
+  /// and creates and returns a PixelImage containing this data.
+  /// How to interpret the data is specified by the raw_image_info parameter.
+  H3DUTIL_API Image *loadRawImage( const string &url,
+                                   RawImageInfo &raw_image_info );
 }
 
 #endif

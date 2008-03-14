@@ -35,6 +35,8 @@
 
 namespace H3DUtil {
 
+  /// An Image which is defined by pixels. The number of pixels is
+  /// width * height * depth and the values for the pixels must be supplied.
   class H3DUTIL_API PixelImage: public Image {
   public:
     /// Constructor. 

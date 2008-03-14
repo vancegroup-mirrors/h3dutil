@@ -42,7 +42,7 @@ namespace H3DUtil {
 
     /// A Vec3f specifies a high-precision 3d vector. The values of the 
     /// Vec3f are H3DFloat.		
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     struct H3DUTIL_API Vec3f {
 
       /// Exception thrown when error while normalizing vector types.
@@ -146,7 +146,7 @@ namespace H3DUtil {
     /// \ref TemplateOperators "template operators" for more 
     /// operators automatically defined from the explicit ones
     /// defined here.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     /// \{
     
     /// Test two Vec3f for equality.
@@ -185,14 +185,14 @@ namespace H3DUtil {
                     (H3DFloat)(v.z * d) );
     }
 
-    /// \anchor Vec3fDotProduct
     /// Returns the dot product of two Vec3f.
+    /// \anchor Vec3fDotProduct
     inline H3DFloat operator*( const Vec3f &v1, const Vec3f &v2 ) {
       return v1.dotProduct( v2 );
     }
 
-    /// \anchor Vec3fCrossProduct
     /// Returns the dot product of two Vec3f.
+    /// \anchor Vec3fCrossProduct
     inline Vec3f operator%( const Vec3f &v1, const Vec3f &v2 ) {
       return v1.crossProduct( v2 );
     }

@@ -42,7 +42,7 @@ namespace H3DUtil {
 
     /// A Vec3d specifies a high-precision 3d vector. The values of the 
     /// Vec3d are H3DDouble.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     struct H3DUTIL_API Vec3d {
       /// Exception thrown when error while normalizing vector types.
       H3D_API_EXCEPTION( Vec3dNormalizeError );
@@ -145,7 +145,7 @@ namespace H3DUtil {
     /// \ref TemplateOperators "template operators" for more 
     /// operators automatically defined from the explicit ones 
     /// defined here.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     /// \{
     
     /// Function for printing a Vec3d to an ostream.
@@ -183,14 +183,14 @@ namespace H3DUtil {
     }
 
 
-    /// \anchor Vec3dDotProduct
     /// Returns the dot product of two Vec3d.
+    /// \anchor Vec3dDotProduct
     inline H3DDouble operator*( const Vec3d &v1, const Vec3d &v2 ) {
       return v1.dotProduct( v2 );
     }
 
-    /// \anchor Vec3dCrossProduct
     /// Returns the cross product of two Vec3d.
+    /// \anchor Vec3dCrossProduct
     inline Vec3d operator%( const Vec3d &v1, const Vec3d &v2 ) {
       return v1.crossProduct( v2 );
     }

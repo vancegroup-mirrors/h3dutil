@@ -45,7 +45,7 @@ namespace H3DUtil {
 
     /// Rotation describes an arbitrary rotation. It specifies an axis to
     /// rotate around and the angle to rotate.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     class H3DUTIL_API Rotation {
     public:
       /// Default constructor.
@@ -107,7 +107,7 @@ namespace H3DUtil {
     /// \brief Operators on Rotation instances. See also the 
     /// \ref TemplateOperators "template operators" for more operators
     /// automatically defined from the explicit ones defined here.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     /// \{
 
     /// Test two Rotation instances for equality.

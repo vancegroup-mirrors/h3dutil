@@ -50,5 +50,9 @@ namespace H3DUtil {
     static const H3DDouble d_epsilon = 
     std::numeric_limits< H3DDouble >::epsilon();
   }
+
+  /// \ingroup H3DUtilClasses
+  /// \defgroup H3DUtilBasicTypes Basic Types
+  /// The basic types used in H3DUtil.
 }
 #endif

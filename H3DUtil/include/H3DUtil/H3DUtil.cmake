@@ -27,7 +27,7 @@
 ///
 //////////////////////////////////////////////////////////////////////////////
 
-/// \mainpage
+/// \mainpage H3DUtil Documentation
 /// Copyright 2004, <a href="http://www.sensegraphics.com">SenseGraphics AB</a>
 
 #ifndef __H3DUTIL_H__
@@ -98,6 +98,10 @@
 #define H3DUTIL_MINOR_VERSION ${H3DUTIL_MINOR_VERSION}
 #define H3DUTIL_BUILD_VERSION ${H3DUTIL_BUILD_VERSION}
 
+/// \defgroup H3DUtilClasses H3DUtil classes
+/// All grouped classes in H3DUtil should be in this group.
+
+/// H3DUtil namespace
 namespace H3DUtil {
   /// Initialize H3DUtil(only needed if using H3DUtil as a static library)?
   void initializeH3DUtil();

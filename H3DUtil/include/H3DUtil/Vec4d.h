@@ -40,7 +40,7 @@ namespace H3DUtil {
   namespace ArithmeticTypes {
     /// A Vec4d specifies a high-precision 4d vector. The values of the 
     /// Vec4d are H3DDouble.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     struct H3DUTIL_API Vec4d {
       /// Default constructor.
       Vec4d(): x(0), y(0), z(0), w(1){}
@@ -93,7 +93,7 @@ namespace H3DUtil {
     /// \ref TemplateOperators "template operators" for more 
     /// operators automatically defined from the explicit ones
     /// defined here.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     /// \{
 
 				

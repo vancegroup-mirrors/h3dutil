@@ -1,4 +1,3 @@
-
 //////////////////////////////////////////////////////////////////////////////
 //    Copyright 2004-2007, SenseGraphics AB
 //
@@ -39,7 +38,7 @@ using namespace H3DUtil;
 
 string DynamicLibrary::last_error = "";
 
-DynamicLibrary::LIBHANDLE DynamicLibrary::load( const string &lib_name ) {
+DynamicLibrary::LIBHANDLE DynamicLibrary::load( const std::string &lib_name ) {
 #ifdef WIN32
   // If already loaded just return the handle to the loaded library.
   LIBHANDLE handle = GetModuleHandle( lib_name.c_str() );

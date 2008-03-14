@@ -34,7 +34,6 @@
 #include <H3DUtil/RefCountedClass.h>
 #include <assert.h>
 
-/// H3D API namespace
 namespace H3DUtil {
   /// Virtual base class for all images containing virtual functions that
   /// all Image classes must define.
@@ -128,6 +127,8 @@ namespace H3DUtil {
     /// Set the pixel at a given position given an RGBA struct. 
     /// If an LUMINANCE image, the R component is used as value. 
     ///
+    /// \param value The value to set the pixel to. One or more components
+    /// may be used, this depends on the type of image.
     /// \param x The position in x(width).
     /// \param y The position in y(height).
     /// \param z The position in z(depth).

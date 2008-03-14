@@ -21,7 +21,7 @@
 //    www.sensegraphics.com for more information.
 //
 //
-/// \file H3DTypeOperators.h
+/// \file TypeOperators.h
 /// \brief Contains operators between different types in the ArithmeticTypes 
 /// namespace.
 ///

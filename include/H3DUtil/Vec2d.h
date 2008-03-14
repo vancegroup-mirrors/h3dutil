@@ -41,7 +41,7 @@ namespace H3DUtil {
   namespace ArithmeticTypes {
     /// A Vec2d specifies a high-precision 2d vector. The values of the 
     /// Vec2d are H3DDouble.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     struct H3DUTIL_API Vec2d {
       /// Exception thrown when error while normalizing vector types.
       H3D_API_EXCEPTION( Vec2dNormalizeError );
@@ -136,7 +136,7 @@ namespace H3DUtil {
     /// \ref TemplateOperators "template operators" for more 
     /// operators automatically defined from the explicit ones 
     /// defined here.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     /// \{
 				
     /// Function for printing a Vec2d to an ostream.
@@ -158,8 +158,8 @@ namespace H3DUtil {
       return Vec2d( v.x * d, v.y * d );
     }
 
-    /// \anchor Vec2dDotProduct
     /// Get the dot product of two Vec2d.
+    /// \anchor Vec2dDotProduct
     inline H3DDouble operator*( const Vec2d &v1, const Vec2d &v2 ) {
       return v1.dotProduct( v2 );
     }

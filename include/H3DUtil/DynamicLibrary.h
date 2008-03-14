@@ -1,4 +1,3 @@
-
 //////////////////////////////////////////////////////////////////////////////
 //    Copyright 2004-2007, SenseGraphics AB
 //
@@ -35,6 +34,8 @@
 #include <H3DUtil/Exception.h>
 
 namespace H3DUtil {
+  /// This struct provides a couple of static functions used for
+  /// loading and unloading dynamic libraries at runtime.
   struct H3DUTIL_API DynamicLibrary {
     /// Exception thrown when there is an error loading a dynamic
     /// link library.

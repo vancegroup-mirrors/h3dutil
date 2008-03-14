@@ -43,7 +43,7 @@ namespace H3DUtil {
     class Rotation;
 
     /// Quaternion describes an arbitrary rotation.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     class H3DUTIL_API Quaternion {
     public:
       /// Default constructor.
@@ -125,7 +125,7 @@ namespace H3DUtil {
     /// \brief Operators on Quaternion instances. See also the 
     /// \ref TemplateOperators "template operators" for more operators
     /// automatically defined from the explicit ones defined here.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     /// \{
 
     /// Function for printing a Quaternion to an ostream.

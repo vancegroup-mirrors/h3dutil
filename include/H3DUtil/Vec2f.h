@@ -42,7 +42,7 @@ namespace H3DUtil {
 
     /// A Vec2f specifies a 2d vector. The values of the Vec2f are
     /// H3DFloat.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     struct H3DUTIL_API Vec2f {
       /// Exception thrown when error while normalizing vector types.
       H3D_API_EXCEPTION( Vec2fNormalizeError );
@@ -137,7 +137,7 @@ namespace H3DUtil {
     /// \ref TemplateOperators "template operators" for more 
     /// operators automatically defined from the explicit ones 
     /// defined here.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     /// \{
 				
     /// Function for printing a Vec2f to an ostream.
@@ -175,8 +175,8 @@ namespace H3DUtil {
       return Vec2f( v.x * i, v.y * i );
     }
 
-    /// \anchor Vec2fDotProduct
     /// Get the dot product of two Vec2f.
+    /// \anchor Vec2fDotProduct
     inline H3DFloat operator*( const Vec2f &v1, const Vec2f &v2 ) {
       return v1.dotProduct( v2 );
     }

@@ -21,23 +21,26 @@
 //    www.sensegraphics.com for more information.
 //
 //
-/// \file ExtremumFindingAlgorithms.h
-/// \brief Collection of ExtremumFindingAlgorithms. The algorithms are:
+/// \file ExtremaFindingAlgorithms.h
+/// \brief Collection of ExtremaFindingAlgorithms. The algorithms are:
 /// DownhillSimplexMethod.
 ///
 //
 //
 //////////////////////////////////////////////////////////////////////////////
-#ifndef __EXTREMUMFINDINGALGORITHMS_H__
-#define __EXTREMUMFINDINGALGORITHMS_H__
+#ifndef __EXTREMAFINDINGALGORITHMS_H__
+#define __EXTREMAFINDINGALGORITHMS_H__
 
 #include <H3DUtil/H3DUtil.h>
 #include <H3DUtil/LinAlgTypes.h>
 
 namespace H3DUtil {
 
+  /// \class DownhillSimplexMethod
   /// This algorithm tries to minimize a function and is called
-  /// <i>downhill simplex method<i/>. The method only require function
+  /// <i>downhill simplex method</i>.
+  ///
+  /// The method only require function
   /// evaluations, not derivatives. The method is due to J.A Nelder and 
   /// R. Mead. They published it in "Computer Journal" vol. 7 pages 
   /// 391-398. The method can also be found in section 10.4 in the book

@@ -24,7 +24,7 @@
 /// \file Console.cpp
 /// \brief Debug console stream
 ///
-//  This node provides a static stream that all error and warning messages
+//  This class provides a static stream that all error and warning messages
 //  are sent to. The stream can be redirected to any arbitrary stream, and
 //  defaults to cerr. The stream can be controlled to set a minimum 
 //  error level to show (setting 0 will show all messages). The default level
@@ -58,14 +58,28 @@
 
 namespace H3DUtil {
 
+  /// A string buffer class that stores different messages depending
+  /// on internal parameters and sends this to an output stream.
+  /// See basic_dostream for example usage.
   template <class CharT, class TraitsT = std::char_traits<CharT> >
   class basic_debugbuf : public std::basic_stringbuf<CharT, TraitsT>  {
-    int outputlevel, level;
+    /// Minimum warning level that will be sent to output stream.
+    /// Must be 0 or above.
+    int outputlevel;
+    /// The level of the message to be sent to output stream. Must be above
+    /// outputlevel to be displayed.
+    int level;
+    /// The output stream to send the content of the string buffer to.
     ostream *outputstream;
+    /// The time when an instance of this class is created.
     TimeStamp starttime;
+    /// If true the time passed since starttime will be sent to the output
+    /// stream.
     bool showtime;
+    /// If true the warning level used will be sent to the output stream.
     bool showlevel;
   public:
+    /// Constructor
     basic_debugbuf(  ) : 
       outputlevel( 3 ),
       level( 0 ),
@@ -74,23 +88,30 @@ namespace H3DUtil {
       showlevel( true ) {
     }
 
+    /// Destructor
     virtual ~basic_debugbuf() {
       outputlevel=-1;
       sync();
     }
 
+    /// Set the variable showtime.
     void setShowTime( bool show ) { showtime = show; }
 
+    /// Set the variable showlevel.
     void setShowLevel( bool show ) { showlevel = show; }
 
+    /// Set the output stream to use.
     void setOutputStream( ostream &s ) { outputstream = &s; }
 
+    /// Set the variable outputlevel.
     void setOutputLevel( int _outputlevel ) { outputlevel = _outputlevel; }
 
+    /// Set the variable level.
     void setLevel( int _level ) { level = _level; }
   
   protected:
-
+    /// Send content of string buffer to output stream. Add information
+    /// about level and time if it should be added.
     int sync() {
       TimeStamp time;
       
@@ -136,43 +157,55 @@ namespace H3DUtil {
   };
 
 
+  /// Output stream used to print debug information. Use cerr by default.
+  /// An instance of basic_dostream<char> is exported as "Console". See
+  /// Console.h for example usage information of Console.
   template<class CharT, class TraitsT = std::char_traits<CharT> >
   class basic_dostream : public std::basic_ostream<CharT, TraitsT> {
   public:
   
+    /// Constructor
     basic_dostream() : 
       std::basic_ostream<CharT, TraitsT>(new basic_debugbuf<CharT, TraitsT>()) {
     }
 
+    /// Destructor
     ~basic_dostream() {
       delete std::ios::rdbuf(); 
     }
 
+    /// Tell the output stream if time since instance of stream was created
+    /// should be displayed.
     void setShowTime( bool show ) { 
       static_cast< basic_debugbuf<CharT, TraitsT>* >(std::ios::rdbuf())->
         setShowTime( show );  
     }
 
+    /// Tell the output stream if it should display the warning level set.
     void setShowLevel( bool show ) { 
       static_cast< basic_debugbuf<CharT, TraitsT>* >(std::ios::rdbuf())->
         setShowLevel( show );  
     }
 
+    /// Set the ostream to use as output stream.
     void setOutputStream( ostream &s ) { 
       static_cast< basic_debugbuf<CharT, TraitsT>* >(std::ios::rdbuf())->
         setOutputStream( s );  
     }
 
+    /// Set the minimum level that will be used before displaying anything.
     void setOutputLevel( int _outputlevel ) {
       static_cast<basic_debugbuf<CharT, TraitsT>* >( std::ios::rdbuf() )->
         setOutputLevel( _outputlevel ); 
     }
 
+    /// Set level of message. Must be greater than the minimum level set.
     void setLevel( int _level ) { 
       static_cast< basic_debugbuf<CharT, TraitsT>* >(std::ios::rdbuf())->
         setLevel( _level );  
     }
 
+    /// Another way to call setLevel.
     basic_dostream & operator ()( int l ) {
       setLevel( l );
       return *this;
@@ -182,6 +215,7 @@ namespace H3DUtil {
 
   typedef basic_dostream<char>    ConsoleStream;
 
+  // Instance of basic_dostream<char>
   extern H3DUTIL_API ConsoleStream Console;
 
 }

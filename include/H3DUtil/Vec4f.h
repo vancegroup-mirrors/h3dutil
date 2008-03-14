@@ -43,7 +43,7 @@ namespace H3DUtil {
 
     /// A Vec4f specifies a 4d vector. The values of the 
     /// Vec4f are X3Float.
-    /// \ingroup BasicTypes.
+    /// \ingroup H3DUtilBasicTypes
     struct H3DUTIL_API Vec4f {
       /// Default constructor.
       Vec4f(): x(0), y(0), z(0), w(1){}
@@ -96,7 +96,7 @@ namespace H3DUtil {
     /// \ref TemplateOperators "template operators" for more 
     /// operators automatically defined from the explicit ones
     /// defined here.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     /// \{
 
 				

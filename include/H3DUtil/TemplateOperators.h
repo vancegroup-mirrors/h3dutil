@@ -21,7 +21,7 @@
 //    www.sensegraphics.com for more information.
 //
 //
-/// \file H3DTemplateOperators.h
+/// \file TemplateOperators.h
 /// \brief Contains template operators for types defined in the ArithmeticTypes
 /// namespace.
 ///
@@ -38,7 +38,7 @@ namespace H3DUtil {
     /// This is to minimize the number of operators we need to define
     /// for each specific types. Most of the times it is enough to define
     /// ==, + and * operators for each class explicitly.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     /// \{
 
     /// Not equals operator. Requires a == operator between

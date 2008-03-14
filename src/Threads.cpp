@@ -396,8 +396,9 @@ PeriodicThreadBase::CallbackCode HapticThreadBase::sync_haptics( void * ) {
   
   return PeriodicThreadBase::CALLBACK_DONE;
 }
-void HapticThreadBase::synchronousHapticCB( PeriodicThread::CallbackFunc func, 
-                                            void *data ) {
+void HapticThreadBase::synchronousHapticCB(
+                        PeriodicThreadBase::CallbackFunc func, 
+                        void *data ) {
   // add empty callbacks in order to make sure that the haptics threads 
   // have released the callback_lock since last call to sync_haptics.
   for( vector< HapticThreadBase *>::iterator i = threads.begin();

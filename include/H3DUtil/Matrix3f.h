@@ -43,7 +43,7 @@ namespace H3DUtil {
     class Matrix3d;
 
     /// Representation of a 3x3 matrix.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     class H3DUTIL_API Matrix3f {
     public:
       /// Thrown when trying to perform operations on a singular matrix
@@ -132,7 +132,7 @@ namespace H3DUtil {
     /// \brief Operators on Matrix3f instances. See also the 
     /// \ref TemplateOperators "template operators" for more operators
     /// automatically defined from the explicit ones defined here.
-    /// \ingroup BasicTypes
+    /// \ingroup H3DUtilBasicTypes
     /// \{
 				
     /// Multiplication between two Matrix3f instances.

@@ -12,7 +12,7 @@ AUX_SOURCE_DIRECTORY(../src H3DUTIL_SRCS)
 
 # add the H3DUtil.rc resource file if Visual Studio
 IF(MSVC)
-  SET( H3DUTIL_SRCS ${H3DUTIL_SRCS} H3DUtil.rc )
+  SET( H3DUTIL_SRCS ${H3DUTIL_SRCS} ${H3DUtil_SOURCE_DIR}/H3DUtil.rc )
 ENDIF(MSVC)
 
 # H3DUtil shared library definition.
@@ -20,14 +20,13 @@ ADD_LIBRARY(H3DUtil SHARED ${H3DUTIL_SRCS})
 
 # make sure that the H3DUtil.rc contains the correct svn-version
 IF( MSVC )
-  EXECUTE_PROCESS( COMMAND FindSVNVersion ${H3DUtil_SOURCE_DIR}/../src/.svn/entries 
+  EXECUTE_PROCESS( COMMAND ${H3DUtil_SOURCE_DIR}/FindSVNVersion ${H3DUtil_SOURCE_DIR}/../src/.svn/entries 
                    OUTPUT_VARIABLE H3DUTIL_SVN_VERSION )
   # autogenerate H3DUtil.rc depending on the version
-  CONFIGURE_FILE( H3DUtil.rc.cmake H3DUtil.rc )
-  
+  CONFIGURE_FILE( H3DUtil.rc.cmake ${H3DUtil_SOURCE_DIR}/../build/H3DUtil.rc )
   ADD_CUSTOM_COMMAND( TARGET H3DUtil 
                       PRE_BUILD 
-                      COMMAND UpdateResourceFile 
+                      COMMAND ${H3DUtil_SOURCE_DIR}/UpdateResourceFile 
                       ARGS H3DUTIL H3DUtil.rc H3DUtil.rc.cmake
                       ${H3DUTIL_MAJOR_VERSION} ${H3DUTIL_MINOR_VERSION}
                       ${H3DUTIL_BUILD_VERSION}
@@ -46,7 +45,7 @@ SET(optionalLibs)
 # add all required libraries to this variable
 SET(requiredLibs)
 
-INCLUDE_DIRECTORIES( ../include )
+INCLUDE_DIRECTORIES( ${H3DUtil_SOURCE_DIR}/../include )
 
 # check all available libraries
 
@@ -102,7 +101,7 @@ ELSEIF(MSCV90)
 ENDIF(MSVC70 OR MSVC71)
 
 # autogenerate H3DUtil.h depending on the libraries available.
-CONFIGURE_FILE( ../include/H3DUtil/H3DUtil.cmake ../include/H3DUtil/H3DUtil.h )
+CONFIGURE_FILE( ${H3DUtil_SOURCE_DIR}/../include/H3DUtil/H3DUtil.cmake ${H3DUtil_SOURCE_DIR}/../include/H3DUtil/H3DUtil.h )
 
 INSTALL( TARGETS H3DUtil 
          LIBRARY DESTINATION lib

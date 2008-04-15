@@ -67,6 +67,29 @@ IF(PTHREAD_FOUND)
   ENDIF(WIN32)
 ENDIF(PTHREAD_FOUND)
 
+# To allow other projects that use H3DUtil as a subproject to add extra include directories
+# when packaging.
+IF( GENERATE_CPACK_PROJECT )
+  IF( WIN32 )
+    IF( FREEIMAGE_FOUND )
+      SET( H3DUTIL_CPACK_INSTALLED_DIRECTORIES "${FREEIMAGE_INCLUDE_DIR}/..;External/include/FreeImage"
+           CACHE INTERNAL "Installed directories of H3DUtil." )
+    ENDIF( FREEIMAGE_FOUND )
+    
+    IF( ZLIB_FOUND )
+      SET( H3DUTIL_CPACK_INSTALLED_DIRECTORIES ${H3DUTIL_CPACK_INSTALLED_DIRECTORIES}
+                                               "${ZLIB_INCLUDE_DIR};External/include/zlib"
+           CACHE INTERNAL "Installed directories of H3DUtil." )
+    ENDIF( ZLIB_FOUND )
+  
+    IF( PTHREAD_FOUND )
+      SET( H3DUTIL_CPACK_INSTALLED_DIRECTORIES ${H3DUTIL_CPACK_INSTALLED_DIRECTORIES}
+                                               "${PTHREAD_INCLUDE_DIR};External/include/pthread"
+           CACHE INTERNAL "Installed directories of H3DUtil." )
+    ENDIF( PTHREAD_FOUND )
+  ENDIF( WIN32 )
+ENDIF( GENERATE_CPACK_PROJECT )
+
 # H3DUtil shared library definition.
 ADD_LIBRARY(H3DUtil SHARED ${H3DUTIL_SRCS})
 

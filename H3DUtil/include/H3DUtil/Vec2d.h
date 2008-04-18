@@ -118,12 +118,12 @@ namespace H3DUtil {
       }
 
       /// Returns the length squeared of the vector.
-      inline H3DDouble lengthSqr() {
+      inline H3DDouble lengthSqr() const {
         return x*x + y*y;
       }
       
       /// Returns the length of the vector.
-      inline H3DDouble length() {
+      inline H3DDouble length() const {
         return H3DSqrt( x*x + y*y );
       }
       

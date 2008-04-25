@@ -176,7 +176,7 @@ namespace H3DUtil {
     /// Inserts or erases elements at the end such that the size becomes n.
     inline virtual void resize( size_t n, NodeClass * t = NULL ) {
       if( size() > n ) {
-        for( unsigned int i = size() - 1; i >= n; i-- )
+        for( unsigned int i = n; i < size(); i++ )
           unref( vector<NodeClass*>::operator[]( i ) );
       }
       vector<NodeClass*>::resize( n, t );

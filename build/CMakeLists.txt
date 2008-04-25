@@ -160,7 +160,7 @@ INSTALL( TARGETS H3DUtil
 
 IF(!WIN32)
   INSTALL( DIRECTORY ../include/H3DUtil 
-           DESTINATION /usr/local/include 
+           DESTINATION /include 
            PATTERN .svn EXCLUDE )
 ENDIF(!WIN32)
 

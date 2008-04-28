@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 2.4.8)
 PROJECT(H3DUtil)
 
+# Add a cache variable GENERATE_CPACK_PROJECT to have the choice of generating a project
+# for packaging H3DAPI. Default is NO since most people will not use this.
+IF( NOT DEFINED GENERATE_CPACK_PROJECT )
+  SET( GENERATE_CPACK_PROJECT "NO" CACHE BOOL "Decides if a cpack project should be generated. The project in the first loaded CMakeLists will configure CPack." )
+  MARK_AS_ADVANCED(GENERATE_CPACK_PROJECT)
+ENDIF( NOT DEFINED GENERATE_CPACK_PROJECT )
+
 IF( WIN32 )
   # Macro used to set include directories on windows.
   MACRO( STRIP_AND_ADD_LIBRARY_DIRECTORIES )
@@ -88,7 +95,25 @@ IF( GENERATE_CPACK_PROJECT )
                                                "${PTHREAD_INCLUDE_DIR};External/include/pthread"
            CACHE INTERNAL "Installed directories of H3DUtil." )
     ENDIF( PTHREAD_FOUND )
-  ENDIF( WIN32 )
+  ENDIF( WIN32 ) 
+  
+  SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "H3DUtil. Help functions and utility functions for H3D API and HAPI.")
+  SET(CPACK_PACKAGE_VENDOR "SenseGraphics AB")
+  SET(CPACK_PACKAGE_CONTACT "support@sensegraphics.com" )
+#  SET(CPACK_PACKAGE_DESCRIPTION_FILE "${H3DUtil_SOURCE_DIR}/../ReadMe.txt")
+  SET(CPACK_RESOURCE_FILE_LICENSE "${H3DUtil_SOURCE_DIR}/../LICENSE")
+  SET(CPACK_INSTALL_CMAKE_PROJECTS "${CMAKE_CURRENT_BINARY_DIR};H3DUtil;ALL;/" )
+  SET(CPACK_PACKAGE_INSTALL_DIRECTORY "H3DUtil" )
+  SET(CPACK_PACKAGE_VERSION_MAJOR ${H3DUTIL_MAJOR_VERSION})
+  SET(CPACK_PACKAGE_VERSION_MINOR ${H3DUTIL_MINOR_VERSION})
+  SET(CPACK_PACKAGE_VERSION_PATCH ${H3DUTIL_BUILD_VERSION})
+  SET(DEBIAN_PACKAGE_DEPENDS "zlib1g-dev, libfreeimage-dev" )	      
+
+  INCLUDE(CPack)
+  INCLUDE(UseDebian)
+  IF(DEBIAN_FOUND)
+    ADD_DEBIAN_TARGETS(H3DUtil)
+  ENDIF(DEBIAN_FOUND)
 ENDIF( GENERATE_CPACK_PROJECT )
 
 # H3DUtil shared library definition.
@@ -160,7 +185,7 @@ INSTALL( TARGETS H3DUtil
 
 IF(!WIN32)
   INSTALL( DIRECTORY ../include/H3DUtil 
-           DESTINATION /include 
+           DESTINATION include 
            PATTERN .svn EXCLUDE )
 ENDIF(!WIN32)
 

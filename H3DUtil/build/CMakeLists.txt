@@ -79,6 +79,9 @@ ENDIF(PTHREAD_FOUND)
 # when packaging.
 IF( GENERATE_CPACK_PROJECT )
   IF( WIN32 )
+    SET( H3DUTIL_CPACK_INSTALLED_DIRECTORIES ""
+           CACHE INTERNAL "Installed directories of H3DUtil." )
+
     IF( FREEIMAGE_FOUND )
       SET( H3DUTIL_CPACK_INSTALLED_DIRECTORIES "${FREEIMAGE_INCLUDE_DIR}/..;External/include/FreeImage"
            CACHE INTERNAL "Installed directories of H3DUtil." )

@@ -174,11 +174,11 @@ INSTALL( TARGETS H3DUtil
          RUNTIME DESTINATION bin
          ARCHIVE DESTINATION lib )
 
-IF(!WIN32)
+IF(NOT WIN32)
   INSTALL( DIRECTORY ../include/H3DUtil 
            DESTINATION include 
            PATTERN .svn EXCLUDE )
-ENDIF(!WIN32)
+ENDIF(NOT WIN32)
 
     
 

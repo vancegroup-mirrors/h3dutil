@@ -1,0 +1,18 @@
+Changes for version 1.0 beta 1:
+
+- Memory leak fixes.
+- The function asynchronousCallback in PeriodicThreadBase returns a handle that
+can be used as argument to the new function removeAsynchronousCallback.
+- Fixed a lot of minor bugs. See svn changelog at www.h3d.org:8080 for details.
+- Added ExtremaFindingAlgorithms which is a collection of algorithms that finds
+extrema. Currently only contains an implementation of amoeba.
+
+
+New Classes and related functions:
+Image - class moved here from H3D API.
+FreeImageImage - class moved here from H3D API.
+LoadImageFunctions - moved functions here. They are used to read image files.
+PixelImage - class moved here for H3D API.
+
+Compability issues:
+- Header files moved to include/H3DUtil. Include them with H3DUtil/ prefix.

@@ -134,7 +134,6 @@ namespace ImageInternals {
     memcpy( i,
             &v,
             bytes_to_write );
-    H3DFloat f = getUnsignedValueAsFloat( i, bytes_to_write );
       
 	}
 

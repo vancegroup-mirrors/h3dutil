@@ -69,9 +69,9 @@ PixelImage::PixelImage( Image *image,
     unsigned int depth = image->depth();
     bits_per_pixel = image->bitsPerPixel();
     
-    if( new_width == w && 
-        new_height == h &&
-        new_depth == d ) {
+    if( new_width == width && 
+        new_height == height &&
+        new_depth == depth ) {
       w = new_width;
       h = new_height;
       d = new_depth;

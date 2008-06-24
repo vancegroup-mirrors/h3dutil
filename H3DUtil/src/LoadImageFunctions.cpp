@@ -122,7 +122,7 @@ Image *H3DUtil::loadRawImage( const string &url,
   if( actual_size < (int)expected_size ){
     
     unsigned char * data2 = new unsigned char[expected_size];
-    unsigned long int uncompressed_size = expected_size;
+//    unsigned long int uncompressed_size = expected_size;
     
     int err;
     z_stream strm = {
@@ -134,12 +134,14 @@ Image *H3DUtil::loadRawImage( const string &url,
     
     if( err == Z_MEM_ERROR ){
       Console(3) << "Warning: zlib memory error." << endl;
-      delete[] data, data2;
+      delete[] data;
+      delete[] data2;
       return NULL;
     }
     if( err == Z_VERSION_ERROR ){
       Console(3) << "Warning: zlib version error." << endl;
-      delete[] data, data2;
+      delete[] data;
+      delete[] data2;
       return NULL;
     }
     
@@ -147,17 +149,20 @@ Image *H3DUtil::loadRawImage( const string &url,
     
     if( err == Z_DATA_ERROR ){
       Console(3) << "Warning: zlib unrecognizable data error." << endl;
-      delete[] data, data2;
+      delete[] data;
+      delete[] data2;
       return NULL;
     }
     if( err == Z_STREAM_ERROR ){
       Console(3) << "Warning: zlib stream error." << endl;
-      delete[] data, data2;
+      delete[] data;
+      delete[] data2;
       return NULL;
     }
     if( err == Z_BUF_ERROR ){
       Console(3) << "Warning: zlib out of memory error." << endl;
-      delete[] data, data2;
+      delete[] data;
+      delete[] data2;
       return NULL;
     }
     
@@ -165,7 +170,8 @@ Image *H3DUtil::loadRawImage( const string &url,
     
     if( err == Z_STREAM_ERROR ){
       Console(3) << "Warning: zlib stream error." << endl;
-      delete[] data, data2;
+      delete[] data;
+      delete[] data2;
       return NULL;
     }
     

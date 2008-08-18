@@ -27,6 +27,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////
 #include <H3DUtil/LoadImageFunctions.h>
+
 #ifdef HAVE_ZLIB
 #include <zlib.h>
 #endif
@@ -58,6 +59,27 @@ Image *H3DUtil::loadFreeImage( const string &url ) {
         bm = FreeImage_ConvertTo24Bits( bm );
         FreeImage_Unload( old );
       }
+
+      FREE_IMAGE_COLOR_TYPE t = FreeImage_GetColorType( bm );
+      switch( t ) {
+      case FIC_MINISBLACK: 
+      case FIC_MINISWHITE:
+#ifdef FREEIMAGE_BIGENDIAN
+      case FIC_RGB: return RGB;
+      case FIC_RGBALPHA: return RGBA;
+#else
+      case FIC_RGB:
+      case FIC_RGBALPHA: break;
+#endif
+      default: {
+        Console(3) << "Warning: UnsupportedFreeImageColorType " << t
+             << ". File " << url << " can not be loaded. "
+             << "File name might be the name of a downloaded temporary file. "
+             << endl;
+        return NULL;
+      }
+      }
+
       return new FreeImageImage( bm );
     } 
   }

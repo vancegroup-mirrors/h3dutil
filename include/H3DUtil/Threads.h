@@ -137,6 +137,14 @@ namespace H3DUtil {
 
     /// Returns the thread id for this thread.
     inline ThreadId getThreadId() { return thread_id; }
+
+    /// Only for Windows Visual Studio users. Sets the name of the 
+    /// thread as it appears in the Visual Studio debugger.
+    static void setThreadName( ThreadId id, const std::string &name );
+
+    /// Only for Windows Visual Studio users. Sets the name of the 
+    /// thread as it appears in the Visual Studio debugger.
+    void setThreadName( const std::string &name );
   protected:
     /// the id of the thread.
     ThreadId thread_id;

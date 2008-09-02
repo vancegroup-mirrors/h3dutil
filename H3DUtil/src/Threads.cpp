@@ -434,6 +434,44 @@ ThreadBase::ThreadId ThreadBase::getCurrentThreadId() {
   return pthread_self();
 } 
 
+#define MS_VC_EXCEPTION 0x406D1388
+
+#pragma pack(push,8)
+typedef struct tagTHREADNAME_INFO {
+  DWORD dwType; // Must be 0x1000.
+  LPCSTR szName; // Pointer to name (in user addr space).
+  DWORD dwThreadID; // Thread ID (-1=caller thread).
+  DWORD dwFlags; // Reserved for future use, must be zero.
+} THREADNAME_INFO;
+#pragma pack(pop)
+
+void ThreadBase::setThreadName( ThreadId thread_id, const string &name ) {
+
+#ifdef _MSC_VER
+ Sleep(10);
+ THREADNAME_INFO info;
+ info.dwType = 0x1000;
+ info.szName = name.c_str();
+ info.dwThreadID = ((DWORD *)thread_id.p)[0];
+ info.dwFlags = 0;
+
+ __try {
+   RaiseException( MS_VC_EXCEPTION, 0, 
+		   sizeof(info)/sizeof(ULONG_PTR), (ULONG_PTR*)&info );
+ }
+ __except(EXCEPTION_EXECUTE_HANDLER)
+ {
+ }
+ 
+#endif
+
+}
+
+void ThreadBase::setThreadName( const string &name ) {
+  ThreadBase::setThreadName( thread_id, name );
+}
+
+
 /// Returns true if the call was made from the main thread.
 bool ThreadBase::inMainThread() {
   return pthread_equal( main_thread_id, getCurrentThreadId() ) != 0;

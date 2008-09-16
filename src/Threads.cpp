@@ -434,6 +434,7 @@ ThreadBase::ThreadId ThreadBase::getCurrentThreadId() {
   return pthread_self();
 } 
 
+#ifdef _MSC_VER
 #define MS_VC_EXCEPTION 0x406D1388
 
 #pragma pack(push,8)
@@ -444,6 +445,7 @@ typedef struct tagTHREADNAME_INFO {
   DWORD dwFlags; // Reserved for future use, must be zero.
 } THREADNAME_INFO;
 #pragma pack(pop)
+#endif
 
 void ThreadBase::setThreadName( ThreadId thread_id, const string &name ) {
 

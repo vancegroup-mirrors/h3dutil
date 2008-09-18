@@ -262,6 +262,10 @@ namespace H3DUtil {
                   void *args = NULL,
                   int thread_priority = DEFAULT_THREAD_PRIORITY );
     
+    /// Wait for thread to complete.
+    /// Returns 0 on success.
+    int join();
+
     /// Destructor.
     virtual ~SimpleThread();
   }; 

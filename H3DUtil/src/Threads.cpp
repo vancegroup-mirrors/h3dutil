@@ -212,8 +212,7 @@ void *PeriodicThread::thread_func( void * _data ) {
 #endif
     }
     thread->callback_lock.lock();
-    vector< PeriodicThread::CallbackList::iterator > to_remove( 30 );
-    to_remove.clear();
+    vector< PeriodicThread::CallbackList::iterator > to_remove;
     for( PeriodicThread::CallbackList::iterator i = thread->callbacks.begin();
          i != thread->callbacks.end(); i++ ) {
       PeriodicThread::CallbackCode c = ( (*i).second ).first(
@@ -279,8 +278,10 @@ PeriodicThread::~PeriodicThread() {
   ThreadId this_thread = getCurrentThreadId();
   
   if( !pthread_equal( this_thread, thread_id ) ) {
+    callback_lock.lock();
     exitThread();
     callback_lock.signal();
+    callback_lock.unlock();
     pthread_join( thread_id, NULL );
   } else {
     pthread_exit(0);
@@ -297,6 +298,10 @@ SimpleThread::SimpleThread( void *(func) (void *),
   pthread_attr_setschedparam( &attr, &p );
   pthread_create( &thread_id, &attr, func, args ); 
   pthread_attr_destroy( &attr );
+}
+
+int SimpleThread::join() {
+  return pthread_join( thread_id, NULL );
 }
 
 SimpleThread::~SimpleThread() {

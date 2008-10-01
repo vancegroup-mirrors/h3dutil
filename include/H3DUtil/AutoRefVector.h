@@ -164,11 +164,11 @@ namespace H3DUtil {
       refAll();
     }
         
-    /// A request for allocation of additional memory. If n is less than
+    /// A request for allocation of additional memory. If s is less than
     /// or equal to capacity(), this call has no effect. 
     /// Otherwise, it is a request for allocation of additional memory. 
     /// If the request is successful, then capacity() is greater than or 
-    /// equal to n; otherwise, capacity() is unchanged. In either case, 
+    /// equal to s; otherwise, capacity() is unchanged. In either case, 
     /// size() is unchanged.
     /// 
     inline void reserve( size_t s ) { vector<NodeClass*>::reserve( s ); }
@@ -184,6 +184,7 @@ namespace H3DUtil {
 
     /// true if the vector's size is 0.
     inline bool empty() const { return vector<NodeClass*>::empty(); }
+
     /// Returns the n'th element. We return a const_reference so that
     /// the values of the vector only can be changed using member 
     /// functions. To change the value of a specific index use
@@ -191,6 +192,7 @@ namespace H3DUtil {
     inline const_reference operator[](size_type n) const {
       return vector<NodeClass*>::operator[]( n );
     }
+
     /// Set value at index i to v.
     inline void set( size_type i, const value_type &v ) {
       if( v != vector<NodeClass*>::operator[]( i ) ) {
@@ -199,8 +201,9 @@ namespace H3DUtil {
         vector<NodeClass*>::operator[]( i ) = v;
       }
     }
+
     /// Returns the first element.
-    inline const_reference front() const { return vector<NodeClass*>::front(); }
+    inline const_reference front() const { return vector<NodeClass*>::front();}
 
     /// Returns the last element.
     inline const_reference back() const { return vector<NodeClass*>::back(); }
@@ -244,7 +247,7 @@ namespace H3DUtil {
       }
     }
 
-    /// Virtual function that is called when a Node is removed to 
+    /// Virtual function that is called when a Node is removed from
     /// the vector.
     inline virtual void unref( NodeClass *n ) const {
       if( n ) {

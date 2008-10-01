@@ -56,29 +56,29 @@ Rotation::Rotation( const Quaternion &q ) {
     angle = 0;
   } else {
     axis = q.v / H3DSqrt(v2);
-	  if( q.w > 1 ) 
+    if( q.w > 1 ) 
       angle = 0;
-	  else if ( q.w < -1 ) 
+    else if ( q.w < -1 ) 
       angle = (H3DFloat) Constants::pi;
     else
       angle = 2 * H3DAcos( q.w );
   }
 }
       
-/// Constructor. From Matrix3f that is a rotation matrix. 
+// Constructor. From Matrix3f that is a rotation matrix. 
 Rotation::Rotation( const Matrix3f &m ) {
   Quaternion q(m);
   *this = Rotation::Rotation( q );
 }
 
-/// Constructor. From Matrix3f that is a rotation matrix. 
+// Constructor. From Matrix3f that is a rotation matrix. 
 Rotation::Rotation( const Matrix3d &m ) {
   Quaternion q(m);
   *this = Rotation::Rotation( q );
 }
 
-/// Get the euler angles( yaw, pitch, roll ) representation of 
-/// the Rotation. 
+// Get the euler angles( yaw, pitch, roll ) representation of 
+// the Rotation. 
 Vec3f Rotation::toEulerAngles() {
   return Matrix3f( *this ).toEulerAngles();
 }
@@ -109,8 +109,8 @@ Rotation::Rotation( const Vec3f &n1, const Vec3f &n2 ) {
     else axis = Vec3f( 0, n1.z, -n1.y );
   } else {
     axis = n1 % n2;
-		if( axis * axis < Constants::f_epsilon )
-			axis = Vec3f( 1, 0, 0 );
+    if( axis * axis < Constants::f_epsilon )
+      axis = Vec3f( 1, 0, 0 );
   }
 
   axis.normalize();

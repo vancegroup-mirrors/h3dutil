@@ -139,7 +139,7 @@ namespace H3DUtil {
     inline ThreadId getThreadId() { return thread_id; }
 
     /// Only for Windows Visual Studio users. Sets the name of the 
-    /// thread as it appears in the Visual Studio debugger.
+    /// thread, specified by id, as it appears in the Visual Studio debugger.
     static void setThreadName( ThreadId id, const std::string &name );
 
     /// Only for Windows Visual Studio users. Sets the name of the 
@@ -258,7 +258,7 @@ namespace H3DUtil {
     /// \param func The function to run in the thread. 
     /// \param args Arguments to the function in argument func.
     /// \param thread_priority The priority of the thread.
-    SimpleThread( void *(func) (void *),
+    SimpleThread( void *(func)(void *),
                   void *args = NULL,
                   int thread_priority = DEFAULT_THREAD_PRIORITY );
     

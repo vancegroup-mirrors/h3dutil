@@ -191,7 +191,7 @@ namespace H3DUtil {
       return v1.dotProduct( v2 );
     }
 
-    /// Returns the dot product of two Vec3f.
+    /// Returns the cross product of two Vec3f.
     /// \anchor Vec3fCrossProduct
     inline Vec3f operator%( const Vec3f &v1, const Vec3f &v2 ) {
       return v1.crossProduct( v2 );

@@ -74,8 +74,8 @@ Matrix4d::Matrix4d( const Quaternion &q ) {
                               0, 0, 0, 1 );
 }
 
-/// Explicit. From Matrix3d object. Creates a transform matrix where
-/// the rotation part is the Matrix3d.
+// Explicit. From Matrix3d object. Creates a transform matrix where
+// the rotation part is the Matrix3d.
 Matrix4d::Matrix4d( const Matrix3d &m ) {
   *this = Matrix4d::Matrix4d( m[0][0], m[0][1], m[0][2], 0,
                               m[1][0], m[1][1], m[1][2], 0,

@@ -41,6 +41,9 @@ namespace H3DUtil {
 #ifdef HAVE_FREEIMAGE
   /// \ingroup ImageLoaderFunctions
   /// Loads an image using FreeImage.
+  /// \param url The url of the image to load.
+  /// \returns A pointer to and Image class containing the data
+  /// of the loaded url.
   H3DUTIL_API Image *loadFreeImage( const string &url );
 #endif
 

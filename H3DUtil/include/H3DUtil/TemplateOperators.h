@@ -47,7 +47,7 @@ namespace H3DUtil {
     inline bool operator!=( const T &a, const U &b ) {
       return ! ( a == b );
     }
-			
+
     /// Division operator with float. Requires a * operator between
     /// T and float.
     template< class T >
@@ -77,14 +77,14 @@ namespace H3DUtil {
     }
 
     /// Division operator with unsigned int. Requires a * operator between
-    /// T and long.
+    /// T and unsigned int.
     template< class T >
     inline T operator/( const T &a, const unsigned int &b ) {
       return a * ( 1.0 / b );
     }
 
     /// Division operator with unsigned long. Requires a * operator between
-    /// T and long.
+    /// T and unsigned long.
     template< class T >
     inline T operator/( const T &a, const unsigned long &b ) {
       return a * ( 1.0 / b );

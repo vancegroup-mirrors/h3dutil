@@ -92,9 +92,9 @@ void ConditionLock::wait() {
   pthread_cond_wait( &cond, &mutex );
 }
 
-/// Wait for the conditional to get a signal, but only wait a
-/// certain time. If the time exceeds the specified time false
-/// is returned. If signal is received true is returned.
+// Wait for the conditional to get a signal, but only wait a
+// certain time. If the time exceeds the specified time false
+// is returned. If signal is received true is returned.
 bool ConditionLock::timedWait( unsigned int millisecs ) {
   int nanosecs, secs;
   const int NANOSEC_PER_MILLISEC = (int)1e6;

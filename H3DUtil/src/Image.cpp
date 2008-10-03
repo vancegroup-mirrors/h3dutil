@@ -22,7 +22,7 @@
 //
 //
 /// \file Image.cpp
-/// \brief CPP file for Image.
+/// \brief .cpp file for Image.
 ///
 //
 //

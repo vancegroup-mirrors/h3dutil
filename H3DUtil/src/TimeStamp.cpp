@@ -21,8 +21,8 @@
 //    www.sensegraphics.com for more information.
 //
 //
-/// \file TimeStamp.h
-/// \brief Routines to handle time stamping of the field network
+/// \file TimeStamp.cpp
+/// \brief Routines to handle time stamping of the field network.
 ///
 //
 //////////////////////////////////////////////////////////////////////////////

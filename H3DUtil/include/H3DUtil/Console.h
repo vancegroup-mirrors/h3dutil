@@ -21,8 +21,8 @@
 //    www.sensegraphics.com for more information.
 //
 //
-/// \file Console.cpp
-/// \brief Debug console stream
+/// \file Console.h
+/// \brief Header file for debug console stream.
 ///
 //  This class provides a static stream that all error and warning messages
 //  are sent to. The stream can be redirected to any arbitrary stream, and

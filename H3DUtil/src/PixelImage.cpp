@@ -22,7 +22,7 @@
 //
 //
 /// \file PixelImage.cpp
-/// \brief CPP file for PixelImage.
+/// \brief .cpp file for PixelImage.
 ///
 //
 //

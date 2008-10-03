@@ -21,6 +21,9 @@
 //    www.sensegraphics.com for more information.
 //
 //
+/// \file LinAlgTypes.h
+/// \brief Header file with linear algebra types. Include this one to get
+/// access to all types in H3DUtil.
 //
 //////////////////////////////////////////////////////////////////////////////
 
@@ -31,7 +34,7 @@
 #include <H3DUtil/TypeOperators.h>
 
 namespace H3DUtil {
-  // move the Arithmetic types into the H3D namespace.
+  // move the Arithmetic types into the H3DUtil namespace.
   using ArithmeticTypes::Vec2f;
   using ArithmeticTypes::Vec2d;
   using ArithmeticTypes::Vec3f;

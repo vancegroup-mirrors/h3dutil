@@ -22,7 +22,7 @@
 //
 //
 /// \file DynamicLibrary.cpp
-/// \brief Header file for DynamicLibrary, which is used for loading
+/// \brief .cpp file for DynamicLibrary, which is used for loading
 /// and unloading dynamic libraries at runtime.
 ///
 //

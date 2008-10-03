@@ -21,8 +21,8 @@
 //    www.sensegraphics.com for more information.
 //
 //
-/// \file LoadImageFunctions.h
-/// \brief cpp file for functions to load images
+/// \file LoadImageFunctions.cpp
+/// \brief .cpp file for functions to load images
 ///
 //
 //////////////////////////////////////////////////////////////////////////////

@@ -21,6 +21,8 @@
 //    www.sensegraphics.com for more information.
 //
 //
+/// \file H3DMath.h
+/// \brief Header file containing functions used for mathematics.
 //
 //////////////////////////////////////////////////////////////////////////////
 

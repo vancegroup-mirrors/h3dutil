@@ -22,8 +22,7 @@
 //
 //
 /// \file LoadImageFunctions.h
-/// \brief Header file for the which contains functions for loading
-/// image files.
+/// \brief Header file which contains functions for loading image files.
 ///
 //
 //////////////////////////////////////////////////////////////////////////////

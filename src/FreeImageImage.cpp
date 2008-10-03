@@ -21,8 +21,8 @@
 //    www.sensegraphics.com for more information.
 //
 //
-/// \file PixelImage.cpp
-/// \brief CPP file for PixelImage.
+/// \file FreeImageImage.cpp
+/// \brief .cpp file for FreeImageImage.
 ///
 //
 //

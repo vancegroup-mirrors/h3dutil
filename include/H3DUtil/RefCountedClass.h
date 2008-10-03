@@ -21,7 +21,8 @@
 //    www.sensegraphics.com for more information.
 //
 //
-//
+/// \file RefCountedClass.h
+/// \brief Header file for RefCountedClass class.
 //
 //////////////////////////////////////////////////////////////////////////////
 #ifndef __REFCOUNTEDCLASS_H__

@@ -21,6 +21,8 @@
 //    www.sensegraphics.com for more information.
 //
 //
+/// \file H3DUtil.cpp
+/// \brief .cpp file that contains dll initialization functions.
 //
 //////////////////////////////////////////////////////////////////////////////
 

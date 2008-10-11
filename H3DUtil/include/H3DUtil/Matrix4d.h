@@ -41,6 +41,8 @@ namespace H3DUtil {
   namespace ArithmeticTypes {
     class Quaternion;
     class Rotation;
+    class Quaterniond;
+    class Rotationd;
     class Matrix4f;
 
     /// Representation of a 4x4 matrix.
@@ -74,6 +76,12 @@ namespace H3DUtil {
 
       /// Constructor. From Quaternion object.
       Matrix4d( const Quaternion &q );
+
+      /// Constructor. From Rotation object.
+      Matrix4d( const Rotationd &r );
+
+      /// Constructor. From Quaternion object.
+      Matrix4d( const Quaterniond &q );
 
       /// Constructor. From Matrix3d object. Creates a tranform matrix where
       /// the rotation part is the Matrix3d.
@@ -150,6 +158,11 @@ namespace H3DUtil {
       /// Get the scaling part of the matrix for each axis.
       inline Vec3d getScalePart() const {
         return getScaleRotationPart().getScalePart();
+      }
+
+      /// Returns the translation part of the Matrix4f.
+      Vec3d getTranslationPart() const {
+        return Vec3d( m[0][3], m[1][3], m[2][3] );
       }
 
     private:

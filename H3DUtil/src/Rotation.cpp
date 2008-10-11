@@ -28,6 +28,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <H3DUtil/Rotation.h>
+#include <H3DUtil/Rotationd.h>
 #include <H3DUtil/Matrix3f.h>
 #include <H3DUtil/Quaternion.h>
 
@@ -48,10 +49,13 @@ Rotation::Rotation( const Vec3d &euler_angles ) {
 }
  
 
+Rotation::Rotation( const Rotationd &r ): 
+  axis( r.axis ), angle( r.angle ) {}
+
 /// Constructor. From Quaternion object.
 Rotation::Rotation( const Quaternion &q ) {
   H3DFloat v2 = q.v * q.v;
-  if( v2 < Constants::f_epsilon ) { 
+  if( v2 <= 0 ) {// Constants::f_epsilon ) { 
     axis = Vec3f(1,0,0);
     angle = 0;
   } else {

@@ -41,6 +41,7 @@ namespace H3DUtil {
     // forward declarations.
     class Matrix3f;
     class Matrix3d;
+    class Rotationd;
     class Quaternion;
 
     /// Rotation describes an arbitrary rotation. It specifies an axis to
@@ -78,6 +79,10 @@ namespace H3DUtil {
       /// Constructor. From Quaternion object.
       Rotation( const Quaternion &r );
       
+      
+      /// Constructor. From Rotationd.
+      explicit Rotation( const Rotationd &r );
+
       /// Constructor. From Matrix3f that is a rotation matrix. Assumes
       /// the matrix is orthogonal.
       explicit Rotation( const Matrix3f &m );
@@ -178,7 +183,10 @@ namespace H3DUtil {
 
     /// Multiplication of Rotation is the composition of the rotations.
     Rotation H3DUTIL_API operator*( const Rotation &r1 ,const Rotation &r2 );
-   }
+
+    /// Alias for float version of Rotation.
+    typedef Rotation Rotationf;
+  }
 }
 
 #endif

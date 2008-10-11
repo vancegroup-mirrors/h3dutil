@@ -42,11 +42,13 @@ namespace H3DUtil {
   using ArithmeticTypes::Vec4f;
   using ArithmeticTypes::Vec4d;
   using ArithmeticTypes::Rotation;
+  using ArithmeticTypes::Rotationd;
   using ArithmeticTypes::Matrix3f;
   using ArithmeticTypes::Matrix3d;
   using ArithmeticTypes::Matrix4f;
   using ArithmeticTypes::Matrix4d;
   using ArithmeticTypes::Quaternion;
+  using ArithmeticTypes::Quaterniond;
 
   #undef RGB
     /// Structure for RGB values.

@@ -152,6 +152,10 @@ namespace H3DUtil {
 			/// Returns the rotation part of the Matrix4f.
 			Matrix3f getRotationPart() const;
 
+      /// Returns the translation part of the Matrix4f.
+      Vec3f getTranslationPart() const {
+        return Vec3f( m[0][3], m[1][3], m[2][3] );
+      }
     private:
       /// The matrix data.
       H3DFloat m[4][4];

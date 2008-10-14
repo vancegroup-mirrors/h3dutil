@@ -76,7 +76,7 @@ Matrix3d Matrix3d::inverse() const {
 
 
 /// Constructor. From Rotation object.
-Matrix3d::Matrix3d( const Rotation &r ) {
+Matrix3d::Matrix3d( const Rotationd &r ) {
   H3DDouble cosa = H3DCos( r.angle );
   H3DDouble sina = H3DSin( r.angle );
   H3DDouble x = r.axis.x;
@@ -101,7 +101,7 @@ Matrix3d::Matrix3d( const Rotation &r ) {
 }
 
 /// Constructor. From Quaternion object.
-Matrix3d::Matrix3d( const Quaternion &q ) {
+Matrix3d::Matrix3d( const Quaterniond &q ) {
   H3DDouble x  = (H3DDouble) 2.0*q.v.x;
   H3DDouble y  = (H3DDouble) 2.0*q.v.y;
   H3DDouble z  = (H3DDouble) 2.0*q.v.z;
@@ -119,6 +119,16 @@ Matrix3d::Matrix3d( const Quaternion &q ) {
                               xy + zw, 1 - xx - zz, yz - xw,
                               xz - yw, yz + xw, 1 - xx - yy );
 }
+
+
+Matrix3d::Matrix3d( const Quaternion &q ) {
+  (*this) = Matrix3d::Matrix3d( Quaterniond( q ) );
+}
+
+Matrix3d::Matrix3d( const Rotation &q ) {
+  (*this) = Matrix3d::Matrix3d( Rotationd( q ) );
+}
+
 
 Matrix3d::Matrix3d( const Matrix3f &matrix ) {
   m[0][0] = matrix[0][0];

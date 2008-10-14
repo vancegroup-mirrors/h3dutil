@@ -40,6 +40,7 @@ namespace H3DUtil {
     // forward declarations.
     class Matrix3f;
 	class Matrix3d;
+  class Quaterniond;
     class Rotation;
 
     /// Quaternion describes an arbitrary rotation.
@@ -71,6 +72,9 @@ namespace H3DUtil {
       /// Constructor. From Matrix3f that is a rotation matrix.  Assumes
       /// the matrix is orthogonal.
       explicit Quaternion( const Matrix3f &m );
+
+      /// Constructor. From Quaterniond.
+      explicit Quaternion( const Quaterniond &r );
 
       /// Constructor. From Matrix3d that is a rotation matrix.  Assumes
       /// the matrix is orthogonal.
@@ -224,6 +228,7 @@ namespace H3DUtil {
         return conjugate() / n;
       }
     }
+    typedef Quaternion Quaternionf;
   }
 }
 

@@ -34,7 +34,7 @@ using namespace H3DUtil;
 using namespace ArithmeticTypes;
 
 /// Constructor. From Rotation object.
-Matrix4d::Matrix4d( const Rotation &r ) {
+Matrix4d::Matrix4d( const Rotationd &r ) {
   H3DDouble cosa = H3DCos( r.angle );
   H3DDouble sina = H3DSin( r.angle );
   H3DDouble x = r.axis.x;
@@ -53,8 +53,16 @@ Matrix4d::Matrix4d( const Rotation &r ) {
     0, 0, 0, 1 );
 }
 
-/// Constructor. From Quaternion object.
 Matrix4d::Matrix4d( const Quaternion &q ) {
+  (*this) = Matrix4d::Matrix4d( Quaterniond( q ) );
+}
+
+Matrix4d::Matrix4d( const Rotation &q ) {
+  (*this) = Matrix4d::Matrix4d( Rotationd( q ) );
+}
+
+/// Constructor. From Quaternion object.
+Matrix4d::Matrix4d( const Quaterniond &q ) {
   H3DDouble x  = (H3DDouble) 2.0*q.v.x;
   H3DDouble y  = (H3DDouble) 2.0*q.v.y;
   H3DDouble z  = (H3DDouble) 2.0*q.v.z;

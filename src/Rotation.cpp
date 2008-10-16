@@ -50,7 +50,7 @@ Rotation::Rotation( const Vec3d &euler_angles ) {
  
 
 Rotation::Rotation( const Rotationd &r ): 
-  axis( r.axis ), angle( r.angle ) {}
+  axis( r.axis ), angle( (H3DFloat)(r.angle) ) {}
 
 /// Constructor. From Quaternion object.
 Rotation::Rotation( const Quaternion &q ) {

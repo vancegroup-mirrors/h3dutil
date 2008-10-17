@@ -248,7 +248,8 @@ SKIP_FUNCTION_MACROS   = YES
 #---------------------------------------------------------------------------
 # Configuration::additions related to external references   
 #---------------------------------------------------------------------------
-TAGFILES               = 
+TAGFILES               = ../../doc/H3DAPI/H3DAPI.tag=../../H3DAPI/html \
+                         ../../doc/HAPI/HAPI.tag=../../HAPI/html
 GENERATE_TAGFILE       = ../../doc/H3DUtil/H3DUtil.tag
 ALLEXTERNALS           = NO
 EXTERNAL_GROUPS        = YES

@@ -5,6 +5,7 @@
 #  FREEIMAGE_LIBRARIES    - List of libraries when using FREEIMAGE.
 #  FREEIMAGE_FOUND        - True if FREEIMAGE found.
 
+GET_FILENAME_COMPONENT(module_file_path ${CMAKE_CURRENT_LIST_FILE} PATH )
 
 # Look for the header file.
 FIND_PATH(FREEIMAGE_INCLUDE_DIR NAMES FreeImage.h
@@ -14,8 +15,8 @@ FIND_PATH(FREEIMAGE_INCLUDE_DIR NAMES FreeImage.h
                                       $ENV{H3D_ROOT}/../External/include/FreeImage/Dist
                                       ../../External/include
                                       ../../External/include/FreeImage/Dist
-                                      ${CMAKE_MODULE_PATH}/../../../External/include
-                                      ${CMAKE_MODULE_PATH}/../../../External/include/FreeImage/Dist)
+                                      ${module_file_path}/../../../External/include
+                                      ${module_file_path}/../../../External/include/FreeImage/Dist)
 
 MARK_AS_ADVANCED(FREEIMAGE_INCLUDE_DIR)
 
@@ -24,7 +25,7 @@ FIND_LIBRARY(FREEIMAGE_LIBRARY NAMES freeimage
                                PATHS $ENV{H3D_EXTERNAL_ROOT}/lib
                                      $ENV{H3D_ROOT}/../External/lib
                                      ../../External/lib
-                                     ${CMAKE_MODULE_PATH}/../../../External/lib )
+                                     ${module_file_path}/../../../External/lib )
 MARK_AS_ADVANCED(FREEIMAGE_LIBRARY)
 
 IF( WIN32 AND PREFER_STATIC_LIBRARIES )
@@ -40,7 +41,7 @@ IF( WIN32 AND PREFER_STATIC_LIBRARIES )
                                          PATHS $ENV{H3D_EXTERNAL_ROOT}/lib
                                          $ENV{H3D_ROOT}/../External/lib
                                          ../../External/lib
-                                         ${CMAKE_MODULE_PATH}/../../../External/lib )
+                                         ${module_file_path}/../../../External/lib )
   MARK_AS_ADVANCED(FREEIMAGE_STATIC_LIBRARY)
   
   IF( FREEIMAGE_STATIC_LIBRARY )
@@ -51,7 +52,7 @@ IF( WIN32 AND PREFER_STATIC_LIBRARIES )
                                                PATHS $ENV{H3D_EXTERNAL_ROOT}/lib
                                                $ENV{H3D_ROOT}/../External/lib
                                                ../../External/lib
-                                               ${CMAKE_MODULE_PATH}/../../../External/lib )
+                                               ${module_file_path}/../../../External/lib )
   MARK_AS_ADVANCED(FREEIMAGE_STATIC_DEBUG_LIBRARY)
     
   IF( FREEIMAGE_STATIC_DEBUG_LIBRARY )

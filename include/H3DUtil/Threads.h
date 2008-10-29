@@ -326,6 +326,9 @@ namespace H3DUtil {
     /// function is made.
     virtual bool removeAsynchronousCallback( int callback_handle );
 
+    /// Remove all callbacks.
+    virtual void clearAllCallbacks();
+
     /// Exit the thread_func. Will not destroy the PeriodicThread instance.
     inline void exitThread() {
       thread_func_is_running = false;

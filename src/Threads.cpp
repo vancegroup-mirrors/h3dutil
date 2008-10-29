@@ -351,6 +351,14 @@ bool PeriodicThread::removeAsynchronousCallback( int callback_handle ) {
   return false;
 }
 
+/// Remove all callbacks.
+void PeriodicThread::clearAllCallbacks() {
+  callback_lock.lock();
+  callbacks.clear();
+  callback_lock.unlock();
+}
+
+
 HapticThreadBase::HapticThreadBase() {
   sg_lock.lock();
   threads.push_back( this );

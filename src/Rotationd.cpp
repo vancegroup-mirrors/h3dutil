@@ -72,11 +72,11 @@ Vec3d Rotationd::toEulerAngles() {
   return Matrix3d( *this ).toEulerAngles();
 }
 
-/*Rotationd Rotationd::slerp( const Rotationd &r, 
+Rotationd Rotationd::slerp( const Rotationd &r, 
                           H3DDouble t ) const {
   Quaterniond q = *this;
   return q.slerp( r, t );
-}*/
+}
 
 Rotationd::Rotationd( const Vec3d &n1, const Vec3d &n2 ) {
   H3DDouble dot_product = n1 * n2;

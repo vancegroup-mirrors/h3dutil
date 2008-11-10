@@ -34,9 +34,6 @@
 
 #ifdef HAVE_ZLIB
 #include <zlib.h>
-#ifdef _MSC_VER
-#pragma comment( lib, "zdll.lib" )
-#endif
 
 #define ZIP_MAGIC_NR 0x8B1F
 

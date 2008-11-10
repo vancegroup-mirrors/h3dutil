@@ -38,7 +38,7 @@ using namespace H3DUtil;
 using namespace ArithmeticTypes;
 
 Quaternion::Quaternion( const Quaterniond &r ): 
-  v(r.v), w(r.w) {}
+  v(r.v), w((H3DFloat)(r.w)) {}
 
 Quaternion::Quaternion( const Vec3f &euler ) {
   H3DFloat roll = euler.x;

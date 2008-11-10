@@ -1,3 +1,18 @@
+Changes for version 1.0:
+
+- Corrections to CMake build system and additions for compiling against static
+ libraries.
+- Doxygen updates.
+- Fixes in PixelImage and LoadImageFunctions.
+- Fixes concerning thread handling.
+- Fixed bugs reported on www.h3d.org.
+
+New Classes:
+Quaterniond - A double version of Quaternion.
+Rotationd - A double version of Rotation.
+
+
+
 Changes for version 1.0 beta 1:
 
 - Memory leak fixes.

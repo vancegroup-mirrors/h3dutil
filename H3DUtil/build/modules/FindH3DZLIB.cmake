@@ -7,8 +7,14 @@
 #  ZLIB_FOUND        - True if zlib found.
 
 
-FIND_PACKAGE(ZLIB)
+IF(H3DZLIB_FIND_REQUIRED)
+  FIND_PACKAGE(ZLIB REQUIRED)
+ELSE(H3DZLIB_FIND_REQUIRED)
+  FIND_PACKAGE(ZLIB)
+ENDIF(H3DZLIB_FIND_REQUIRED)
+
 IF( NOT ZLIB_FOUND AND WIN32)
+  GET_FILENAME_COMPONENT(module_file_path ${CMAKE_CURRENT_LIST_FILE} PATH )
   # Look for the header file.
   FIND_PATH( ZLIB_INCLUDE_DIR NAMES zlib.h
              PATHS $ENV{H3D_EXTERNAL_ROOT}/include  
@@ -17,15 +23,15 @@ IF( NOT ZLIB_FOUND AND WIN32)
                    $ENV{H3D_ROOT}/../External/include/zlib
                    ../../External/include
                    ../../External/include/zlib
-                   ${CMAKE_MODULE_PATH}/../../../External/include
-                   ${CMAKE_MODULE_PATH}/../../../External/include/zlib )
+                   ${module_file_path}/../../../External/include
+                   ${module_file_path}/../../../External/include/zlib )
   
   # Look for the library.
   FIND_LIBRARY( ZLIB_LIBRARY NAMES zdll 
                 PATHS $ENV{H3D_EXTERNAL_ROOT}/lib
                       $ENV{H3D_ROOT}/../External/lib
                       ../../External/lib
-                      ${CMAKE_MODULE_PATH}/../../../External/lib )    
+                      ${module_file_path}/../../../External/lib )    
   
   IF(ZLIB_INCLUDE_DIR AND ZLIB_LIBRARY)
     SET(ZLIB_FOUND 1)

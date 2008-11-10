@@ -45,9 +45,9 @@
 // libraries as possible.
 //#define H3DUTIL_LINK_STATIC_EXTERNALS
 
-#ifdef H3DUTIL_LINK_STATIC_EXTERNALS
+#ifdef WIN32
 // Define this if you are linking Freeimage as a static library
-#define FREEIMAGE_LIB
+#cmakedefine FREEIMAGE_LIB
 #endif
 
 // The following ifdef block is the standard way of creating macros
@@ -69,9 +69,6 @@
 #define H3DUTIL_API __declspec(dllexport)
 #else
 #define H3DUTIL_API __declspec(dllimport)
-//#if defined(_MSC_VER) || defined(__BORLANDC__)
-//#pragma comment( lib, "H3DUtil.lib" )
-//#endif
 #endif
 #ifdef _MSC_VER
 // disable dll-interface warnings for stl-exports 

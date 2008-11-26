@@ -29,6 +29,10 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include <H3DUtil/Image.h>
+#ifdef WIN32
+#undef max
+#endif
+#include <limits>
 
 using namespace H3DUtil;
 
@@ -94,7 +98,7 @@ namespace ImageInternals {
     memcpy( &v,
             i,
             bytes_to_read );
-    return v / (H3DFloat) LONG_MAX;
+    return v / std::numeric_limits<H3DFloat>::max();
 	}
 
 	inline H3DFloat getUnsignedValueAsFloat( void *i, 

@@ -30,6 +30,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <stdlib.h>
 using namespace std;
 
 #ifdef HAVE_FREEIMAGE

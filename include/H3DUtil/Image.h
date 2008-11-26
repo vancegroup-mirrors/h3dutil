@@ -33,6 +33,7 @@
 #include <H3DUtil/LinAlgTypes.h>
 #include <H3DUtil/RefCountedClass.h>
 #include <assert.h>
+#include <string.h>
 
 namespace H3DUtil {
   /// Virtual base class for all images containing virtual functions that

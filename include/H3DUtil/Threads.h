@@ -33,6 +33,7 @@
 #include <H3DUtil/H3DUtil.h>
 #include <list>
 #include <vector>
+#include <string>
 #include <pthread.h>
 
 #ifdef WIN32

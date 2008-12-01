@@ -33,6 +33,7 @@
 #include <H3DUtil/H3DUtil.h>
 #include <list>
 #include <vector>
+#include <string>
 #include <pthread.h>
 
 #ifdef WIN32
@@ -322,6 +323,9 @@ namespace H3DUtil {
     /// Callbacks are removed if they return CALLBACK_DONE or a call to this
     /// function is made.
     virtual bool removeAsynchronousCallback( int callback_handle );
+
+    /// Remove all callbacks.
+    virtual void clearAllCallbacks();
 
     /// Exit the thread_func. Will not destroy the PeriodicThread instance.
     inline void exitThread() {

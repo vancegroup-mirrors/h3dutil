@@ -215,7 +215,7 @@ namespace H3DUtil {
     // Returns the inverse of the Quaterniond.
     inline Quaterniond Quaterniond::inverse() {
       H3DDouble n = norm();
-      if ( H3DAbs(n ) > Constants::f_epsilon ) {
+      if ( H3DAbs(n ) < Constants::d_epsilon ) {
         return Quaterniond(0,0,0,0);
       } else {
         return conjugate() / n;

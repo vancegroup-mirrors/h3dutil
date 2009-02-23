@@ -222,7 +222,7 @@ namespace H3DUtil {
     // Returns the inverse of the Quaternion.
     inline Quaternion Quaternion::inverse() {
       H3DFloat n = norm();
-      if ( H3DAbs(n ) > Constants::f_epsilon ) {
+      if ( H3DAbs(n ) < Constants::f_epsilon ) {
         return Quaternion(0,0,0,0);
       } else {
         return conjugate() / n;

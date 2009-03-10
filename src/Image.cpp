@@ -94,11 +94,27 @@ void Image::getSample( void *value,
 namespace ImageInternals {
 	inline H3DFloat getSignedValueAsFloat( void *i, 
                                          unsigned int bytes_to_read ) {
-	  long v;
-    memcpy( &v,
-            i,
-            bytes_to_read );
-    return v / std::numeric_limits<H3DFloat>::max();
+    H3DFloat max_value = (H3DFloat) (H3DPow( 2.0, (int)bytes_to_read* 8 - 1) - 1);
+    if( bytes_to_read == 1 ) {
+      byte v = 0;
+      memcpy( &v, i, bytes_to_read );
+      return v / max_value;
+    } else if( bytes_to_read == 2 ) {
+      short v = 0;
+      memcpy( &v, i, bytes_to_read );
+      return v / max_value;
+    } else if( bytes_to_read == 4 ) {
+      int v = 0;
+      memcpy( &v, i, bytes_to_read );
+      return v / max_value;
+    } else if( bytes_to_read == 8 ) {
+	    long v = 0;
+      memcpy( &v, i, bytes_to_read );
+      return v / max_value;
+    } else {
+      assert( false );
+      return 0;
+    }
 	}
 
 	inline H3DFloat getUnsignedValueAsFloat( void *i, 

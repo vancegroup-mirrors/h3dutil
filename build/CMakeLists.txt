@@ -27,8 +27,9 @@ SET( H3DUTIL_BUILD_VERSION 0 )
 SET( H3DUTIL_FULL_VERSION
 ${H3DUTIL_MAJOR_VERSION}.${H3DUTIL_MINOR_VERSION}.${H3DUTIL_BUILD_VERSION} ) 
 
-# add all sources
-AUX_SOURCE_DIRECTORY(../src H3DUTIL_SRCS)
+# add all sources, they are added to a variable called H3DUTIL_SRCS defined
+# in the included file
+INCLUDE( ${H3DUtil_SOURCE_DIR}/H3DUtilSourceFiles.txt )
 
 # add the H3DUtil.rc resource file if Visual Studio
 IF(MSVC)

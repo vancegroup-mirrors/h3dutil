@@ -179,6 +179,7 @@ Vec3d Matrix3d::getScalePart() const {
   Vec3d x_axis = (*this) * Vec3d(1,0,0);
   Vec3d y_axis = (*this) * Vec3d(0,1,0);
   Vec3d z_axis = (*this) * Vec3d(0,0,1);
+  return Vec3d( x_axis.length(), y_axis.length(), z_axis.length() );
   return Vec3d( x_axis * Vec3d( 1, 0, 0 ) < 0 ?
                   -x_axis.length() : x_axis.length(),
                 y_axis * Vec3d( 0, 1, 0 ) < 0 ?

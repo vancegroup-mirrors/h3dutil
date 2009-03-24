@@ -169,6 +169,7 @@ Vec3f Matrix3f::getScalePart() const {
   Vec3f x_axis = (*this) * Vec3f(1,0,0);
   Vec3f y_axis = (*this) * Vec3f(0,1,0);
   Vec3f z_axis = (*this) * Vec3f(0,0,1);
+  return Vec3f( x_axis.length(), y_axis.length(), z_axis.length() );
   return Vec3f( x_axis * Vec3f( 1, 0, 0 ) < 0 ?
                   -x_axis.length() : x_axis.length(),
                 y_axis * Vec3f( 0, 1, 0 ) < 0 ?

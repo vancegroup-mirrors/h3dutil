@@ -143,7 +143,7 @@ namespace H3DUtil {
         
     /// Set a pointer to the raw image data. 
     virtual void setImageData( unsigned char * data, bool copy_data = false ) {
-      if( image_data ) delete image_data;
+      if( image_data ) delete[] image_data;
       if( copy_data ) {
         unsigned int size = (w * h * d * bits_per_pixel)/8;
         image_data = new unsigned char[ size ];

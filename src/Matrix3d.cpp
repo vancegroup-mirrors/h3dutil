@@ -176,7 +176,7 @@ ostream& H3DUtil::ArithmeticTypes::operator<<( ostream &os, const Matrix3d &m ) 
 }
 
 Vec3d Matrix3d::getScalePart() const {
-  return Vec3d( ( (*this) * Vec3d(1,0,0) ).length(),
-                ( (*this) * Vec3d(0,1,0) ).length(),
-                ( (*this) * Vec3d(0,0,1) ).length() );
+  return Vec3d( getColumn(0).length(),
+                getColumn(1).length(),
+                getColumn(2).length() );
 }

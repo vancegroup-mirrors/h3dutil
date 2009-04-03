@@ -35,8 +35,30 @@
 #ifdef HAVE_FREEIMAGE
 #include <H3DUtil/FreeImageImage.h>
 #include <FreeImage.h>
-#endif
+#endif // HAVE_FREEIMAGE
+
+#ifdef HAVE_TEEM
 #include <H3DUtil/PixelImage.h>
+
+#define TEEM_STATIC
+#include <teem/nrrd.h>
+#include <teem/air.h>
+#endif // HAVE_TEEM
+
+#ifdef HAVE_DCMTK
+#include <dcmtk/dcmdata/dcmetinf.h>
+#include <dcmtk/dcmdata/dcdatset.h>
+#include <dcmtk/dcmdata/dcdeftag.h>
+
+#ifndef WIN32 
+#include <dirent.h>
+#endif
+#include <algorithm>
+
+#endif // HAVE_DCMTK
+
+#include <H3DUtil/PixelImage.h>
+#include <H3DUtil/DicomImage.h>
 #include <fstream>
 
 using namespace H3DUtil;
@@ -214,3 +236,329 @@ Image *H3DUtil::loadRawImage( const string &url,
                          false,
                          raw_image_info.pixel_size );
 }
+
+
+#ifdef HAVE_TEEM
+Image *H3DUtil::loadNrrdFile( const string &url ) {
+  Nrrd *nin;
+  
+  /* create a new nrrd */
+  nin = nrrdNew();
+  
+  /* read in the nrrd header from file */
+  if (nrrdLoad(nin, url.c_str(), NULL)) {
+    nrrdNuke( nin );
+    return NULL;
+  }
+
+  Image::PixelType pixel_type = Image::LUMINANCE;
+  Image::PixelComponentType component_type;
+  unsigned int bits_per_pixel;
+
+  if( nin->type == nrrdTypeChar ) {
+    component_type = Image::SIGNED;
+    bits_per_pixel = 8;
+  } else  if( nin->type == nrrdTypeUChar ) {
+    component_type = Image::UNSIGNED;
+    bits_per_pixel = 8;
+  } else  if( nin->type == nrrdTypeShort ) {
+    component_type = Image::SIGNED;
+    bits_per_pixel = 16;
+  } else  if( nin->type == nrrdTypeUShort ) {
+    component_type = Image::UNSIGNED;
+    bits_per_pixel = 16;
+  } else  if( nin->type == nrrdTypeInt ) {
+    component_type = Image::SIGNED;
+    bits_per_pixel = 32;
+  } else  if( nin->type == nrrdTypeUInt ) {
+    component_type = Image::UNSIGNED;
+    bits_per_pixel = 32;
+  } else  if( nin->type == nrrdTypeLLong ) {
+    component_type = Image::SIGNED;
+    bits_per_pixel = 64;
+  } else  if( nin->type == nrrdTypeULLong ) {
+    component_type = Image::UNSIGNED;
+    bits_per_pixel = 64;
+  } else if( nin->type == nrrdTypeFloat ) {
+    component_type = Image::RATIONAL;
+    bits_per_pixel = 32;
+  } else  if( nin->type == nrrdTypeDouble ) {
+    component_type = Image::RATIONAL;
+    bits_per_pixel = 64;
+  } else {
+    nrrdNuke(nin);
+    return NULL;
+  }
+  
+  unsigned int width = 1, height = 1, depth = 1;
+
+  Vec3f spacing = Vec3f( 0.0003, 0.0003, 0.0003 );
+
+  unsigned w_axis = 0, h_axis = 1, d_axis = 2;
+  
+  if( nin->dim == 4 ) {
+    // if dimension == 4, we assume the first dimension is used for each 
+    // voxel value
+    w_axis = 1;
+    h_axis = 2;
+    d_axis = 3;
+
+    int nr_components = nin->axis[0].size;
+    if( nr_components == 2 ) {
+      pixel_type = Image::LUMINANCE_ALPHA;
+      bits_per_pixel *= 2;
+    } else if( nr_components == 3 ) {
+      pixel_type = Image::RGB;
+      bits_per_pixel *= 3;
+    } else if( nr_components == 4 ) {
+      pixel_type = Image::RGBA;
+      bits_per_pixel *= 4;
+    }
+  }
+
+  if( nin->dim >= 3 ) {
+    depth = nin->axis[d_axis].size;
+  if(!airIsNaN(nin->axis[d_axis].spacing))
+    spacing.z = nin->axis[d_axis].spacing;
+  else
+    Console(3) << "Warning: NRRD file " << url
+         << " lacks spacing information in axis 2. Sets to default 0.0003\n";
+  }
+
+  if( nin->dim >= 2 ) {
+    height = nin->axis[h_axis].size;
+  if(!airIsNaN(nin->axis[h_axis].spacing))
+    spacing.y = nin->axis[h_axis].spacing;
+  else
+    Console(3) << "Warning: NRRD file " << url
+         << " lacks spacing information in axis 1. Sets to default 0.0003\n";
+  }
+
+  if( nin->dim >= 1 ) {
+    width = nin->axis[w_axis].size;
+  if(!airIsNaN(nin->axis[w_axis].spacing))
+    spacing.x = nin->axis[w_axis].spacing;
+  else
+    Console(3) << "Warning: NRRD file " << url
+         << " lacks spacing information in axis 0. Sets to default 0.0003\n";
+  }
+
+  Image *image =  new PixelImage( width, height, depth, bits_per_pixel,
+                                  pixel_type, component_type,
+                                  (unsigned char *)nin->data,
+                                  false, spacing );
+  // free nrrd struct memory but not data.
+  nrrdNix(nin);
+  return image;
+}
+
+int H3DUtil::saveImageAsNrrdFile( const string &filename,
+                                  Image *image ) {
+    Nrrd *nin;
+  
+  /* create a new nrrd */
+  nin = nrrdNew();
+
+  unsigned int bits_per_pixel = image->bitsPerPixel();
+ 
+  Image::PixelComponentType component_type = image->pixelComponentType();
+  Image::PixelType pixel_type = image->pixelType();
+  const Vec3f &voxel_size = image->pixelSize(); 
+
+  // dimensions
+  unsigned int nr_components = 1;
+  if( pixel_type == Image::LUMINANCE ) {
+    nr_components = 1;
+  } else if( pixel_type == Image::LUMINANCE_ALPHA ) {
+    nr_components = 2;
+  } else if( pixel_type == Image::BGR || pixel_type == Image::RGB || 
+             pixel_type == Image::VEC3) {
+    nr_components = 3;
+  } else if( pixel_type == Image::RGBA || pixel_type == Image::BGRA ) {
+    nr_components = 4;
+  } else {
+    return -1;
+  }
+
+  int bytes_per_component =  bits_per_pixel / (nr_components * 8);
+  if( bits_per_pixel % (nr_components * 8) > 0 ) bytes_per_component++;
+
+  // save the type
+  if( component_type == Image::SIGNED ) {
+    if( bytes_per_component == 1 ) nin->type = nrrdTypeChar;
+    else if( bytes_per_component == 2 ) nin->type = nrrdTypeShort;
+    else if( bytes_per_component == 4 ) nin->type = nrrdTypeInt;
+    else if( bytes_per_component == 8 ) nin->type = nrrdTypeLLong;
+    else return -1; 
+  } else if( component_type == Image::UNSIGNED ) {
+    if( bytes_per_component == 1 ) nin->type = nrrdTypeUChar;
+    else if( bytes_per_component == 2 ) nin->type = nrrdTypeUShort;
+    else if( bytes_per_component == 4 ) nin->type = nrrdTypeUInt;
+    else if( bytes_per_component == 8 ) nin->type = nrrdTypeULLong;
+    else return -1; 
+  } else  if( component_type == Image::RATIONAL ) {
+    if(  bytes_per_component == 4 ) nin->type = nrrdTypeFloat;
+    else if( bytes_per_component == 8 ) nin->type = nrrdTypeDouble;
+    else return -1; 
+  } else {
+    return -1; 
+  }
+
+
+
+  nin->dim = 4;
+  nin->axis[0].size = nr_components;
+  nin->axis[1].size = image->width();
+  nin->axis[2].size = image->height();
+  nin->axis[3].size = image->depth();
+
+  nin->axis[1].spacing = voxel_size.x;
+  nin->axis[2].spacing = voxel_size.y;
+  nin->axis[3].spacing = voxel_size.z;
+
+  nin->data = image->getImageData();
+
+  int res = nrrdSave( filename.c_str(), nin, NULL );
+  char *err = biffGetDone( NRRD );
+
+  // free nrrd struct memory but not data.
+  nrrdNix( nin );
+
+  return res;
+}
+#endif
+
+#ifdef HAVE_DCMTK
+H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
+                                           bool load_single_file ) {
+  if( load_single_file ) {
+   try {
+      return new DicomImage( url );
+    } catch( const DicomImage::CouldNotLoadDicomImage &e ) {
+      cerr << e << endl;
+      return NULL;
+    }
+  } else {
+    // the filenames for all files to compose.
+    vector< string > filenames;
+
+    // divide url into path and filename
+    size_t found = url.find_last_of("/\\");
+    string path, filename;
+
+    if( found != string::npos ) {
+      path = url.substr(0,found);
+      filename = url.substr(found+1);
+    } else {
+      path = "";
+      filename = url;
+    }
+
+    // find files in the same directory as the original file that starts
+    // with the same characters.
+#ifdef WIN32
+    LPWIN32_FIND_DATA find_data = new WIN32_FIND_DATA;
+    HANDLE handle = FindFirstFile( 
+      (path + "/" + filename.substr( 0,3 ) +"*" ).c_str(), find_data );
+    if( handle != INVALID_HANDLE_VALUE ) {
+      string name = path + "\\" + find_data->cFileName;
+      filenames.push_back( name );
+      //Console(3) << name << endl;
+      while( FindNextFile(handle, find_data) ) {
+        //Console(3) << find_data->cFileName << endl;
+        filenames.push_back( string( path + "\\" + find_data->cFileName ) );
+      }
+    }
+#else
+    string prefix = filename.substr( 0,3 );
+    DIR *dp;
+    struct dirent *dirp;
+    if((dp  = opendir(path.c_str())) != NULL) {
+      while ((dirp = readdir(dp)) != NULL) {
+        string name = string(dirp->d_name);
+        if( prefix == name.substr( 0,3 ) ) {
+          filenames.push_back( string( path.c_str() ) + "/" + name );
+          Console(3) << filenames.back() << endl;
+        }
+      }
+      closedir(dp);
+    }
+#endif
+
+    // sort them in alphabetical order
+    std::sort( filenames.begin(), filenames.end() );
+
+    if( filenames.empty() ) return NULL;
+
+    auto_ptr< DicomImage > slice_2d;
+    
+    // read the original slice in order to get image information
+    try {
+      slice_2d.reset( new DicomImage( url ) );
+    } catch( const DicomImage::CouldNotLoadDicomImage &e ) {
+      Console(3) << e << endl;
+      return NULL;
+    }
+
+    unsigned int width  = slice_2d->width();
+    unsigned int height = slice_2d->height();
+    // depth will be incremented below depending on the number of slices
+    // used
+    unsigned int depth = 0;
+    Vec3f pixel_size = slice_2d->pixelSize();
+    Image::PixelType pixel_type = slice_2d->pixelType();
+    unsigned int bits_per_pixel = slice_2d->bitsPerPixel();
+    Image::PixelComponentType component_type = 
+      slice_2d->pixelComponentType();    
+
+    unsigned bytes_per_pixel = 
+      bits_per_pixel % 8 == 0 ? 
+      bits_per_pixel / 8 : bits_per_pixel / 8 + 1;
+
+    unsigned char *data = 
+      new unsigned char[ width * height * filenames.size() * bytes_per_pixel ];
+
+    DcmDataset *orig_data_set = slice_2d->getDicomFileInfo().getDataset();
+
+    // get the series unique id for the original file
+    OFString orig_series_instance_UID;
+    OFCondition res = orig_data_set->findAndGetOFString( DCM_SeriesInstanceUID, 
+                                                         orig_series_instance_UID );
+   
+
+    bool use_all_files = (res != EC_Normal || orig_series_instance_UID == "" );
+
+    // read all files and compose them into one image.
+    for( unsigned int i = 0; i < filenames.size(); ++i ) {
+      DcmFileFormat fileformat;
+      OFString series_instance_UID;
+
+      if (fileformat.loadFile(filenames[i].c_str()).good()) {
+        DcmDataset *dataset = fileformat.getDataset();
+        OFCondition res = dataset->findAndGetOFString( DCM_SeriesInstanceUID, 
+                                                       series_instance_UID );
+      }
+     
+      // only use the files that match the seris instance of the original 
+      // file.
+      if( use_all_files || series_instance_UID == orig_series_instance_UID ) {
+        try {
+          slice_2d.reset( new DicomImage( filenames[i] ) );
+        } catch( const DicomImage::CouldNotLoadDicomImage &e ) {
+          Console(3) << e << endl;
+          delete [] data;
+          return NULL;
+        }
+        memcpy( data + width * height * depth * bytes_per_pixel, 
+                slice_2d->getImageData(), 
+                width * height * bytes_per_pixel );
+        depth++;
+      }
+    }
+   
+    return new PixelImage( width, height, depth, 
+                           bits_per_pixel, pixel_type, component_type,
+                           data, false, pixel_size );
+  }
+}
+#endif

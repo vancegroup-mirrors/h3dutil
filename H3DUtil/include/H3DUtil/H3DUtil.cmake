@@ -41,6 +41,16 @@
 /// Image files will not be possible to read (see ImageLoaderFunctions.h).
 #cmakedefine HAVE_FREEIMAGE
 
+/// Undef if you do not have teem(http://teem.sourceforge.net/) installed.
+/// Nrrd files will not be possible to read otherwise (see
+/// ImageLoaderFunctions.h).
+#cmakedefine HAVE_TEEM
+
+/// Undef if you do not have dcmtk(http://dicom.offis.de/) installed.
+/// Dicom files will not be possible to read otherwise (see
+/// ImageLoaderFunctions.h).
+#cmakedefine HAVE_DCMTK
+
 // Define this if you want to link static link as many external
 // libraries as possible.
 //#define H3DUTIL_LINK_STATIC_EXTERNALS

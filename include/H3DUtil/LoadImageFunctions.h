@@ -46,6 +46,37 @@ namespace H3DUtil {
   H3DUTIL_API Image *loadFreeImage( const string &url );
 #endif
 
+#ifdef HAVE_TEEM
+  /// \ingroup ImageLoaderFunctions
+  /// Loads a file in the Nrrd file format as an image.
+  /// \param url The url of the image to load.
+  /// \returns A pointer to and Image class containing the data
+  /// of the loaded url. NULL if unsuccessful.
+  H3DUTIL_API Image *loadNrrdFile( const string &url );
+
+  /// \ingroup ImageLoaderFunctions
+  /// Saves an image in the Nrrd file format.
+  /// \param url The filename to save to.
+  /// \param image The image to save.
+  /// \returns 0 on success.
+  H3DUTIL_API int saveImageAsNrrdFile( const string &url,
+                                       Image *image );
+#endif
+
+#ifdef HAVE_DCMTK
+  /// \ingroup ImageLoaderFunctions
+  /// Loads a file in the DICOM file format as an image.
+  /// \param url The url of the image to load.
+  /// \param load_single_file If true the loader will only load the
+  /// file url specifies. If false, it will look in the same directory
+  /// for files of the same image set, and compose them to a 3d image
+  /// if they are found.
+  /// \returns A pointer to and Image class containing the data
+  /// of the loaded url. NULL if unsuccessful.
+  H3DUTIL_API Image *loadDicomFile( const string &url, 
+                                    bool load_single_file = true );
+#endif
+
   /// Contains information needed by the loadRawImage function
   /// to correctly load the raw file.
   struct H3DUTIL_API RawImageInfo {

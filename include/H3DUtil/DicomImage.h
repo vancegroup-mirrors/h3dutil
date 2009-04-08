@@ -34,8 +34,15 @@
 
 #ifdef HAVE_DCMTK
 
+
+#ifndef WIN32 
+// for Unix platforms this has to be defined before including anything
+// from dcmtk
+#define HAVE_CONFIG_H
+#endif
 // DCMTK includes
 #include <dcmtk/dcmdata/dcfilefo.h> 
+
 
 namespace H3DUtil {
   /// \class DicomImage

@@ -261,18 +261,77 @@ PeriodicThreadBase::PeriodicThreadBase() : next_id(0) {}
 
 PeriodicThread::PeriodicThread( int _thread_priority,
                                 int _thread_frequency ):
-  priority( _thread_priority ),
   frequency( _thread_frequency ),
   thread_func_is_running( true ) {
   pthread_attr_t attr;
   sched_param p;
-  p.sched_priority = priority;
+  p.sched_priority = _thread_priority;
   pthread_attr_init( &attr );
   pthread_attr_setschedparam( &attr, &p );
   pthread_create( &thread_id, &attr, thread_func, this ); 
   pthread_attr_destroy( &attr );
+#ifdef WIN32
+  priority = _thread_priority == THREAD_PRIORITY_LOWEST ? LOW_PRIORITY :
+             _thread_priority == THREAD_PRIORITY_NORMAL ? NORMAL_PRIORITY :
+             _thread_priority == THREAD_PRIORITY_ABOVE_NORMAL ? HIGH_PRIORITY :
+             REALTIME_PRIORITY;
+#else
+  // This is actually not really correct but is put here anyways since priority
+  // should be set to something. In old code 20 was used for HIGH_PRIORITY
+  // numbers.
+  priority = _thread_priority < 20 ? NORMAL_PRIORITY :
+             _thread_priority < 99 ? HIGH_PRIORITY :
+             REALTIME_PRIORITY;
+#endif
 }
 
+PeriodicThread::PeriodicThread( Priority _thread_priority,
+                                int _thread_frequency ):
+  priority( _thread_priority ),
+  frequency( _thread_frequency ),
+  thread_func_is_running( true ) {
+  
+  pthread_attr_t attr;
+  pthread_attr_init( &attr );
+  
+  sched_param p;
+  pthread_attr_getschedparam( &attr, &p );
+  
+#ifdef WIN32
+  
+  p.sched_priority =
+    priority == LOW_PRIORITY    ? THREAD_PRIORITY_LOWEST :
+    priority == NORMAL_PRIORITY ? THREAD_PRIORITY_NORMAL :
+    priority == HIGH_PRIORITY   ? THREAD_PRIORITY_ABOVE_NORMAL :
+    THREAD_PRIORITY_HIGHEST;
+  
+  int policy = SCHED_OTHER;
+  
+#else
+  
+  // There is no fine grain control of priority in pthreads unless you
+  // have a real-time thread, which you typically don't want if you're
+  // not after really high priority. That means that you need
+  // superuser rights to apply anything other than normal priority and
+  // if you do you will need a real-time scheduler. I.e. to simulate
+  // priorities with pthreads "high" and "realtime" priority are using
+  // real-time scheduler with normal and high priority and anything
+  // below uses normal priority with normal scheduler.
+  
+  p.sched_priority =
+    priority == REALTIME_PRIORITY ? 99 : 0;
+  
+  int policy =
+    priority > NORMAL_PRIORITY ?
+    SCHED_FIFO : SCHED_OTHER;
+  
+#endif
+  
+  pthread_attr_setschedparam( &attr, &p );
+  pthread_attr_setschedpolicy( &attr, policy );
+  pthread_create( &thread_id, &attr, thread_func, this ); 
+  pthread_attr_destroy( &attr );
+}
 
 PeriodicThread::~PeriodicThread() {
   ThreadId this_thread = getCurrentThreadId();
@@ -296,6 +355,49 @@ SimpleThread::SimpleThread( void *(func) (void *),
   p.sched_priority = thread_priority;
   pthread_attr_init( &attr );
   pthread_attr_setschedparam( &attr, &p );
+  pthread_create( &thread_id, &attr, func, args ); 
+  pthread_attr_destroy( &attr );
+}
+
+SimpleThread::SimpleThread( void *(func) (void *),
+                            void *args,
+                            Priority thread_priority ){
+  pthread_attr_t attr;
+  sched_param p;
+  
+#ifdef WIN32
+  
+  p.sched_priority =
+    thread_priority == LOW_PRIORITY    ? THREAD_PRIORITY_LOWEST :
+    thread_priority == NORMAL_PRIORITY ? THREAD_PRIORITY_NORMAL :
+    thread_priority == HIGH_PRIORITY   ? THREAD_PRIORITY_ABOVE_NORMAL :
+    THREAD_PRIORITY_HIGHEST;
+  
+  int policy = SCHED_OTHER;
+  
+#else
+  
+  // There is no fine grain control of priority in pthreads unless you
+  // have a real-time thread, which you typically don't want if you're
+  // not after really high priority. That means that you need
+  // superuser rights to apply anything other than normal priority and
+  // if you do you will need a real-time scheduler. I.e. to simulate
+  // priorities with pthreads "high" and "realtime" priority are using
+  // real-time scheduler with normal and high priority and anything
+  // below uses normal priority with normal scheduler.
+  
+  p.sched_priority =
+    thread_priority == REALTIME_PRIORITY ? 99 : 0;
+  
+  int policy =
+    thread_priority > NORMAL_PRIORITY ?
+    SCHED_FIFO : SCHED_OTHER;
+  
+#endif
+
+  pthread_attr_init( &attr );
+  pthread_attr_setschedparam( &attr, &p );
+  pthread_attr_setschedpolicy( &attr, policy );
   pthread_create( &thread_id, &attr, func, args ); 
   pthread_attr_destroy( &attr );
 }
@@ -368,7 +470,7 @@ HapticThreadBase::HapticThreadBase() {
 
 HapticThreadBase::~HapticThreadBase() {
   sg_lock.lock();
-	vector< HapticThreadBase *>::iterator i = 
+  vector< HapticThreadBase *>::iterator i = 
     std::find( threads.begin(), 
                threads.end(), 
                this );
@@ -380,7 +482,7 @@ HapticThreadBase::~HapticThreadBase() {
 
 
 bool HapticThreadBase::inHapticThread() {
-	PeriodicThread::ThreadId id = PeriodicThread::getCurrentThreadId();
+  PeriodicThread::ThreadId id = PeriodicThread::getCurrentThreadId();
   for( vector< HapticThreadBase *>::iterator i = threads.begin();
        i != threads.end(); i++ ) {
     ThreadBase *thread = dynamic_cast< ThreadBase * >( *i );
@@ -417,10 +519,10 @@ void HapticThreadBase::synchronousHapticCB(
   for( vector< HapticThreadBase *>::iterator i = threads.begin();
        i != threads.end(); i++ ) {
     PeriodicThreadBase *thread = dynamic_cast< PeriodicThreadBase * >( *i );
-	  if( thread ) {
-	    thread->asynchronousCallback( ThreadsInternal::doNothing, NULL );
+    if( thread ) {
+      thread->asynchronousCallback( ThreadsInternal::doNothing, NULL );
 
-	  }
+    }
   }
   sg_lock.lock(); 
   haptic_threads_left = threads.size();
@@ -472,7 +574,7 @@ void ThreadBase::setThreadName( ThreadId thread_id, const string &name ) {
 
  __try {
    RaiseException( MS_VC_EXCEPTION, 0, 
-		   sizeof(info)/sizeof(ULONG_PTR), (ULONG_PTR*)&info );
+       sizeof(info)/sizeof(ULONG_PTR), (ULONG_PTR*)&info );
  }
  __except(EXCEPTION_EXECUTE_HANDLER)
  {

@@ -120,6 +120,14 @@ namespace H3DUtil {
     /// Destructor.
     virtual ~ThreadBase() {}
 
+    /// Used to specify thread priority in a platform independent way.
+    enum Priority {
+      LOW_PRIORITY      = -2,
+      NORMAL_PRIORITY   =  0,
+      HIGH_PRIORITY     =  2,
+      REALTIME_PRIORITY =  5
+    };
+
     typedef pthread_t ThreadId;
 
     /// Returns the id of the thread this function is called in.
@@ -258,7 +266,12 @@ namespace H3DUtil {
     /// \param thread_priority The priority of the thread.
     SimpleThread( void *(func)(void *),
                   void *args = NULL,
-                  int thread_priority = DEFAULT_THREAD_PRIORITY );
+                  Priority thread_priority = NORMAL_PRIORITY );
+    
+    /// Deprecated.
+    SimpleThread( void *(func)(void *),
+                  void *args,
+                  int thread_priority );
     
     /// Wait for thread to complete.
     /// Returns 0 on success.
@@ -277,8 +290,12 @@ namespace H3DUtil {
     /// \param thread_priority The priority of the thread.
     /// \param thread_frequency The frequence of the thread loop. -1 means
     /// run as fast as possible.
-    PeriodicThread( int thread_priority = DEFAULT_THREAD_PRIORITY,
-            int thread_frequency = -1 );
+    PeriodicThread( Priority thread_priority = NORMAL_PRIORITY,
+                    int thread_frequency = -1 );
+    
+    /// Deprecated.
+    PeriodicThread( int thread_priority,
+                    int thread_frequency = -1 );
     
     /// Destructor.
     virtual ~PeriodicThread();
@@ -345,7 +362,7 @@ namespace H3DUtil {
     ConditionLock callback_lock;
     
     /// The priority of the thread.
-    int priority;
+    Priority priority;
 
     /// Thre frequency of the thread. -1 means run as fast as possible.
     int frequency;
@@ -363,14 +380,20 @@ namespace H3DUtil {
                                 public PeriodicThread {
   public:
     /// Constructor.
-    HapticThread( int thread_priority =  DEFAULT_THREAD_PRIORITY,
-		int thread_frequency = -1 ):
+    HapticThread( Priority thread_priority = NORMAL_PRIORITY,
+                  int thread_frequency = -1 ):
+      PeriodicThread( thread_priority, thread_frequency ) {
+    }
+    /// Deprecated.
+    HapticThread( int thread_priority,
+                  int thread_frequency = -1 ):
       PeriodicThread( thread_priority, thread_frequency ) {
     }
   };
 }
 
 #endif
+
 
 
 

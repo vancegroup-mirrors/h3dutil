@@ -290,6 +290,14 @@ namespace H3DUtil {
     /// \param thread_priority The priority of the thread.
     /// \param thread_frequency The frequence of the thread loop. -1 means
     /// run as fast as possible.
+    /// The system will try to match the frequency as close as possible but
+    /// the actual frequency is dependent on the frequency of the timer on the 
+    /// system. E.g on a Windows system the multimedia timers are used for
+    /// synchronization. When run at its highest frequency this will have a clock
+    /// cycle of 0.976 ms. This means that the highest frequence we can get is
+    /// 1024. Since we only can get an event from the timer once for each ms, the
+    /// possible frequences are 1024/x, where x is the number of milliseconds to run
+    /// each loop in the thread, i.e. 1024, 512, 342, 256, 205 and so on.
     PeriodicThread( Priority thread_priority = NORMAL_PRIORITY,
                     int thread_frequency = -1 );
     

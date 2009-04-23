@@ -58,6 +58,24 @@ using namespace H3DUtil;
    }
  }
 
+PixelImage::PixelImage( unsigned int _width,
+                        unsigned int _height,
+                        unsigned int _depth,
+                        unsigned int _bits_per_pixel,
+                        PixelType _pixel_type,
+                        PixelComponentType _pixel_component_type,
+                        const Vec3f &_pixel_size ): 
+  w( _width ),
+  h( _height ),
+  d( _depth ),
+  bits_per_pixel( _bits_per_pixel ),
+  pixel_type( _pixel_type ),
+  pixel_component_type( _pixel_component_type ),
+  pixel_size( _pixel_size ){ 
+  unsigned int size = (w * h * d * bits_per_pixel)/8;
+  image_data = new unsigned char[ size ];
+} 
+
 PixelImage::PixelImage( Image *image,
                         unsigned int new_width,
                         unsigned int new_height,

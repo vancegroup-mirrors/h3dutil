@@ -51,6 +51,17 @@ namespace H3DUtil {
                 bool copy_data = false,
                 const Vec3f &_pixel_size = Vec3f( 0, 0, 0 ) );
 
+    /// Constructor. 
+    /// An image of the size given will be created. The data will be 
+    /// undefined until set by the user using e.g. setPixel methods.
+    PixelImage( unsigned int _width,
+                unsigned int _height,
+                unsigned int _depth,
+                unsigned int _bits_per_pixel,
+                PixelType _pixel_type,
+                PixelComponentType _pixel_component_type,
+                const Vec3f &_pixel_size = Vec3f( 0, 0, 0 ) );
+
     /// Constructor.
     /// A new PixelImage with the given dimensions is created by 
     /// resampling the given image. Trilinear interpolation is used

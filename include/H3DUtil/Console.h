@@ -85,13 +85,33 @@ namespace H3DUtil {
       level( 0 ),
       outputstream( &cerr ),
       showtime(false),
-      showlevel( true ) {
+      showlevel( true ){
+      setLockMutexFunction( NULL );
+      setUnlockMutexFunction( NULL );
     }
 
     /// Destructor
     virtual ~basic_debugbuf() {
       outputlevel=-1;
       sync();
+    }
+
+    /// Set a function(and optional argument) to be called before
+    /// data is written to the current output stream. Can be used
+    /// to do for example mutex locking if the stream is not 
+    /// thread safe.
+    inline void setLockMutexFunction( void (*func) (void * ), 
+                                      void *arg = NULL ) {
+      lock_mutex_func = make_pair( func, arg );
+    }
+
+    /// Set a function(and optional argument) to be called after
+    /// data is written to the current output stream. Can be used
+    /// to do for example mutex locking if the stream is not 
+    /// thread safe.
+    inline void setUnlockMutexFunction( void (*func) (void * ), 
+                                        void *arg = NULL ) {
+      unlock_mutex_func = make_pair( func, arg );
     }
 
     /// Set the variable showtime.
@@ -108,11 +128,18 @@ namespace H3DUtil {
 
     /// Set the variable level.
     void setLevel( int _level ) { level = _level; }
+
+    /// Get the ostream that is used as output stream.
+    ostream &getOutputStream() { 
+      return *outputstream;
+    }
   
   protected:
     /// Send content of string buffer to output stream. Add information
     /// about level and time if it should be added.
     int sync() {
+      if( lock_mutex_func.first )
+        lock_mutex_func.first( lock_mutex_func.second );
       TimeStamp time;
       
       if ( outputlevel >= 0  &&  level >= outputlevel ) {
@@ -151,8 +178,14 @@ namespace H3DUtil {
       
       str( std::basic_string<CharT>() ); // Clear the string buffer
       
+      if( unlock_mutex_func.first )
+        unlock_mutex_func.first( unlock_mutex_func.second );
       return 0;
     }
+
+  protected:
+    pair< void (*)(void *), void * > lock_mutex_func;
+    pair< void (*)(void *), void * > unlock_mutex_func;
     
   };
 
@@ -174,6 +207,26 @@ namespace H3DUtil {
       delete std::ios::rdbuf(); 
     }
 
+    /// Set a function(and optional argument) to be called before
+    /// data is written to the current output stream. Can be used
+    /// to do for example mutex locking if the stream is not 
+    /// thread safe.
+    inline void setLockMutexFunction( void (*func) (void * ), 
+                                      void *arg = NULL ) {
+      static_cast< basic_debugbuf<CharT, TraitsT>* >
+        (std::ios::rdbuf())->setLockMutexFunction( func,arg );
+    }
+
+    /// Set a function(and optional argument) to be called after
+    /// data is written to the current output stream. Can be used
+    /// to do for example mutex locking if the stream is not 
+    /// thread safe.
+    inline void setUnlockMutexFunction( void (*func) (void * ), 
+                                        void *arg = NULL ) {
+      static_cast< basic_debugbuf<CharT, TraitsT>* >
+        (std::ios::rdbuf())->setUnlockMutexFunction( func,arg );
+    }
+
     /// Tell the output stream if time since instance of stream was created
     /// should be displayed.
     void setShowTime( bool show ) { 
@@ -191,6 +244,12 @@ namespace H3DUtil {
     void setOutputStream( ostream &s ) { 
       static_cast< basic_debugbuf<CharT, TraitsT>* >(std::ios::rdbuf())->
         setOutputStream( s );  
+    }
+
+    /// Get the ostream that is used as output stream.
+    ostream &getOutputStream() { 
+      return static_cast< basic_debugbuf<CharT, TraitsT>* >(std::ios::rdbuf())->
+        getOutputStream();  
     }
 
     /// Set the minimum level that will be used before displaying anything.

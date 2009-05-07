@@ -55,7 +55,21 @@
 // libraries as possible.
 //#define H3DUTIL_LINK_STATIC_EXTERNALS
 
-#ifdef WIN32
+// note that _WIN32 is always defined when _WIN64 is defined.
+#if( defined( _WIN64 ) || defined(WIN64) )
+// set when on 64 bit Windows
+#define H3D_WIN64
+#elif( defined( _WIN32 ) || defined(WIN32) )
+// set when on 32 bit Windows
+#define H3D_WIN32
+#endif
+
+#if( defined( H3D_WIN32 ) || defined( H3D_WIN64 ) )
+// set when on 32 or 64 bit Windows
+#define H3D_WINDOWS
+#endif
+
+#ifdef H3D_WINDOWS
 // Define this if you are linking Freeimage as a static library
 #cmakedefine FREEIMAGE_LIB
 #endif
@@ -68,7 +82,7 @@
 // this file see H3DUTIL_API functions as being imported from a DLL,
 // whereas this DLL sees symbols defined with this macro as being
 // exported.
-#ifdef WIN32
+#ifdef H3D_WINDOWS
 #include <windows.h>
 
 #ifdef H3DUTIL_LIB
@@ -89,14 +103,24 @@
 
 #endif
 
+#ifdef H3D_WINDOWS
+#define H3DUTIL_INT64 _int64
+#else
+#if defined(__GNUC__) || defined(HAVE_LONG_LONG)
+#define H3DUTIL_INT64 long long
+#endif
+#endif
+
 #if defined(__APPLE__) && defined(__MACH__)
 #define MACOSX
+#define H3D_OSX
 #define H3DUTIL_API
 #define HAVE_SYS_TIME_H
 #endif
 
 #if defined(__linux)
 #define LINUX
+#define H3D_LINUX
 #define H3DUTIL_API 
 #define HAVE_SYS_TIME_H
 #endif

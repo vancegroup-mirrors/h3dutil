@@ -31,6 +31,8 @@
 #ifndef __H3DTEMPLATEOPERATORS_H__
 #define __H3DTEMPLATEOPERATORS_H__
 
+#include <H3DUtil/H3DBasicTypes.h>
+
 namespace H3DUtil {
   namespace ArithmeticTypes {
     /// \defgroup TemplateOperators Template operators.
@@ -76,6 +78,15 @@ namespace H3DUtil {
       return a * ( 1.0 / b );
     }
 
+#ifdef H3DUTIL_INT64
+    /// Division operator with H3DInt64. Requires a * operator between
+    /// T and long.
+    template< class T >
+    inline T operator/( const T &a, const H3DInt64 &b ) {
+      return a * ( 1.0 / b );
+    }
+#endif
+
     /// Division operator with unsigned int. Requires a * operator between
     /// T and unsigned int.
     template< class T >
@@ -89,6 +100,15 @@ namespace H3DUtil {
     inline T operator/( const T &a, const unsigned long &b ) {
       return a * ( 1.0 / b );
     }
+
+#ifdef H3DUTIL_INT64
+    /// Division operator with unsigned long. Requires a * operator between
+    /// T and unsigned long.
+    template< class T >
+    inline T operator/( const T &a, const H3DUInt64 &b ) {
+      return a * ( 1.0 / b );
+    }
+#endif
 
     /// += operator. Requires the + operator between the types.
     template< class T, class U >

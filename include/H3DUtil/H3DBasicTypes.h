@@ -30,6 +30,7 @@
 #ifndef __H3DBASICTYPES_H__
 #define __H3DBASICTYPES_H__
 #include <limits>
+#include <H3DUtil/H3DUtil.h>
 
 namespace H3DUtil {
   /// The floating point type.
@@ -39,6 +40,16 @@ namespace H3DUtil {
   typedef double H3DDouble;
   /// The 32 bit integer type.
   typedef int H3DInt32;
+  /// The 32 bit unsigned integer type.
+  typedef unsigned int H3DUInt32;
+
+#ifdef H3DUTIL_INT64
+  /// The 64 bit integer type.
+  typedef H3DUTIL_INT64 H3DInt64;
+  /// The 64 bit unsigned integer type.
+  typedef unsigned H3DUTIL_INT64 H3DUInt64;
+#endif
+
   /// The type for time values.
   typedef double H3DTime;
 

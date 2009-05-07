@@ -525,7 +525,7 @@ void HapticThreadBase::synchronousHapticCB(
     }
   }
   sg_lock.lock(); 
-  haptic_threads_left = threads.size();
+  haptic_threads_left = (int) threads.size();
   if( haptic_threads_left > 0 ) {
     for( vector< HapticThreadBase *>::iterator i = threads.begin();
          i != threads.end(); i++ ) {

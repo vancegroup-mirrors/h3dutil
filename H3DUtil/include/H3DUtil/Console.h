@@ -126,6 +126,9 @@ namespace H3DUtil {
     /// Set the variable outputlevel.
     void setOutputLevel( int _outputlevel ) { outputlevel = _outputlevel; }
 
+    /// Get the value of the variable outputlevel.
+    int getOutputLevel() { return outputlevel; };
+
     /// Set the variable level.
     void setLevel( int _level ) { level = _level; }
 
@@ -256,6 +259,13 @@ namespace H3DUtil {
     void setOutputLevel( int _outputlevel ) {
       static_cast<basic_debugbuf<CharT, TraitsT>* >( std::ios::rdbuf() )->
         setOutputLevel( _outputlevel ); 
+    }
+
+    /// Get the minimum level that will be used before displaying anything.
+    int getOutputLevel() {
+      return
+        static_cast<basic_debugbuf<CharT, TraitsT>* >( std::ios::rdbuf() )->
+        getOutputLevel(); 
     }
 
     /// Set level of message. Must be greater than the minimum level set.

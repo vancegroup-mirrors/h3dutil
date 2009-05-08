@@ -27,8 +27,9 @@ SET( H3DUTIL_BUILD_VERSION 0 )
 SET( H3DUTIL_FULL_VERSION
 ${H3DUTIL_MAJOR_VERSION}.${H3DUTIL_MINOR_VERSION}.${H3DUTIL_BUILD_VERSION} ) 
 
-# add all sources, they are added to a variable called H3DUTIL_SRCS defined
-# in the included file
+# Add all sources, they are added to a variable called H3DUTIL_SRCS defined
+# in the included file. All header files are added to a variable called
+# H3DUTIL_HEADERS.
 INCLUDE( ${H3DUtil_SOURCE_DIR}/H3DUtilSourceFiles.txt )
 
 # add the H3DUtil.rc resource file if Visual Studio
@@ -123,7 +124,7 @@ IF( GENERATE_CPACK_PROJECT )
 ENDIF( GENERATE_CPACK_PROJECT )
 
 # H3DUtil shared library definition.
-ADD_LIBRARY(H3DUtil SHARED ${H3DUTIL_SRCS})
+ADD_LIBRARY(H3DUtil SHARED ${H3DUTIL_SRCS} ${H3DUTIL_HEADERS})
 
 # make sure that the H3DUtil.rc contains the correct svn-version
 IF( MSVC )
@@ -192,9 +193,8 @@ INSTALL( TARGETS H3DUtil
          ARCHIVE DESTINATION lib )
 
 IF(NOT WIN32)
-  INSTALL( DIRECTORY ../include/H3DUtil 
-           DESTINATION include 
-           PATTERN .svn EXCLUDE )
+  INSTALL( FILES ${H3DUTIL_HEADERS}
+           DESTINATION include/H3DUtil )
 ENDIF(NOT WIN32)
 
     

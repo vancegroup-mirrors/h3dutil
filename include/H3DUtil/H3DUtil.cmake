@@ -51,10 +51,6 @@
 /// ImageLoaderFunctions.h).
 #cmakedefine HAVE_DCMTK
 
-// Define this if you want to link static link as many external
-// libraries as possible.
-//#define H3DUTIL_LINK_STATIC_EXTERNALS
-
 // note that _WIN32 is always defined when _WIN64 is defined.
 #if( defined( _WIN64 ) || defined(WIN64) )
 // set when on 64 bit Windows

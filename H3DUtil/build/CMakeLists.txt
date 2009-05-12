@@ -10,7 +10,8 @@ IF( NOT DEFINED GENERATE_CPACK_PROJECT )
   MARK_AS_ADVANCED(GENERATE_CPACK_PROJECT)
 ENDIF( NOT DEFINED GENERATE_CPACK_PROJECT )
 
-
+# Add a cache variable PREFER_STATIC_LIBRARIES to have the choice of generating a project
+# linking against static libraries if they exist. Default is NO since most people will not use this.
 IF( NOT DEFINED PREFER_STATIC_LIBRARIES )
   SET( PREFER_STATIC_LIBRARIES "NO" CACHE BOOL "Decides if CMake should prefer static libraries to dynamic libraries when both exist." )
   MARK_AS_ADVANCED(PREFER_STATIC_LIBRARIES)
@@ -169,12 +170,15 @@ SET_TARGET_PROPERTIES( H3DUtil PROPERTIES VERSION ${H3DUTIL_FULL_VERSION} )
 # change the name depending on compiler to be able to tell them apart
 # since they are not compatible with each other. 
 IF(MSVC70 OR MSVC71)
-  SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc7 )
+  SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc7
+                                            LINK_FLAGS_DEBUG " /NODEFAULTLIB:msvcrt" )
 ELSEIF(MSVC80)
-  SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc8 )
+  SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc8
+                                            LINK_FLAGS_DEBUG " /NODEFAULTLIB:msvcrt" )
   SET( H3DUTIL_COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS} -D_CRT_SECURE_NO_DEPRECATE" )
 ELSEIF(MSVC90)
-  SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc9 )
+  SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc9
+                                            LINK_FLAGS_DEBUG " /NODEFAULTLIB:msvcrt" )
   SET( H3DUTIL_COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS} /MP -D_CRT_SECURE_NO_DEPRECATE" )
 ELSEIF(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   #used to link in dynamic library load functions. Needed by some examples in HAPI

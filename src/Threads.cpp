@@ -234,8 +234,12 @@ void *PeriodicThread::thread_func( void * _data ) {
 
     // if no more callbacks wait for a callback to be added in order to
     // avoid spending time doing no useful operations in the thread.
-    if( thread->frequency < 0 && thread->callbacks.size() == 0 )
-      thread->callback_lock.wait();
+    if( thread->frequency < 0 ) {
+      if( thread->callbacks.size() == 0 )
+        thread->callback_lock.wait();
+    } else {
+      thread->transferCallbackList();
+    }
 
     thread->callback_lock.unlock();
     sched_yield();
@@ -428,13 +432,23 @@ void PeriodicThread::synchronousCallback( CallbackFunc func, void *data ) {
 }
 
 int PeriodicThread::asynchronousCallback( CallbackFunc func, void *data ) {
-  callback_lock.lock();
-  // signal the thread that a new callback is available if it is waiting for one.
-  if( frequency < 0 && callbacks.size() == 0 ) callback_lock.signal();    
-  int cb_id = genCallbackId();
-  // add the new callback
-  callbacks.push_back( make_pair( cb_id, make_pair( func, data ) ) );
-  callback_lock.unlock();
+  int cb_id = -1;
+  if( frequency < 0 ) {
+    callback_lock.lock();
+    // signal the thread that a new callback is available if it is waiting for
+    // one.
+    if( frequency < 0 && callbacks.size() == 0 ) callback_lock.signal();
+    cb_id = genCallbackId();
+    // add the new callback
+    callbacks.push_back( make_pair( cb_id, make_pair( func, data ) ) );
+    callback_lock.unlock();
+  } else {
+    callbacks_added_lock.lock();
+    cb_id = genCallbackId();
+    // add the new callback
+    callbacks_added.push_back( make_pair( cb_id, make_pair( func, data ) ) );
+    callbacks_added_lock.unlock();
+  }
   return cb_id;
 }
 

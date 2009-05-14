@@ -310,7 +310,7 @@ namespace H3DUtil {
     
     /// Add a callback function to be executed in this thread. The calling
     /// thread will wait until the callback function has returned before 
-    /// continuing. 
+    /// continuing.
     virtual void synchronousCallback( CallbackFunc func, void *data );
 
     /// Add a callback function to be executed in this thread. The calling
@@ -318,6 +318,15 @@ namespace H3DUtil {
     /// not wait for the callback function to execute.
     /// Returns a handle to the callback that can be used to remove
     /// the callback.
+    /// When subclassing this function all callbacks should be
+    /// added to the callbacks_added variable and use the callback_added_lock
+    /// around the commands if frequency of the thread if above 0. Otherwise 
+    /// the calling thread might have to be synchronized with the
+    /// PeriodicThread to add the callbacks. If frequency is below 0 then this
+    /// approach can not be used because the thread might be waiting for new
+    /// callbacks and there is no safe way to check if the callback_lock is
+    /// waiting for new callbacks or waiting in the synchronousCallback
+    /// function.
     virtual int asynchronousCallback( CallbackFunc func, void *data );
 
     /// Add several asynchronous callbacks at once in order to minimize
@@ -329,16 +338,27 @@ namespace H3DUtil {
     template< class InputIterator >
     void asynchronousCallbacks( InputIterator begin, 
                                                 InputIterator end ) {
-      callback_lock.lock();
-      // signal the thread that a new callback is available if it is waiting for one.
-      if( frequency < 0 && callbacks.size() == 0 ) callback_lock.signal();    
-      
-      for( InputIterator i = begin; i != end; i++ ) {
-        int cb_id = genCallbackId();
-        // add the new callback
-        callbacks.push_back( make_pair( cb_id, *i ) );
+      if( frequency < 0 ) {
+        callback_lock.lock();
+        // signal the thread that a new callback is available if it is waiting
+        // for one.
+        if( frequency < 0 && callbacks.size() == 0 ) callback_lock.signal();
+        
+        for( InputIterator i = begin; i != end; i++ ) {
+          int cb_id = genCallbackId();
+          // add the new callback
+          callbacks.push_back( make_pair( cb_id, *i ) );
+        }
+        callback_lock.unlock();
+      } else {
+        callbacks_added_lock.lock();
+        for( InputIterator i = begin; i != end; i++ ) {
+          int cb_id = genCallbackId();
+          // add the new callback
+          callbacks_added.push_back( make_pair( cb_id, *i ) );
+        }
+        callbacks_added_lock.unlock();
       }
-      callback_lock.unlock();
     }
 
     /// Attempts to remove a callback. returns true if succeded. returns
@@ -366,9 +386,29 @@ namespace H3DUtil {
       CallbackList;
     // A list of the callback functions to run.
     CallbackList callbacks;
+    
     // A lock for synchronizing changes to the callbacks member.
     ConditionLock callback_lock;
-    
+
+    // A list of the callback functions to add to the callbacks variable
+    // when the callback_lock is released. 
+    CallbackList callbacks_added;
+
+    // A lock used when modifying callbacks_added variable.
+    MutexLock callbacks_added_lock;
+
+    // A function that transfers the content of callbacks_added to callbacks.
+    // DO NOT use this function anywhere unless you really know what you are
+    // doing. It assumes that the callback_lock is locked when used.
+    inline void transferCallbackList() {
+      callbacks_added_lock.lock();
+      for( CallbackList::iterator i = callbacks_added.begin();
+           i != callbacks_added.end(); i++ )
+        callbacks.push_back( *i );
+      callbacks_added.clear();
+      callbacks_added_lock.unlock();
+    }
+
     /// The priority of the thread.
     Priority priority;
 

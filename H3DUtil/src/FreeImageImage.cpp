@@ -62,10 +62,11 @@ FreeImageImage::PixelComponentType FreeImageImage::pixelComponentType() {
 
 FreeImageImage::PixelType FreeImageImage::pixelType() {
   FREE_IMAGE_COLOR_TYPE t = FreeImage_GetColorType( bitmap );
+
   switch( t ) {
   case FIC_MINISBLACK: 
   case FIC_MINISWHITE: return LUMINANCE;
-#ifdef FREEIMAGE_BIGENDIAN
+#if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
   case FIC_RGB: return RGB;
   case FIC_RGBALPHA: return RGBA;
 #else

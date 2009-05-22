@@ -298,7 +298,8 @@ namespace H3DUtil {
     /// 1024. Since we only can get an event from the timer once for each ms, the
     /// possible frequences are 1024/x, where x is the number of milliseconds to run
     /// each loop in the thread, i.e. 1024, 512, 342, 256, 205 and so on.
-    PeriodicThread( Priority thread_priority = NORMAL_PRIORITY,
+    PeriodicThread( PeriodicThreadBase::Priority 
+                      thread_priority = NORMAL_PRIORITY,
                     int thread_frequency = -1 );
     
     /// Deprecated.

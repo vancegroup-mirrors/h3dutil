@@ -31,6 +31,8 @@
 
 #ifdef HAVE_DCMTK 
 
+//#define USE_INTERNAL_DICOM_DATA
+
 // DCMTK includes
 #include <dcmtk/dcmdata/dcdeftag.h>
 #include <dcmtk/dcmdata/dcmetinf.h>
@@ -103,8 +105,7 @@ void H3DUtil::DicomImage::loadImage( const string &url ) {
   w = image->getWidth();
   h = image->getHeight();
   d = image->getFrameCount();
-  bits_per_pixel = image->getDepth();
-  
+
   DcmDataset *dataset = dicom_file_info.getDataset();
   double size_x, size_y, size_z;
   if( dataset->findAndGetFloat64( DCM_PixelSpacing, size_x, 0 ).bad() )
@@ -117,11 +118,66 @@ void H3DUtil::DicomImage::loadImage( const string &url ) {
                       (H3DFloat) size_y,
                       (H3DFloat) size_z ) * 0.001;
 
+  // use the internal representation since that contains the original
+  // pixel data. The getOutputData function provides some other representation
+  // "after rendering" that contains overlays and such things. Have not 
+  // figured out the format for this though. In a 16 bit signed dataset 0
+  // will be mapped to 32767
+  pixel_component_type = UNSIGNED;
+#ifndef USE_INTERNAL_DICOM_DATA
+  bits_per_pixel = image->getDepth();
   if( !isPowerOfTwo( bits_per_pixel ) ) {
     bits_per_pixel = nextPowerOfTwo( bits_per_pixel );
   }
-
-  unsigned int bits_per_component = bits_per_pixel;
+  unsigned int frame_size = image->getOutputDataSize();
+  image_data = new unsigned char[ frame_size * d ];
+  for( unsigned int i = 0; i < d; i++ ) {
+    
+    
+    image->getOutputData( &image_data[ i * frame_size ], 
+                          frame_size, 
+                          bits_per_pixel, i );
+    
+    
+  }
+#else
+  // geOutputDataSize cannot be used since it produces different values
+  // for bitsPerSample if rescaleSlope and rescaleIntercept is defined
+  // in the dicom file.
+  switch (image->getInterData()->getRepresentation()) {
+  case EPR_Uint8:
+    bits_per_pixel = 8;
+    pixel_component_type = UNSIGNED; 
+    break;
+  case EPR_Uint16:
+    bits_per_pixel = 16;
+    pixel_component_type = UNSIGNED; 
+    break;
+  case EPR_Uint32: 
+    bits_per_pixel = 32;
+    pixel_component_type = UNSIGNED; 
+    break;
+  case EPR_Sint8: 
+    bits_per_pixel = 8;
+    pixel_component_type = SIGNED; 
+    break;
+  case EPR_Sint16:
+    bits_per_pixel = 16;
+    pixel_component_type = SIGNED; 
+    break;
+  case EPR_Sint32:
+    bits_per_pixel = 32;
+    pixel_component_type = SIGNED; 
+    break;
+  }
+  unsigned int frame_size = w * h * d * bits_per_pixel / 8;
+  image_data = new unsigned char[ frame_size * d ];
+  
+  memcpy(image_data,
+         image->getInterData()->getData(),
+         frame_size * d );
+#endif
+ 
   if( image->isMonochrome() )
     pixel_type = LUMINANCE;
   else {
@@ -129,40 +185,6 @@ void H3DUtil::DicomImage::loadImage( const string &url ) {
     pixel_type = RGB; 
   }
 
-  // use the internal representation since that contains the original
-  // pixel data. The getOutputData function provides some other representation
-  // "after rendering" that contains overlays and such things. Have not 
-  // figured out the format for this though. In a 16 bit signed dataset 0
-  // will be mapped to 32767
-  pixel_component_type = UNSIGNED;
-  switch (image->getInterData()->getRepresentation()) {
-  case EPR_Uint8:
-  case EPR_Uint16:
-  case EPR_Uint32: 
-    pixel_component_type = UNSIGNED; 
-    break;
-  case EPR_Sint8: 
-  case EPR_Sint16:
-  case EPR_Sint32:
-    pixel_component_type = SIGNED; 
-    break;
-  }
-
-  unsigned int frame_size = image->getOutputDataSize();
-  image_data = new unsigned char[ frame_size * d ];
-  memcpy(image_data,
-         image->getInterData()->getData(),
-         frame_size * d );
-         
-  /*for( unsigned int i = 0; i < d; i++ ) {
-   
-    
-    image->getOutputData( &image_data[ i * frame_size ], 
-                          frame_size, 
-                          bits_per_component, i );
-                          
-      
-  }*/
   delete image;
   DJDecoderRegistration::cleanup();
 }

@@ -483,7 +483,6 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
         string name = string(dirp->d_name);
         if( prefix == name.substr( 0,3 ) ) {
           filenames.push_back( string( path.c_str() ) + "/" + name );
-          Console(3) << filenames.back() << endl;
         }
       }
       closedir(dp);

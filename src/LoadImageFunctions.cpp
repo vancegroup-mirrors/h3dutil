@@ -438,7 +438,42 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
                                            bool load_single_file ) {
   if( load_single_file ) {
    try {
-      return new DicomImage( url );
+     // dicom data is specified from topleft corner. we have to convert it so
+     // it is specified from the bottomleft corner
+     auto_ptr< DicomImage > slice_2d( new DicomImage( url ) );
+
+     // get properties from dicom image
+     unsigned int width  = slice_2d->width();
+     unsigned int height = slice_2d->height();
+     // depth will be incremented below depending on the number of slices
+     // used
+     unsigned int depth = 1;
+     Vec3f pixel_size = slice_2d->pixelSize();
+     Image::PixelType pixel_type = slice_2d->pixelType();
+     unsigned int bits_per_pixel = slice_2d->bitsPerPixel();
+     Image::PixelComponentType component_type = 
+       slice_2d->pixelComponentType();    
+     
+     unsigned bytes_per_pixel = 
+       bits_per_pixel % 8 == 0 ? 
+       bits_per_pixel / 8 : bits_per_pixel / 8 + 1;
+     
+     // allocate and copy data into correct order.
+     unsigned char *data = 
+       new unsigned char[ width * height * bytes_per_pixel ];
+     
+     unsigned char * slice_data = (unsigned char *)slice_2d->getImageData();
+     for( unsigned int row = 0; row < height; row++ ) {
+       memcpy( data + row*width* bytes_per_pixel, 
+               slice_data + (height - row - 1 ) * width * bytes_per_pixel,
+               width * bytes_per_pixel );
+     }
+
+     // return new image with the correct row order.
+     return new PixelImage( width, height, depth, 
+                            bits_per_pixel, pixel_type, component_type,
+                            data, false, pixel_size );
+
     } catch( const DicomImage::CouldNotLoadDicomImage &e ) {
       cerr << e << endl;
       return NULL;
@@ -553,9 +588,15 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
           delete [] data;
           return NULL;
         }
-        memcpy( data + width * height * depth * bytes_per_pixel, 
-                slice_2d->getImageData(), 
-                width * height * bytes_per_pixel );
+
+        // dicom data is specified from topleft corner. we have to convert it so
+        // it is specified from the bottomleft corner
+        unsigned char * slice_data = (unsigned char *)slice_2d->getImageData();
+        for( unsigned int row = 0; row < height; row++ ) {
+          memcpy( data + (width * height * depth  + row*width)* bytes_per_pixel, 
+                  slice_data + (height - row - 1 ) * width * bytes_per_pixel,
+                  width * bytes_per_pixel );
+        }
         depth++;
       }
     }

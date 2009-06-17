@@ -66,6 +66,12 @@ namespace H3DUtil {
       RATIONAL
     } PixelComponentType;
 
+    /// Filter type.
+    typedef enum {
+      NEAREST,
+      LINEAR
+    } FilterType;
+
     /// Returns the width of the image in pixels.
     virtual unsigned int width() = 0;
     /// Returns the height of the image in pixels.
@@ -101,7 +107,8 @@ namespace H3DUtil {
     void getSample( void *value, 
                     H3DFloat x = 0, 
                     H3DFloat y = 0, 
-                    H3DFloat z = 0 );
+                    H3DFloat z = 0,
+                    FilterType filter_type = LINEAR );
 
     /// Sample the image at a given normalized position(texture coordinate), 
     /// i.e. coordinates between 0 and 1. Pixel data will be trilinearly
@@ -111,17 +118,29 @@ namespace H3DUtil {
     /// \param y The position in y(height) to sample(0-1).
     /// \param z The position in z(depth) to sample(0-1).
     inline H3DUtil::RGBA getSample( H3DFloat x = 0, 
-                                H3DFloat y = 0, 
-                                H3DFloat z = 0 ) {
+                                    H3DFloat y = 0, 
+                                    H3DFloat z = 0,
+                                    FilterType filter_type = LINEAR ) {
       unsigned int byte_rem = bitsPerPixel() % 8;
       unsigned int bytes_per_pixel = bitsPerPixel() / 8;
       
       assert( byte_rem == 0 );
       
-      char *pixel_data = new char[bytes_per_pixel];
-      getSample( pixel_data, x, y, z );
-      H3DUtil::RGBA rgba = imageValueToRGBA( pixel_data );
-      delete [] pixel_data;
+      H3DUtil::RGBA rgba;
+
+      // avoid allocating memory from the heap since this is very
+      // slow. We only do it if the size of a pixel is larger than
+      // the size of a long.
+      if( bytes_per_pixel <= sizeof( long ) ) {
+        long pixel_data;
+        getSample( &pixel_data, x, y, z, filter_type );
+        rgba = imageValueToRGBA( &pixel_data );
+      } else {
+        char *pixel_data = new char[bytes_per_pixel];
+        getSample( pixel_data, x, y, z, filter_type );
+        rgba = imageValueToRGBA( pixel_data );
+        delete [] pixel_data;
+      }
       return rgba;
     }
  

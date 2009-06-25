@@ -608,9 +608,9 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
                 if( patient_pos2 > patient_pos1 ) {
                   // Sort in reverse alphabetical order.
                   vector< string > tmp_filenames;
-                  tmp_filenames.resize( filenames.size() );
-                  for( int i = filenames.size() - 1; i >= 0; i-- )
-                    tmp_filenames.push_back( filenames[i] );
+                  tmp_filenames.reserve( filenames.size() );
+                  for( int j = filenames.size() - 1; j >= 0; j-- )
+                    tmp_filenames.push_back( filenames[j] );
                   filenames = tmp_filenames;
                 }
 

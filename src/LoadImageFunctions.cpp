@@ -438,7 +438,42 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
                                            bool load_single_file ) {
   if( load_single_file ) {
    try {
-      return new DicomImage( url );
+     // dicom data is specified from topleft corner. we have to convert it so
+     // it is specified from the bottomleft corner
+     auto_ptr< DicomImage > slice_2d( new DicomImage( url ) );
+
+     // get properties from dicom image
+     unsigned int width  = slice_2d->width();
+     unsigned int height = slice_2d->height();
+     // depth will be incremented below depending on the number of slices
+     // used
+     unsigned int depth = 1;
+     Vec3f pixel_size = slice_2d->pixelSize();
+     Image::PixelType pixel_type = slice_2d->pixelType();
+     unsigned int bits_per_pixel = slice_2d->bitsPerPixel();
+     Image::PixelComponentType component_type = 
+       slice_2d->pixelComponentType();    
+     
+     unsigned bytes_per_pixel = 
+       bits_per_pixel % 8 == 0 ? 
+       bits_per_pixel / 8 : bits_per_pixel / 8 + 1;
+     
+     // allocate and copy data into correct order.
+     unsigned char *data = 
+       new unsigned char[ width * height * bytes_per_pixel ];
+     
+     unsigned char * slice_data = (unsigned char *)slice_2d->getImageData();
+     for( unsigned int row = 0; row < height; row++ ) {
+       memcpy( data + row*width* bytes_per_pixel, 
+               slice_data + (height - row - 1 ) * width * bytes_per_pixel,
+               width * bytes_per_pixel );
+     }
+
+     // return new image with the correct row order.
+     return new PixelImage( width, height, depth, 
+                            bits_per_pixel, pixel_type, component_type,
+                            data, false, pixel_size );
+
     } catch( const DicomImage::CouldNotLoadDicomImage &e ) {
       cerr << e << endl;
       return NULL;
@@ -483,7 +518,6 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
         string name = string(dirp->d_name);
         if( prefix == name.substr( 0,3 ) ) {
           filenames.push_back( string( path.c_str() ) + "/" + name );
-          Console(3) << filenames.back() << endl;
         }
       }
       closedir(dp);
@@ -533,6 +567,75 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
 
     bool use_all_files = (res != EC_Normal || orig_series_instance_UID == "" );
 
+    // Checking the z value of the ImagePositionPatient to know in which
+    // order the dicom files should be read.
+    // In the future these might be changed to Vec3f and we check
+    // the entire vector to know which order to read the images.
+    H3DFloat patient_pos1;
+    H3DFloat patient_pos2;
+    H3DFloat patient_orn[6];
+    bool first_patient_pos_set = false;
+    // Iterate through filename and get the two first valid ones and try
+    // to read information from them. If information is read from two, then
+    // break. This could perhaps be coupled with the other for loop.
+    for( unsigned int i = 0; i < filenames.size(); i++ ) {
+      DcmFileFormat fileformat;
+      if( fileformat.loadFile(filenames[i].c_str()).good() ) {
+        OFString string_value;
+        DcmDataset * dataset = fileformat.getDataset();
+        OFCondition res = dataset->findAndGetOFString( DCM_SeriesInstanceUID,
+                                                       string_value );
+        // only use the files that match the series instance of the original 
+        // file.
+        if( use_all_files ||
+            string_value == orig_series_instance_UID ) {
+          OFCondition res = dataset->findAndGetOFString(
+            DCM_ImagePositionPatient, string_value, 2 );
+          if( res == EC_Normal ) {
+            if( first_patient_pos_set ) {
+              patient_pos2 = atof( string_value.c_str() );
+              OFString string_value2;
+              OFCondition res2 = dataset->findAndGetOFStringArray(
+                DCM_ImageOrientationPatient, string_value2 );
+              if( res2 == EC_Normal ) {
+                size_t start_pos = 0;
+                for( unsigned int j = 0; j < 6; j++ ) {
+                  size_t pos = string_value2.find( "\\", start_pos, 2 );
+                  patient_orn[j] = atof( string_value2.substr( 
+                    start_pos, pos - start_pos ).c_str() );
+                  start_pos = pos + 1;
+                }
+                if( patient_pos2 > patient_pos1 ) {
+                  // Sort in reverse alphabetical order.
+                  vector< string > tmp_filenames;
+                  tmp_filenames.reserve( filenames.size() );
+                  for( int j = filenames.size() - 1; j >= 0; j-- )
+                    tmp_filenames.push_back( filenames[j] );
+                  filenames = tmp_filenames;
+                }
+
+                if( H3DAbs( patient_orn[0] - 1 ) > Constants::f_epsilon ||
+                    H3DAbs( patient_orn[1] - 0 ) > Constants::f_epsilon ||
+                    H3DAbs( patient_orn[2] - 0 ) > Constants::f_epsilon ||
+                    H3DAbs( patient_orn[3] - 0 ) > Constants::f_epsilon ||
+                    H3DAbs( patient_orn[4] - 1 ) > Constants::f_epsilon ||
+                    H3DAbs( patient_orn[5] - 0 ) > Constants::f_epsilon ) {
+                  Console(3) << "Warning: ImageOrientationPatient is not "
+                             << "the assumed default. Dicom image might not "
+                             << "be read correctly." << endl;
+                }
+                break;
+              }
+            } else {
+              // Set patient_pos1 and break.
+              patient_pos1 = atof( string_value.c_str() );
+              first_patient_pos_set = true;
+            }
+          }
+        }
+      }
+    }
+
     // read all files and compose them into one image.
     for( unsigned int i = 0; i < filenames.size(); ++i ) {
       DcmFileFormat fileformat;
@@ -540,7 +643,7 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
 
       if (fileformat.loadFile(filenames[i].c_str()).good()) {
         DcmDataset *dataset = fileformat.getDataset();
-        OFCondition res = dataset->findAndGetOFString( DCM_SeriesInstanceUID, 
+        OFCondition res = dataset->findAndGetOFString( DCM_SeriesInstanceUID,
                                                        series_instance_UID );
       }
      
@@ -554,9 +657,16 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
           delete [] data;
           return NULL;
         }
-        memcpy( data + width * height * depth * bytes_per_pixel, 
-                slice_2d->getImageData(), 
-                width * height * bytes_per_pixel );
+
+        // dicom data is specified from topleft corner. we have to convert it
+        // so it is specified from the bottomleft corner
+        unsigned char * slice_data = (unsigned char *)slice_2d->getImageData();
+        for( unsigned int row = 0; row < height; row++ ) {
+          memcpy( data + (width * height * depth  + row*width)*
+                         bytes_per_pixel,
+                  slice_data + (height - row - 1 ) * width * bytes_per_pixel,
+                  width * bytes_per_pixel );
+        }
         depth++;
       }
     }

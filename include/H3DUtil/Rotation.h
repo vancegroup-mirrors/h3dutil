@@ -50,7 +50,7 @@ namespace H3DUtil {
     class H3DUTIL_API Rotation {
     public:
       /// Default constructor.
-      Rotation() : axis( 0,0,0 ), angle( 0 ) {}
+      Rotation() : axis( 1,0,0 ), angle( 0 ) {}
 
       /// Constructor. x, y, z is the vector to rotate around and a is the
       /// angle.

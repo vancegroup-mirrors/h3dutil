@@ -40,54 +40,73 @@ using namespace H3DUtil;
 void Image::getSample( void *value, 
                        H3DFloat x, 
                        H3DFloat y, 
-                       H3DFloat z ) {
+                       H3DFloat z,
+                       FilterType filter_type ) {
 
-  H3DFloat px = x * width() - 0.5f;
-  H3DFloat py = y * height()- 0.5f;
-  H3DFloat pz = z * depth() - 0.5f;
+  if( filter_type == NEAREST ) {
+    int xp, yp, zp;
 
-  if( px < 0 ) px = 0;
-  if( py < 0 ) py = 0;
-  if( pz < 0 ) pz = 0;
+    if( x <= 0 ) xp = 0;
+    else if( x >= 1 ) xp = width() - 1;
+    else xp = (int) H3DFloor( width() * x );
 
-  H3DFloat fx = H3DFloor( px );
-  H3DFloat fy = H3DFloor( py );
-  H3DFloat fz = H3DFloor( pz );
-  
-  H3DFloat cx = H3DCeil( px );
-  H3DFloat cy = H3DCeil( py );
-  H3DFloat cz = H3DCeil( pz );
+    if( y <= 0 ) yp = 0;
+    else if( y >= 1 ) yp = height() - 1;
+    else yp = (int) H3DFloor( height() * y );
+
+    if( z <= 0 ) zp = 0;
+    else if( z >= 1 ) zp = depth() - 1;
+    else zp = (int) H3DFloor( depth() * z );
+
+    getElement( value, xp, yp, zp );
+  } else {
+
+    H3DFloat px = x * width() - 0.5f;
+    H3DFloat py = y * height()- 0.5f;
+    H3DFloat pz = z * depth() - 0.5f;
     
-  if( cx >= width() ) cx--;
-  if( cy >= height() ) cy--;
-  if( cz >= depth() ) cz--;
-
-  H3DFloat xd = px - fx;
-  H3DFloat yd = py - fy;
-  H3DFloat zd = pz - fz;
-
-  // interpolate in z
-  H3DUtil::RGBA fff = getPixel( (int)fx, (int)fy, (int)fz );
-  H3DUtil::RGBA ffc = getPixel( (int)fx, (int)fy, (int)cz );
-  H3DUtil::RGBA fcf = getPixel( (int)fx, (int)cy, (int)fz );
-  H3DUtil::RGBA fcc = getPixel( (int)fx, (int)cy, (int)cz );
-  H3DUtil::RGBA cff = getPixel( (int)cx, (int)fy, (int)fz );
-  H3DUtil::RGBA cfc = getPixel( (int)cx, (int)fy, (int)cz );
-  H3DUtil::RGBA ccf = getPixel( (int)cx, (int)cy, (int)fz );
-  H3DUtil::RGBA ccc = getPixel( (int)cx, (int)cy, (int)cz );
-  
-  H3DUtil::RGBA i1 = fff * (1-zd) + ffc * zd;
-  H3DUtil::RGBA i2 = fcf * (1-zd) + fcc * zd;
-  H3DUtil::RGBA j1 = cff * (1-zd) + cfc * zd;
-  H3DUtil::RGBA j2 = ccf * (1-zd) + ccc * zd;
-  
-  H3DUtil::RGBA w1 = i1 * (1-yd) + i2 * yd;
-  H3DUtil::RGBA w2 = j1 * (1-yd) + j2 * yd;
-  
-  H3DUtil::RGBA v = w1 * (1-xd) + w2 * xd;
-
-  RGBAToImageValue( v, value );
-
+    if( px < 0 ) px = 0;
+    if( py < 0 ) py = 0;
+    if( pz < 0 ) pz = 0;
+    
+    H3DFloat fx = H3DFloor( px );
+    H3DFloat fy = H3DFloor( py );
+    H3DFloat fz = H3DFloor( pz );
+    
+    H3DFloat cx = H3DCeil( px );
+    H3DFloat cy = H3DCeil( py );
+    H3DFloat cz = H3DCeil( pz );
+    
+    if( cx >= width() ) cx--;
+    if( cy >= height() ) cy--;
+    if( cz >= depth() ) cz--;
+    
+    H3DFloat xd = px - fx;
+    H3DFloat yd = py - fy;
+    H3DFloat zd = pz - fz;
+    
+    // interpolate in z
+    H3DUtil::RGBA fff = getPixel( (int)fx, (int)fy, (int)fz );
+    H3DUtil::RGBA ffc = getPixel( (int)fx, (int)fy, (int)cz );
+    H3DUtil::RGBA fcf = getPixel( (int)fx, (int)cy, (int)fz );
+    H3DUtil::RGBA fcc = getPixel( (int)fx, (int)cy, (int)cz );
+    H3DUtil::RGBA cff = getPixel( (int)cx, (int)fy, (int)fz );
+    H3DUtil::RGBA cfc = getPixel( (int)cx, (int)fy, (int)cz );
+    H3DUtil::RGBA ccf = getPixel( (int)cx, (int)cy, (int)fz );
+    H3DUtil::RGBA ccc = getPixel( (int)cx, (int)cy, (int)cz );
+    
+    H3DUtil::RGBA i1 = fff * (1-zd) + ffc * zd;
+    H3DUtil::RGBA i2 = fcf * (1-zd) + fcc * zd;
+    H3DUtil::RGBA j1 = cff * (1-zd) + cfc * zd;
+    H3DUtil::RGBA j2 = ccf * (1-zd) + ccc * zd;
+    
+    H3DUtil::RGBA w1 = i1 * (1-yd) + i2 * yd;
+    H3DUtil::RGBA w2 = j1 * (1-yd) + j2 * yd;
+    
+    H3DUtil::RGBA v = w1 * (1-xd) + w2 * xd;
+    
+    RGBAToImageValue( v, value );
+  }
 }
 
 

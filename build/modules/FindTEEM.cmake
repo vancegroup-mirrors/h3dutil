@@ -52,7 +52,7 @@ FIND_PATH(TEEM_INCLUDE_DIR NAMES teem/nrrd.h
 MARK_AS_ADVANCED(TEEM_INCLUDE_DIR)
 
 # Look for the library.
-FIND_LIBRARY(TEEM_LIBRARY NAMES nrrd teem 
+FIND_LIBRARY(TEEM_LIBRARY NAMES teem 
                           PATHS $ENV{H3D_EXTERNAL_ROOT}/lib
                                 $ENV{H3D_ROOT}/../External/lib
                                 ../../External/lib

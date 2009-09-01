@@ -111,7 +111,7 @@ void Image::getSample( void *value,
 
 
 namespace ImageInternals {
-	inline H3DFloat getSignedValueAsFloat( void *i, 
+  inline H3DFloat getSignedValueAsFloat( void *i, 
                                          unsigned int bytes_to_read ) {
     H3DFloat max_value = (H3DFloat) (H3DPow( 2.0, (int)bytes_to_read* 8 - 1) - 1);
     if( bytes_to_read == 1 ) {
@@ -127,25 +127,28 @@ namespace ImageInternals {
       memcpy( &v, i, bytes_to_read );
       return v / max_value;
     } else if( bytes_to_read == 8 ) {
-	    long v = 0;
+      H3DInt64 v = 0;
       memcpy( &v, i, bytes_to_read );
       return v / max_value;
     } else {
       assert( false );
       return 0;
     }
-	}
+  }
 
-	inline H3DFloat getUnsignedValueAsFloat( void *i, 
+  inline H3DFloat getUnsignedValueAsFloat( void *i, 
                                            unsigned int bytes_to_read ) {
-	  unsigned long v = 0;
+    // Making sure that bytes_to_read is below 4 bits because otherwise the
+    // destination of memory copy is to small. ( the variable v ).
+    assert( bytes_to_read <= 4 );
+    unsigned long v = 0;
     memcpy( &v,
             i,
             bytes_to_read );
     return v / (H3DFloat) (H3DPow( 2.0, (int)bytes_to_read * 8 ) - 1);
-	}
+  }
 
-	inline H3DFloat getRationalValueAsFloat( void *i, 
+  inline H3DFloat getRationalValueAsFloat( void *i, 
                                            unsigned int bytes_to_read ) {
     assert( bytes_to_read == 4 || bytes_to_read == 8 );
     double v = 0;
@@ -155,29 +158,29 @@ namespace ImageInternals {
       v = *((double *)i);
     }
     return (H3DFloat) v;
-	}
+  }
 
-	inline void writeFloatAsSignedValue( H3DFloat r,
+  inline void writeFloatAsSignedValue( H3DFloat r,
                                        void *i, 
                                        unsigned int bytes_to_write ) {
-	  long v = (long)(r * (H3DPow( 2.0, (int)bytes_to_write * 8 - 1 ) - 1));
+    long v = (long)(r * (H3DPow( 2.0, (int)bytes_to_write * 8 - 1 ) - 1));
     memcpy( i,
             (&v),
             bytes_to_write );
-	}
+  }
 
-	inline void writeFloatAsUnsignedValue( H3DFloat r,
+  inline void writeFloatAsUnsignedValue( H3DFloat r,
                                        void *i, 
                                        unsigned int bytes_to_write ) {
-	  unsigned long v = (unsigned long) (r * (H3DPow( 2.0, (int)bytes_to_write * 8 ) - 1) );
+    unsigned long v = (unsigned long) (r * (H3DPow( 2.0, (int)bytes_to_write * 8 ) - 1) );
     memcpy( i,
             &v,
             bytes_to_write );
       
-	}
+  }
 
 
-	inline void writeFloatAsRationalValue( H3DFloat r,
+  inline void writeFloatAsRationalValue( H3DFloat r,
                                          void *i, 
                                          unsigned int bytes_to_write ) {
     assert( bytes_to_write == 4 || bytes_to_write == 8 );
@@ -187,7 +190,7 @@ namespace ImageInternals {
     } else if( bytes_to_write == 8 ) {
       *((double *)i) = r;
     }
-	}
+  }
 
 }
 

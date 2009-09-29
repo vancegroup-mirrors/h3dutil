@@ -1,3 +1,25 @@
+Changes for version 1.1:
+
+- Default rotation axis for Rotation is now 1 0 0 as it should be.
+- Added insert and erase methods to AutoRefVector.
+- Cmake build system updates, such as explicity listing all files belonging to
+the H3DUtil project.
+- Fixed bugs reported on www.h3d.org.
+- Various important fixes to image classes.
+- Additional LoadImageFunctions in order to load DICOM and nrrd images.
+- Added Priority enumerator for defining thread priority. The values of the
+enumerator used instead of system dependent thread priority definitions.
+- Added mechanisms for thread safe Console output.
+- Fixes to compile on 64 bit Windows.
+- Fixes to compile on recent versions of gcc.
+- Documentation updates.
+
+New source files:
+ - ReadWriteH3DTypes.h - Contains functions that can be used to write and read
+ H3DTypes as binary data to and from a stream.
+ - DicomImage.h, DicomImage.cpp. Contains an image loaded from dicom files.
+
+
 Changes for version 1.0:
 
 - Corrections to CMake build system and additions for compiling against static

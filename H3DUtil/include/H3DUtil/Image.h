@@ -104,6 +104,7 @@ namespace H3DUtil {
     /// \param x The position in x(width) to sample(0-1).
     /// \param y The position in y(height) to sample(0-1).
     /// \param z The position in z(depth) to sample(0-1).
+    /// \param filter_type Determines the sample should be interpolated.
     void getSample( void *value, 
                     H3DFloat x = 0, 
                     H3DFloat y = 0, 
@@ -117,6 +118,7 @@ namespace H3DUtil {
     /// \param x The position in x(width) to sample(0-1).
     /// \param y The position in y(height) to sample(0-1).
     /// \param z The position in z(depth) to sample(0-1).
+    /// \param filter_type Determines the sample should be interpolated.
     inline H3DUtil::RGBA getSample( H3DFloat x = 0, 
                                     H3DFloat y = 0, 
                                     H3DFloat z = 0,

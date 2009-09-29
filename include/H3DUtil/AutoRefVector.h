@@ -238,14 +238,14 @@ namespace H3DUtil {
       } 
     }
 
-    /// Insert an element before the index given by pos. 
+    /// Insert an element before the index given by pos.
     inline virtual void insert(unsigned int pos,
                                const value_type & x) {
       ref( x );
       vector< NodeClass*>::insert( vector< NodeClass*>::begin() + pos, x );
     }
 
-    /// Removes the at the index pos. 
+    /// Removes the element at the index pos.
     inline virtual void erase(unsigned int pos ) {
       // nop if pos is outside range.
       if( pos >= size() ) return;

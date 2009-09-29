@@ -22,7 +22,7 @@ IF( PREFER_STATIC_LIBRARIES )
 ENDIF( PREFER_STATIC_LIBRARIES )
 
 SET( H3DUTIL_MAJOR_VERSION 1 )
-SET( H3DUTIL_MINOR_VERSION 0 )
+SET( H3DUTIL_MINOR_VERSION 1 )
 SET( H3DUTIL_BUILD_VERSION 0 )
 
 SET( H3DUTIL_FULL_VERSION
@@ -176,6 +176,15 @@ ELSEIF(MSVC80)
   SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc8
                                             LINK_FLAGS_DEBUG " /NODEFAULTLIB:msvcrt" )
   SET( H3DUTIL_COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS} -D_CRT_SECURE_NO_DEPRECATE" )
+  
+  # This might be useful for visual studio 2005 users that often recompile the api.
+  IF( NOT DEFINED USE_VC8_MP_FLAG )
+    SET( USE_VC8_MP_FLAG "NO" CACHE BOOL "In visual studio 8 the MP flag exists but is not documented. Maybe it is unsafe to use. If you want to use it then set this flag to yes." )
+  ENDIF( NOT DEFINED USE_VC8_MP_FLAG )
+  
+  IF( USE_VC8_MP_FLAG )
+    SET( H3DUTIL_COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS} /MP" )
+  ENDIF( USE_VC8_MP_FLAG )
 ELSEIF(MSVC90)
   SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc9
                                             LINK_FLAGS_DEBUG " /NODEFAULTLIB:msvcrt" )

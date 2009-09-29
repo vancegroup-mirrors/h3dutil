@@ -32,7 +32,6 @@
 
 using namespace H3DUtil;
 
-
 #ifdef HAVE_FREEIMAGE
 
 #include <FreeImage.h>
@@ -66,7 +65,7 @@ FreeImageImage::PixelType FreeImageImage::pixelType() {
   switch( t ) {
   case FIC_MINISBLACK: 
   case FIC_MINISWHITE: return LUMINANCE;
-#if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
+#if defined(FREEIMAGE_COLORORDER) && FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
   case FIC_RGB: return RGB;
   case FIC_RGBALPHA: return RGBA;
 #else

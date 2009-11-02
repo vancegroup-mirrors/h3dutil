@@ -65,6 +65,7 @@
 #include <H3DUtil/PixelImage.h>
 #include <H3DUtil/DicomImage.h>
 #include <fstream>
+#include <memory>
 
 using namespace H3DUtil;
 

@@ -48,6 +48,13 @@ namespace H3DUtil {
   typedef H3DUTIL_INT64 H3DInt64;
   /// The 64 bit unsigned integer type.
   typedef unsigned H3DUTIL_INT64 H3DUInt64;
+  /// The unsigned integer type with the same size as the pointer type of
+  /// the system.
+  typedef H3DUInt64 H3DPtrUint;
+#else
+  /// The unsigned integer type with the same size as the pointer type of
+  /// the system.
+  typedef unsigned int H3DPtrUint;
 #endif
 
   /// The type for time values.

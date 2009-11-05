@@ -135,7 +135,7 @@ Image *H3DUtil::loadRawImage( const string &url,
   else {
     Console(3) << "Warning: Invalid pixelType value \"" << raw_image_info.pixel_type_string
                << "\" in  RawImageLoader. " << endl;
-	  return NULL;
+    return NULL;
   }
 
   Image::PixelComponentType pixel_component_type;
@@ -149,12 +149,12 @@ Image *H3DUtil::loadRawImage( const string &url,
     Console(3) << "Warning: Invalid pixelComponentType value \"" 
                << raw_image_info.pixel_component_type_string
                << "\" in  RawImageLoader. " << endl;
-	  return NULL;
+    return NULL;
   }
     
   unsigned int expected_size = 
     raw_image_info.width * raw_image_info.height * raw_image_info.depth *
-    raw_image_info.bits_per_pixel / 8;
+    ( raw_image_info.bits_per_pixel / 8 );
 
   unsigned char * data = new unsigned char[expected_size];
   

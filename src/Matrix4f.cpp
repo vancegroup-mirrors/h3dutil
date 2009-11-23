@@ -224,7 +224,7 @@ Matrix4f Matrix4f::inverse() const {
   
   H3DFloat d = t42+t63;
 
-  if( H3DAbs(d) < Constants::f_epsilon ){
+  if( H3DAbs(d) == 0 ){
 	throw SingularMatrix4f( "", H3D_FULL_LOCATION );
   }
 

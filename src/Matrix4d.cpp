@@ -233,7 +233,7 @@ Matrix4d Matrix4d::inverse() const {
   
   H3DDouble d = t42+t63;
 
-  if( H3DAbs(d) < Constants::f_epsilon ){
+  if( H3DAbs(d) == 0 ){
 	throw SingularMatrix4d( "", H3D_FULL_LOCATION );
   }
 

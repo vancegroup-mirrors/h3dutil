@@ -65,10 +65,10 @@ namespace H3DUtil {
       }
 
       /// Constructor. From Rotation object.
-      Matrix3f( const Rotation &r );
+      explicit Matrix3f( const Rotation &r );
 
       /// Constructor. From Quaternion object.
-      Matrix3f( const Quaternion &q );
+      explicit Matrix3f( const Quaternion &q );
 
       /// Constructor. From Matrix3d.
       explicit Matrix3f( const Matrix3d &v );

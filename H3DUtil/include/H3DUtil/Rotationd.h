@@ -75,7 +75,7 @@ namespace H3DUtil {
       explicit Rotationd( const Vec3d &euler_angles );
 
       /// Constructor. From Quaterniond object.
-      Rotationd( const Quaterniond &r );
+      explicit Rotationd( const Quaterniond &r );
 
       /// Constructor. From Rotation object.
       Rotationd( const Rotation &r ) : axis( r.axis ), angle( r.angle ){}

@@ -70,16 +70,16 @@ namespace H3DUtil {
       Matrix3d( const Matrix3f &matrix );
 
       /// Constructor. From Rotation object.
-      Matrix3d( const Rotationd &r );
+      explicit Matrix3d( const Rotationd &r );
 
       /// Constructor. From Quaternion object.
-      Matrix3d( const Quaterniond &q );
+      explicit Matrix3d( const Quaterniond &q );
 
       /// Constructor. From Rotation object.
-      Matrix3d( const Rotation &r );
+      explicit Matrix3d( const Rotation &r );
 
       /// Constructor. From Quaternion object.
-      Matrix3d( const Quaternion &q );
+      explicit Matrix3d( const Quaternion &q );
 
       /// Set the Matrix3d to the identity matrix.
       inline void setToIdentity() {

@@ -67,7 +67,7 @@ namespace H3DUtil {
       explicit Quaternion( const Vec3d &euler_angles );
 
       /// Constructor. From Rotation object.
-      Quaternion( const Rotation &r );
+      explicit Quaternion( const Rotation &r );
       
       /// Constructor. From Matrix3f that is a rotation matrix.  Assumes
       /// the matrix is orthogonal.
@@ -102,7 +102,7 @@ namespace H3DUtil {
       }
       
       /// Returns the conjugate of the Quaternion.
-      inline Quaternion conjugate() {
+      inline Quaternion conjugate() const {
         return Quaternion( -v, w );
       }
 

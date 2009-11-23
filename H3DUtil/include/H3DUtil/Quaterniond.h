@@ -95,7 +95,7 @@ namespace H3DUtil {
       }
       
       /// Returns the conjugate of the Quaterniond.
-      inline Quaterniond conjugate() {
+      inline Quaterniond conjugate() const {
         return Quaterniond( -v, w );
       }
 

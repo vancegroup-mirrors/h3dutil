@@ -70,10 +70,10 @@ namespace H3DUtil {
       }
 				
       /// Constructor. From Rotation object.
-      Matrix4f( const Rotation &r );
+      explicit Matrix4f( const Rotation &r );
 
       /// Constructor. From Quaternion object.
-      Matrix4f( const Quaternion &q );
+      explicit Matrix4f( const Quaternion &q );
 
       /// Constructor. From Matrix3f object. Creates a tranform matrix where
       /// the rotation part is the Matrix3f.

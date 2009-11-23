@@ -72,16 +72,16 @@ namespace H3DUtil {
       }
 				
       /// Constructor. From Rotation object.
-      Matrix4d( const Rotation &r );
+      explicit Matrix4d( const Rotation &r );
 
       /// Constructor. From Quaternion object.
-      Matrix4d( const Quaternion &q );
+      explicit Matrix4d( const Quaternion &q );
 
       /// Constructor. From Rotation object.
-      Matrix4d( const Rotationd &r );
+      explicit Matrix4d( const Rotationd &r );
 
       /// Constructor. From Quaternion object.
-      Matrix4d( const Quaterniond &q );
+      explicit Matrix4d( const Quaterniond &q );
 
       /// Constructor. From Matrix3d object. Creates a tranform matrix where
       /// the rotation part is the Matrix3d.

@@ -36,16 +36,16 @@ using namespace H3DUtil;
 using namespace ArithmeticTypes;
 
 Rotation H3DUtil::ArithmeticTypes::operator*( const Rotation &r1 ,const Rotation &r2 ) {
-  return (Quaternion) r1 * (Quaternion) r2;
+  return Rotation( Quaternion(r1) * Quaternion(r2) );
 }
 /// Constructor. From Euler angles (yaw, pitch, roll ).
 Rotation::Rotation( const Vec3f &euler_angles ) {
-  *this = Quaternion( euler_angles );
+  *this = Rotation( Quaternion( euler_angles ) );
 }
 
 /// Constructor. From Euler angles (yaw, pitch, roll ).
 Rotation::Rotation( const Vec3d &euler_angles ) {
-  *this = Quaternion( euler_angles );
+  *this = Rotation( Quaternion( euler_angles ) );
 }
  
 
@@ -89,8 +89,8 @@ Vec3f Rotation::toEulerAngles() {
 
 Rotation Rotation::slerp( const Rotation &r, 
                           H3DFloat t ) const {
-  Quaternion q = *this;
-  return q.slerp( r, t );
+  Quaternion q( *this );
+  return Rotation( q.slerp( Quaternion( r ), t ) );
 }
 
 Rotation::Rotation( const Vec3f &n1, const Vec3f &n2 ) {

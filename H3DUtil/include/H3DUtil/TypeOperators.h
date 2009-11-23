@@ -89,10 +89,42 @@ namespace H3DUtil {
 
     /// Multiplication between Rotation and Vec3f is the Vec3f
     /// rotated by the Rotation.
+    /// \ingroup QuaternionOperators
+    /// \ingroup Vec3fOperators
+    inline Vec3f operator*( const Quaternion &r, const Vec3f &v ) {
+      return ( (r*Quaternion(v,0)) * r.conjugate() ).v;
+    }
+
+    /// Multiplication between Quaternion and Vec3d.
+    /// \ingroup QuaternionOperators
+    /// \ingroup Vec3dOperators
+    inline Vec3d operator*( const Quaternion &r, const Vec3d &v ) {
+      Quaterniond q(r);
+      return ( (q*Quaterniond(v,0)) * q.conjugate() ).v;
+    }
+    
+    /// Multiplication between Rotationd and Vec3f is the Vec3f
+    /// rotated by the Rotation.
+    /// \ingroup QuaternionOperators
+    /// \ingroup Vec3fOperators
+    inline Vec3d operator*( const Quaterniond &r, const Vec3f &v ) {
+      Vec3d vd(v);
+      return ( (r*Quaterniond(vd,0)) * r.conjugate() ).v;
+    }
+
+    /// Multiplication between Quaternion and Vec3d.
+    /// \ingroup QuaternionOperators
+    /// \ingroup Vec3dOperators
+    inline Vec3d operator*( const Quaterniond &r, const Vec3d &v ) {
+      return ( (r*Quaterniond(v,0)) * r.conjugate() ).v;
+    }
+
+    /// Multiplication between Rotation and Vec3f is the Vec3f
+    /// rotated by the Rotation.
     /// \ingroup RotationOperators
     /// \ingroup Vec3fOperators
     inline Vec3f operator*( const Rotation &r, const Vec3f &v ) {
-      return (Matrix3f)r * v;
+      return Quaternion(r) * v;
     }
 
 
@@ -100,22 +132,7 @@ namespace H3DUtil {
     /// \ingroup RotationOperators
     /// \ingroup Vec3dOperators
     inline Vec3d operator*( const Rotation &r, const Vec3d &v ) {
-      return (Matrix3f)r * v;
-    }
-
-    /// Multiplication between Rotation and Vec3f is the Vec3f
-    /// rotated by the Rotation.
-    /// \ingroup QuaternionOperators
-    /// \ingroup Vec3fOperators
-    inline Vec3f operator*( const Quaternion &r, const Vec3f &v ) {
-      return (Matrix3f)r * v;
-    }
-
-    /// Multiplication between Quaternion and Vec3d.
-    /// \ingroup QuaternionOperators
-    /// \ingroup Vec3dOperators
-    inline Vec3d operator*( const Quaternion &r, const Vec3d &v ) {
-      return (Matrix3f)r * v;
+      return Quaterniond(r) * v;
     }
 
     /// Multiplication between Rotationd and Vec3f is the Vec3f
@@ -123,7 +140,8 @@ namespace H3DUtil {
     /// \ingroup RotationOperators
     /// \ingroup Vec3fOperators
     inline Vec3d operator*( const Rotationd &r, const Vec3f &v ) {
-      return (Matrix3d)r * v;
+      Vec3d vd(v);
+      return Quaterniond(r) * vd;
     }
 
 
@@ -131,22 +149,7 @@ namespace H3DUtil {
     /// \ingroup RotationOperators
     /// \ingroup Vec3dOperators
     inline Vec3d operator*( const Rotationd &r, const Vec3d &v ) {
-      return (Matrix3d)r * v;
-    }
-
-    /// Multiplication between Rotationd and Vec3f is the Vec3f
-    /// rotated by the Rotation.
-    /// \ingroup QuaternionOperators
-    /// \ingroup Vec3fOperators
-    inline Vec3d operator*( const Quaterniond &r, const Vec3f &v ) {
-      return (Matrix3d)r * v;
-    }
-
-    /// Multiplication between Quaternion and Vec3d.
-    /// \ingroup QuaternionOperators
-    /// \ingroup Vec3dOperators
-    inline Vec3d operator*( const Quaterniond &r, const Vec3d &v ) {
-      return (Matrix3d)r * v;
+      return Quaterniond(r) * v;
     }
 
     /// Multiplication between Matrix4f and Vec4f.

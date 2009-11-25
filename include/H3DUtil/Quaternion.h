@@ -39,7 +39,7 @@ namespace H3DUtil {
   namespace ArithmeticTypes {
     // forward declarations.
     class Matrix3f;
-	class Matrix3d;
+  class Matrix3d;
   class Quaterniond;
     class Rotation;
 
@@ -133,10 +133,10 @@ namespace H3DUtil {
     /// \{
 
     /// Function for printing a Quaternion to an ostream.
-	  inline ostream& operator<<( ostream &os, const Quaternion &q ) {
-		  os << q.v << " " << q.w;
-		  return os;
-	  }
+    inline ostream& operator<<( ostream &os, const Quaternion &q ) {
+      os << q.v << " " << q.w;
+      return os;
+    }
 
     /// Equality between two Quaternion instances.
     inline bool operator==( const Quaternion &q1, const Quaternion &q2 ) {
@@ -151,25 +151,25 @@ namespace H3DUtil {
                          q1.w * q2.w - q1.v * q2.v );
     }
 
-    /// Multiplacation by a double.
+    /// Multiplication by a double.
     inline Quaternion operator*( const Quaternion &q, 
                                  double d ) {    
       return Quaternion( d *q.v, (H3DFloat)(d * q.w) );
     }
 
-    /// Multiplacation by a float.
+    /// Multiplication by a float.
     inline Quaternion operator*( const Quaternion &q, 
                                  float d ) {    
       return Quaternion( d *q.v, d * q.w );
     }
 
-    /// Multiplacation by an int.
+    /// Multiplication by an int.
     inline Quaternion operator*( const Quaternion &q, 
                                  int d ) {    
       return Quaternion( d *q.v, (H3DFloat) (d * q.w) );
     }
 
-    /// Multiplacation by a long.
+    /// Multiplication by a long.
     inline Quaternion operator*( const Quaternion &q, 
                                  long d ) {    
       return Quaternion( d *q.v, (H3DFloat) (d * q.w) );

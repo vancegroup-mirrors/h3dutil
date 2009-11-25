@@ -57,14 +57,14 @@ namespace H3DUtil {
   /// above mentioned operators.
   /// 
   namespace ArithmeticTypes {
-				
+        
     /// Multiplication between Matrix3f and Vec3f.
     /// \ingroup Matrix3fOperators
     /// \ingroup Vec3fOperators
     inline Vec3f operator*( const Matrix3f &m, const Vec3f &v ) {
       return Vec3f( m[0][0]*v.x + m[0][1]*v.y + m[0][2]*v.z,
-		    m[1][0]*v.x + m[1][1]*v.y + m[1][2]*v.z,
-		    m[2][0]*v.x + m[2][1]*v.y + m[2][2]*v.z );
+        m[1][0]*v.x + m[1][1]*v.y + m[1][2]*v.z,
+        m[2][0]*v.x + m[2][1]*v.y + m[2][2]*v.z );
     }
 
 
@@ -73,8 +73,8 @@ namespace H3DUtil {
     /// \ingroup Matrix3fOperators
     inline Vec3d operator*( const Matrix3f &m, const Vec3d &v ) {
       return Vec3d( m[0][0]*v.x + m[0][1]*v.y + m[0][2]*v.z,
-		    m[1][0]*v.x + m[1][1]*v.y + m[1][2]*v.z,
-		    m[2][0]*v.x + m[2][1]*v.y + m[2][2]*v.z );
+        m[1][0]*v.x + m[1][1]*v.y + m[1][2]*v.z,
+        m[2][0]*v.x + m[2][1]*v.y + m[2][2]*v.z );
     }
 
     /// Multiplication between Matrix3d and Vec3d.
@@ -87,8 +87,7 @@ namespace H3DUtil {
     }
 
 
-    /// Multiplication between Rotation and Vec3f is the Vec3f
-    /// rotated by the Rotation.
+    /// Multiplication between Quaternion and Vec3f.
     /// \ingroup QuaternionOperators
     /// \ingroup Vec3fOperators
     inline Vec3f operator*( const Quaternion &r, const Vec3f &v ) {
@@ -103,8 +102,7 @@ namespace H3DUtil {
       return ( (q*Quaterniond(v,0)) * q.conjugate() ).v;
     }
     
-    /// Multiplication between Rotationd and Vec3f is the Vec3f
-    /// rotated by the Rotation.
+    /// Multiplication between Quaterniond and Vec3f.
     /// \ingroup QuaternionOperators
     /// \ingroup Vec3fOperators
     inline Vec3d operator*( const Quaterniond &r, const Vec3f &v ) {
@@ -112,7 +110,7 @@ namespace H3DUtil {
       return ( (r*Quaterniond(vd,0)) * r.conjugate() ).v;
     }
 
-    /// Multiplication between Quaternion and Vec3d.
+    /// Multiplication between Quaterniond and Vec3d.
     /// \ingroup QuaternionOperators
     /// \ingroup Vec3dOperators
     inline Vec3d operator*( const Quaterniond &r, const Vec3d &v ) {
@@ -157,21 +155,21 @@ namespace H3DUtil {
     /// \ingroup Vec4fOperators
     inline Vec4f operator*( const Matrix4f &m, const Vec4f &v ) {
       return Vec4f( 
-		   m[0][0]*v.x + m[0][1]*v.y + m[0][2]*v.z + m[0][3]*v.w,
-		   m[1][0]*v.x + m[1][1]*v.y + m[1][2]*v.z + m[1][3]*v.w,
-		   m[2][0]*v.x + m[2][1]*v.y + m[2][2]*v.z + m[2][3]*v.w,
-		   m[3][0]*v.x + m[3][1]*v.y + m[3][2]*v.z + m[3][3]*v.w );
+        m[0][0]*v.x + m[0][1]*v.y + m[0][2]*v.z + m[0][3]*v.w,
+        m[1][0]*v.x + m[1][1]*v.y + m[1][2]*v.z + m[1][3]*v.w,
+        m[2][0]*v.x + m[2][1]*v.y + m[2][2]*v.z + m[2][3]*v.w,
+        m[3][0]*v.x + m[3][1]*v.y + m[3][2]*v.z + m[3][3]*v.w );
     }
-				
+        
     /// Multiplication between Matrix4f and Vec4d.
     /// \ingroup Matrix4fOperators
     /// \ingroup Vec4dOperators
     inline Vec4d operator*( const Matrix4f &m, const Vec4d &v ) {
       return Vec4d( 
-		   m[0][0]*v.x + m[0][1]*v.y + m[0][2]*v.z + m[0][3]*v.w,
-		   m[1][0]*v.x + m[1][1]*v.y + m[1][2]*v.z + m[1][3]*v.w,
-		   m[2][0]*v.x + m[2][1]*v.y + m[2][2]*v.z + m[2][3]*v.w,
-		   m[3][0]*v.x + m[3][1]*v.y + m[3][2]*v.z + m[3][3]*v.w );
+        m[0][0]*v.x + m[0][1]*v.y + m[0][2]*v.z + m[0][3]*v.w,
+        m[1][0]*v.x + m[1][1]*v.y + m[1][2]*v.z + m[1][3]*v.w,
+        m[2][0]*v.x + m[2][1]*v.y + m[2][2]*v.z + m[2][3]*v.w,
+        m[3][0]*v.x + m[3][1]*v.y + m[3][2]*v.z + m[3][3]*v.w );
     }
 
     /// Multiplication between Matrix4d and Vec4d.
@@ -179,10 +177,10 @@ namespace H3DUtil {
     /// \ingroup Vec4dOperators
     inline Vec4d operator*( const Matrix4d &m, const Vec4d &v ) {
       return Vec4d( 
-		   m[0][0]*v.x + m[0][1]*v.y + m[0][2]*v.z + m[0][3]*v.w,
-		   m[1][0]*v.x + m[1][1]*v.y + m[1][2]*v.z + m[1][3]*v.w,
-		   m[2][0]*v.x + m[2][1]*v.y + m[2][2]*v.z + m[2][3]*v.w,
-		   m[3][0]*v.x + m[3][1]*v.y + m[3][2]*v.z + m[3][3]*v.w );
+        m[0][0]*v.x + m[0][1]*v.y + m[0][2]*v.z + m[0][3]*v.w,
+        m[1][0]*v.x + m[1][1]*v.y + m[1][2]*v.z + m[1][3]*v.w,
+        m[2][0]*v.x + m[2][1]*v.y + m[2][2]*v.z + m[2][3]*v.w,
+        m[3][0]*v.x + m[3][1]*v.y + m[3][2]*v.z + m[3][3]*v.w );
     }
 
     /// Multiplication between Matrix4f and Vec3f. It is assumed that the

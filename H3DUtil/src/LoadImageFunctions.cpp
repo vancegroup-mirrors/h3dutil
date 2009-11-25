@@ -90,20 +90,58 @@ Image *H3DUtil::loadFreeImage( const string &url ) {
 
       FREE_IMAGE_COLOR_TYPE t = FreeImage_GetColorType( bm );
       switch( t ) {
+      case FIC_PALETTE: {
+        // We have a palatted image. Convert to RGB or RGBA.
+        RGBQUAD *palette = FreeImage_GetPalette( bm );
+        BYTE *transparency_table = FreeImage_GetTransparencyTable( bm );
+        bool is_transparent = FreeImage_GetTransparencyCount( bm ) > 0;
+
+        Image::PixelType pixel_type = is_transparent ? Image::RGBA : Image::RGB;
+        Image::PixelComponentType pixel_component_type = Image::UNSIGNED;
+        unsigned int width =  FreeImage_GetWidth( bm );
+        unsigned int height =  FreeImage_GetHeight( bm );
+        unsigned int depth =  1;
+        unsigned int bytes_per_pixel = is_transparent ? 4 : 3;
+        unsigned int size = width * height * depth * bytes_per_pixel;
+
+        // build the new pixel data
+        unsigned char *data = new unsigned char[ size ];
+        for( unsigned int y = 0; y < height; y++ ) {
+          for( unsigned int x = 0; x < width; x++ ) {
+            unsigned int i = (x + y * width) * bytes_per_pixel;
+            BYTE index;
+            FreeImage_GetPixelIndex( bm, x, y, &index );
+            data[ i ] = palette[index].rgbRed;
+            data[ i + 1 ] = palette[index].rgbGreen;
+            data[ i + 2 ] = palette[index].rgbBlue;
+            if( is_transparent ) {
+              data[ i + 3 ] = transparency_table[index];
+            }
+          }
+        }
+
+        return new PixelImage( width,
+                               height,
+                               depth,
+                               bytes_per_pixel * 8,
+                               pixel_type,
+                               pixel_component_type,
+                               data,
+                               false,
+                               Vec3f( 1, 1, 1 ) );
+
+      }
       case FIC_MINISBLACK: 
       case FIC_MINISWHITE:
-#ifdef FREEIMAGE_BIGENDIAN
-      case FIC_RGB: return RGB;
-      case FIC_RGBALPHA: return RGBA;
-#else
       case FIC_RGB:
       case FIC_RGBALPHA: break;
-#endif
       default: {
         Console(3) << "Warning: UnsupportedFreeImageColorType " << t
              << ". File " << url << " can not be loaded. "
              << "File name might be the name of a downloaded temporary file. "
              << endl;
+
+        FreeImage_Unload( bm );
         return NULL;
       }
       }

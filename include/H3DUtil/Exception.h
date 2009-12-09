@@ -36,6 +36,7 @@
 using namespace std;
 
 namespace H3DUtil {
+  /// Namespace containing various exception classes.
   namespace Exception {
     
     /// The base class for all exceptions

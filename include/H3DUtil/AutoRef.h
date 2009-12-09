@@ -45,7 +45,7 @@ namespace H3DUtil {
     typedef NodeType element_type; 
         
     /// Constructor.   
-    explicit AutoRef (NodeType* n = 0) throw() :
+    explicit AutoRef (NodeType* n = NULL) throw() :
       node_ptr( n ) {
       ref( node_ptr );
     }

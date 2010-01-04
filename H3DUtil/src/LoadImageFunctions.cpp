@@ -548,6 +548,7 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
         filenames.push_back( string( path + "\\" + find_data->cFileName ) );
       }
     }
+    delete find_data;
 #else
     string prefix = filename.substr( 0,3 );
     DIR *dp;

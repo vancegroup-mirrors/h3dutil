@@ -222,6 +222,7 @@ void *PeriodicThread::thread_func( void * _data ) {
       }
     }
 
+    thread->callbacks_added_lock.lock();
     // remove all callbacks that returned CALLBACK_DONE.
     for( vector< PeriodicThread::CallbackList::iterator >::iterator i = 
            to_remove.begin();
@@ -229,7 +230,8 @@ void *PeriodicThread::thread_func( void * _data ) {
       thread->free_ids.push_back( (*(*i) ).first );
       thread->callbacks.erase( *i );
     }
-  
+    thread->callbacks_added_lock.unlock();
+
     thread->callback_lock.signal();
 
     // if no more callbacks wait for a callback to be added in order to

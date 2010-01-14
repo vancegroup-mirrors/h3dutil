@@ -94,7 +94,7 @@ namespace H3DUtil {
         // if the length already is 1 we don't have to do anything
         if( H3DAbs(l2-1) > Constants::f_epsilon ) {
           H3DFloat l = H3DSqrt( l2 );
-          if( H3DAbs(l) < Constants::f_epsilon ) {
+          if( l == 0 ) {
             string s = "Trying to normalize zero length Vec2f.";
             throw Vec2fNormalizeError( s );
           } else {

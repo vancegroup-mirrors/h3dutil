@@ -1,3 +1,11 @@
+Changes for version 1.1.1:
+
+- Updates to compile with gcc 3.1.1 on Ubuntu 9.10 and Visual Studio 2010.
+- CMake build updates. Variables that points to include directories and
+libraries are now grouped together for each external library.
+- Memory allocation and deletion fixes.
+- Added support to read paletted image types with FreeImage.
+
 Changes for version 1.1:
 
 - Default rotation axis for Rotation is now 1 0 0 as it should be.

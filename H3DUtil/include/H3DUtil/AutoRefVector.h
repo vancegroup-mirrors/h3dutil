@@ -102,7 +102,7 @@ namespace H3DUtil {
       for( typename vector< NodeClass * >::const_iterator i = v.begin();
            i != v.end();
            i++ ) 
-        (*i)->ref();
+        if(*i) (*i)->ref();
       unrefAll();
       vector<NodeClass*>::operator=( v );
       refAll();
@@ -111,7 +111,7 @@ namespace H3DUtil {
       for( typename vector< NodeClass * >::const_iterator i = v.begin();
            i != v.end();
            i++ ) 
-        (*i)->unref();
+        if(*i) (*i)->unref();
       return *this;
     }
 

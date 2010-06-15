@@ -343,7 +343,7 @@ namespace H3DUtil {
         callback_lock.lock();
         // signal the thread that a new callback is available if it is waiting
         // for one.
-        if( frequency < 0 && callbacks.size() == 0 ) callback_lock.signal();
+        if( callbacks.size() == 0 ) callback_lock.signal();
         
         for( InputIterator i = begin; i != end; i++ ) {
           int cb_id = genCallbackId();

@@ -46,7 +46,7 @@ RefCountedClass::RefCountedClass( bool _use_lock ):
       type_name( "RefCountedClass" ),
       is_initialized( false ),
       manual_initialize( false ),
-      ref_count_lock_pointer(0) {
+      ref_count_lock_pointer(NULL) {
   if( _use_lock ) {
     ref_count_lock_pointer = new MutexLock();
   }
@@ -58,7 +58,7 @@ RefCountedClass::~RefCountedClass() {
 #endif
   if( ref_count_lock_pointer ) {
     delete ref_count_lock_pointer;
-    ref_count_lock_pointer = 0;
+    ref_count_lock_pointer = NULL;
   }
 }
 

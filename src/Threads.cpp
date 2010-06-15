@@ -237,7 +237,11 @@ void *PeriodicThread::thread_func( void * _data ) {
     // if no more callbacks wait for a callback to be added in order to
     // avoid spending time doing no useful operations in the thread.
     if( thread->frequency < 0 ) {
-      if( thread->callbacks.size() == 0 )
+      // Check thread_func_is_running in order to avoid potential hangs
+      // if the user clears the callbacks list and then destroys the thread
+      // class. In that case the wait statement can be reached after
+      // signal in ~PeriodicThread().
+      if( thread->callbacks.size() == 0 && thread->thread_func_is_running )
         thread->callback_lock.wait();
     } else {
       thread->transferCallbackList();
@@ -425,7 +429,7 @@ SimpleThread::~SimpleThread() {
 void PeriodicThread::synchronousCallback( CallbackFunc func, void *data ) {
   callback_lock.lock();
   // signal the thread that a new callback is available if it is waiting for one.
-  if( frequency < 0 && callbacks.size() == 0 ) callback_lock.signal();    
+  if( frequency < 0 && callbacks.size() == 0 ) callback_lock.signal();
   // add the new callback.
   callbacks.push_back( make_pair( genCallbackId(), make_pair( func, data ) ) );
   // wait for the callback to be done.
@@ -439,7 +443,7 @@ int PeriodicThread::asynchronousCallback( CallbackFunc func, void *data ) {
     callback_lock.lock();
     // signal the thread that a new callback is available if it is waiting for
     // one.
-    if( frequency < 0 && callbacks.size() == 0 ) callback_lock.signal();
+    if( callbacks.size() == 0 ) callback_lock.signal();
     cb_id = genCallbackId();
     // add the new callback
     callbacks.push_back( make_pair( cb_id, make_pair( func, data ) ) );
@@ -459,6 +463,8 @@ bool PeriodicThread::removeAsynchronousCallback( int callback_handle ) {
   for( CallbackList::iterator i = callbacks.begin();
        i != callbacks.end(); i++ ) {
     if( (*i).first == callback_handle ) {
+      // Add callback_handle integer to the free_ids list in order
+      // to reuse id later.
       free_ids.push_back( callback_handle );
       callbacks.erase( i );
       callback_lock.unlock();
@@ -472,6 +478,12 @@ bool PeriodicThread::removeAsynchronousCallback( int callback_handle ) {
 /// Remove all callbacks.
 void PeriodicThread::clearAllCallbacks() {
   callback_lock.lock();
+  // All the ids should be added to the free_ids list in
+  // order to be reused later.
+  for( CallbackList::iterator i = callbacks.begin();
+       i != callbacks.end(); i++ ) {
+    free_ids.push_back( (*i).first );
+  }
   callbacks.clear();
   callback_lock.unlock();
 }

@@ -40,7 +40,7 @@
 #ifdef HAVE_TEEM
 #include <H3DUtil/PixelImage.h>
 
-#define TEEM_STATIC
+//#define TEEM_STATIC
 #include <teem/nrrd.h>
 #include <teem/air.h>
 #endif // HAVE_TEEM

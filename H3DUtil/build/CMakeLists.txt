@@ -133,13 +133,27 @@ IF( MSVC )
                    OUTPUT_VARIABLE H3DUTIL_SVN_VERSION )
   # autogenerate H3DUtil.rc depending on the version
   CONFIGURE_FILE( H3DUtil.rc.cmake ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc )
-  ADD_CUSTOM_COMMAND( TARGET H3DUtil 
-                      PRE_BUILD 
-                      COMMAND ${H3DUtil_SOURCE_DIR}/UpdateResourceFile 
-                      ARGS H3DUTIL ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc ${H3DUtil_SOURCE_DIR}/H3DUtil.rc.cmake
-                      ${H3DUTIL_MAJOR_VERSION} ${H3DUTIL_MINOR_VERSION}
-                      ${H3DUTIL_BUILD_VERSION}
-                      ${H3DUtil_SOURCE_DIR}/../src/.svn/entries )
+  # Add option to disable UpdateResourceFile call, ON by default if this is an svn checkout.
+  # OFF if this is not an svn checkout.
+  IF( H3DUTIL_SVN_VERSION EQUAL 0 )
+    OPTION( H3DUtil_CallUpdateResourceFile
+            "If ON then a pre build command is added to call UpdateResourceFile. This is ON if H3DUtil is a subversion checkout, OFF if it is not."
+            OFF )
+  ELSE( H3DUTIL_SVN_VERSION EQUAL 0 )
+    OPTION( H3DUtil_CallUpdateResourceFile
+            "If ON then a pre build command is added to call UpdateResourceFile. This is ON if H3DUtil is a subversion checkout, OFF if it is not."
+            ON )
+  ENDIF( H3DUTIL_SVN_VERSION EQUAL 0 )
+
+  IF( H3DUtil_CallUpdateResourceFile )
+    ADD_CUSTOM_COMMAND( TARGET H3DUtil 
+                        PRE_BUILD 
+                        COMMAND ${H3DUtil_SOURCE_DIR}/UpdateResourceFile 
+                        ARGS H3DUTIL ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc ${H3DUtil_SOURCE_DIR}/H3DUtil.rc.cmake
+                        ${H3DUTIL_MAJOR_VERSION} ${H3DUTIL_MINOR_VERSION}
+                        ${H3DUTIL_BUILD_VERSION}
+                        ${H3DUtil_SOURCE_DIR}/../src/.svn/entries )
+  ENDIF( H3DUtil_CallUpdateResourceFile )
 ENDIF(MSVC)
 
 # set the install directory to the H3D directory on Windows

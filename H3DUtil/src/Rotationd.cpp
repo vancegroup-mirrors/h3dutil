@@ -63,7 +63,7 @@ Rotationd::Rotationd( const Quaterniond &q ) {
 // Constructor. From Matrix3d that is a rotation matrix. 
 Rotationd::Rotationd( const Matrix3d &m ) {
   Quaterniond q(m);
-  *this = Rotationd::Rotationd( q );
+  *this = Rotationd( q );
 }
 
 // Get the euler angles( yaw, pitch, roll ) representation of 

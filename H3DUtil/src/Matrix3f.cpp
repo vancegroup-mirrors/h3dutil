@@ -115,9 +115,9 @@ Matrix3f::Matrix3f( const Quaternion &q ) {
   H3DFloat yz = z*q.v.y;
   H3DFloat zz = z*q.v.z;
   
-  *this = Matrix3f::Matrix3f( 1 - yy - zz, xy - zw, xz + yw,
-                              xy + zw, 1 - xx - zz, yz - xw,
-                              xz - yw, yz + xw, 1 - xx - yy );
+  *this = Matrix3f( 1 - yy - zz, xy - zw, xz + yw,
+                    xy + zw, 1 - xx - zz, yz - xw,
+                    xz - yw, yz + xw, 1 - xx - yy );
 }
 
 Matrix3f::Matrix3f( const Matrix3d &matrix ) {

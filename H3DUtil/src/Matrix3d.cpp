@@ -57,7 +57,7 @@ Matrix3d Matrix3d::inverse() const {
   H3DDouble t14 = m20*m11;
   H3DDouble d = (t4*m22-t6*m12-t8*m22+t10*m02+t12*m12-t14*m02);
   if( H3DAbs(d) == 0 ) 
-	throw SingularMatrix3d( "", H3D_FULL_LOCATION );
+        throw SingularMatrix3d( "", H3D_FULL_LOCATION );
   H3DDouble t17 = 1/d;
   H3DDouble inv00 = (m11*m22-m21*m12)*t17;
   H3DDouble inv01 = -(m01*m22-m21*m02)*t17;
@@ -70,8 +70,8 @@ Matrix3d Matrix3d::inverse() const {
   H3DDouble inv22 = (t4-t8)*t17;
 
   return Matrix3d( inv00, inv01, inv02, 
-		   inv10, inv11, inv12, 
-		   inv20, inv21, inv22 );
+                   inv10, inv11, inv12, 
+                   inv20, inv21, inv22 );
 }
 
 
@@ -115,18 +115,18 @@ Matrix3d::Matrix3d( const Quaterniond &q ) {
   H3DDouble yz = z*q.v.y;
   H3DDouble zz = z*q.v.z;
   
-  *this = Matrix3d::Matrix3d( 1 - yy - zz, xy - zw, xz + yw,
-                              xy + zw, 1 - xx - zz, yz - xw,
-                              xz - yw, yz + xw, 1 - xx - yy );
+  *this = Matrix3d( 1 - yy - zz, xy - zw, xz + yw,
+                    xy + zw, 1 - xx - zz, yz - xw,
+                    xz - yw, yz + xw, 1 - xx - yy );
 }
 
 
 Matrix3d::Matrix3d( const Quaternion &q ) {
-  (*this) = Matrix3d::Matrix3d( Quaterniond( q ) );
+  (*this) = Matrix3d( Quaterniond( q ) );
 }
 
 Matrix3d::Matrix3d( const Rotation &q ) {
-  (*this) = Matrix3d::Matrix3d( Rotationd( q ) );
+  (*this) = Matrix3d( Rotationd( q ) );
 }
 
 

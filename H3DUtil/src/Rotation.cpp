@@ -72,13 +72,13 @@ Rotation::Rotation( const Quaternion &q ) {
 // Constructor. From Matrix3f that is a rotation matrix. 
 Rotation::Rotation( const Matrix3f &m ) {
   Quaternion q(m);
-  *this = Rotation::Rotation( q );
+  *this = Rotation( q );
 }
 
 // Constructor. From Matrix3f that is a rotation matrix. 
 Rotation::Rotation( const Matrix3d &m ) {
   Quaternion q(m);
-  *this = Rotation::Rotation( q );
+  *this = Rotation( q );
 }
 
 // Get the euler angles( yaw, pitch, roll ) representation of 

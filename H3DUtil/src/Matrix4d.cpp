@@ -46,7 +46,7 @@ Matrix4d::Matrix4d( const Rotationd &r ) {
   H3DDouble xy = x*y;
   H3DDouble yz = y*z;
   H3DDouble xz = x*z;
-  *this = Matrix4d::Matrix4d( 
+  *this = Matrix4d( 
     x2 + cosa * (1-x2), xy*(1 - cosa) - z * sina,  xz*(1 - cosa) + y * sina, 0,
     xy*(1 - cosa) + z * sina, y2 + cosa * (1-y2), yz*(1 - cosa) - x * sina,  0,
     xz*(1 - cosa) - y * sina, yz*(1 - cosa) + x * sina, z2 + cosa * (1-z2), 0,
@@ -54,11 +54,11 @@ Matrix4d::Matrix4d( const Rotationd &r ) {
 }
 
 Matrix4d::Matrix4d( const Quaternion &q ) {
-  (*this) = Matrix4d::Matrix4d( Quaterniond( q ) );
+  (*this) = Matrix4d( Quaterniond( q ) );
 }
 
 Matrix4d::Matrix4d( const Rotation &q ) {
-  (*this) = Matrix4d::Matrix4d( Rotationd( q ) );
+  (*this) = Matrix4d( Rotationd( q ) );
 }
 
 /// Constructor. From Quaternion object.
@@ -76,19 +76,19 @@ Matrix4d::Matrix4d( const Quaterniond &q ) {
   H3DDouble yz = z*q.v.y;
   H3DDouble zz = z*q.v.z;
   
-  *this = Matrix4d::Matrix4d( 1 - yy - zz, xy - zw, xz + yw, 0,
-                              xy + zw, 1 - xx - zz, yz - xw, 0,
-                              xz - yw, yz + xw, 1 - xx - yy, 0,
-                              0, 0, 0, 1 );
+  *this = Matrix4d( 1 - yy - zz, xy - zw, xz + yw, 0,
+                    xy + zw, 1 - xx - zz, yz - xw, 0,
+                    xz - yw, yz + xw, 1 - xx - yy, 0,
+                    0, 0, 0, 1 );
 }
 
 // Explicit. From Matrix3d object. Creates a transform matrix where
 // the rotation part is the Matrix3d.
 Matrix4d::Matrix4d( const Matrix3d &m ) {
-  *this = Matrix4d::Matrix4d( m[0][0], m[0][1], m[0][2], 0,
-                              m[1][0], m[1][1], m[1][2], 0,
-                              m[2][0], m[2][1], m[2][2], 0,
-                              0, 0, 0, 1 );
+  *this = Matrix4d( m[0][0], m[0][1], m[0][2], 0,
+                    m[1][0], m[1][1], m[1][2], 0,
+                    m[2][0], m[2][1], m[2][2], 0,
+                    0, 0, 0, 1 );
 }
 
 Matrix4d::Matrix4d( const Matrix4f &matrix ) {

@@ -94,7 +94,7 @@ Quaternion::Quaternion( const Rotation &r ) {
       
 Quaternion::Quaternion( const Matrix3d &m ) {
   Matrix3f matrix = (Matrix3f)m;
-  *this = Quaternion::Quaternion( matrix );
+  *this = Quaternion( matrix );
 }
 
 /// Constructor. From Matrix3f that is a rotation matrix. 

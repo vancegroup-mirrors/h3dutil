@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004-2007, SenseGraphics AB
+//    Copyright 2004-2010, SenseGraphics AB
 //
 //    This file is part of H3DUtil.
 //
@@ -176,7 +176,7 @@ namespace H3DUtil {
           *outputstream << "] ";
         }
         
-        *outputstream << std::basic_stringbuf<CharT, TraitsT>::str();
+        *outputstream << std::basic_stringbuf<CharT, TraitsT>::str().c_str();
       }
       
       str( std::basic_string<CharT>() ); // Clear the string buffer

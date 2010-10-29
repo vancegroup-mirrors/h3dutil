@@ -281,7 +281,6 @@ Image *H3DUtil::loadRawImage( const string &url,
                          raw_image_info.pixel_size );
 }
 
-
 #ifdef HAVE_TEEM
 Image *H3DUtil::loadNrrdFile( const string &url ) {
   Nrrd *nin;
@@ -289,11 +288,22 @@ Image *H3DUtil::loadNrrdFile( const string &url ) {
   /* create a new nrrd */
   nin = nrrdNew();
   
-  /* read in the nrrd header from file */
-  if (nrrdLoad(nin, url.c_str(), NULL)) {
-    nrrdNuke( nin );
+  /* tell nrrdLoad to only read the header, not the data */
+  NrrdIoState *nio = nrrdIoStateNew();
+  nrrdIoStateSet(nio, nrrdIoStateSkipData, AIR_TRUE);
+
+  // read in the nrrd header from file , not the data.
+  // The reason for this approach is that H3DUtil will allocate the data later
+  // to make sure that there are no problems with allocating data over
+  // boundaries for shared libraries in Windows.
+  if( nrrdLoad( nin, url.c_str(), nio ) ) {
+    nio = nrrdIoStateNix(nio);
+    nrrdNuke(nin);
     return NULL;
   }
+  
+  /* we're done with the nrrdIoState, this sets it to NULL */
+  nio = nrrdIoStateNix(nio);
 
   Image::PixelType pixel_type = Image::LUMINANCE;
   Image::PixelComponentType component_type;
@@ -302,25 +312,25 @@ Image *H3DUtil::loadNrrdFile( const string &url ) {
   if( nin->type == nrrdTypeChar ) {
     component_type = Image::SIGNED;
     bits_per_pixel = 8;
-  } else  if( nin->type == nrrdTypeUChar ) {
+  } else if( nin->type == nrrdTypeUChar ) {
     component_type = Image::UNSIGNED;
     bits_per_pixel = 8;
-  } else  if( nin->type == nrrdTypeShort ) {
+  } else if( nin->type == nrrdTypeShort ) {
     component_type = Image::SIGNED;
     bits_per_pixel = 16;
-  } else  if( nin->type == nrrdTypeUShort ) {
+  } else if( nin->type == nrrdTypeUShort ) {
     component_type = Image::UNSIGNED;
     bits_per_pixel = 16;
-  } else  if( nin->type == nrrdTypeInt ) {
+  } else if( nin->type == nrrdTypeInt ) {
     component_type = Image::SIGNED;
     bits_per_pixel = 32;
-  } else  if( nin->type == nrrdTypeUInt ) {
+  } else if( nin->type == nrrdTypeUInt ) {
     component_type = Image::UNSIGNED;
     bits_per_pixel = 32;
-  } else  if( nin->type == nrrdTypeLLong ) {
+  } else if( nin->type == nrrdTypeLLong ) {
     component_type = Image::SIGNED;
     bits_per_pixel = 64;
-  } else  if( nin->type == nrrdTypeULLong ) {
+  } else if( nin->type == nrrdTypeULLong ) {
     component_type = Image::UNSIGNED;
     bits_per_pixel = 64;
   } else if( nin->type == nrrdTypeFloat ) {
@@ -336,7 +346,7 @@ Image *H3DUtil::loadNrrdFile( const string &url ) {
   
   unsigned int width = 1, height = 1, depth = 1;
 
-  Vec3f spacing = Vec3f( 0.0003, 0.0003, 0.0003 );
+  Vec3f spacing = Vec3f( 0.0003f, 0.0003f, 0.0003f );
 
   unsigned w_axis = 0, h_axis = 1, d_axis = 2;
   
@@ -363,7 +373,7 @@ Image *H3DUtil::loadNrrdFile( const string &url ) {
   if( nin->dim >= 3 ) {
     depth = nin->axis[d_axis].size;
   if(!airIsNaN(nin->axis[d_axis].spacing))
-    spacing.z = nin->axis[d_axis].spacing;
+    spacing.z = (H3DFloat)( nin->axis[d_axis].spacing );
   else
     Console(3) << "Warning: NRRD file " << url
          << " lacks spacing information in axis 2. Sets to default 0.0003\n";
@@ -372,7 +382,7 @@ Image *H3DUtil::loadNrrdFile( const string &url ) {
   if( nin->dim >= 2 ) {
     height = nin->axis[h_axis].size;
   if(!airIsNaN(nin->axis[h_axis].spacing))
-    spacing.y = nin->axis[h_axis].spacing;
+    spacing.y = (H3DFloat)( nin->axis[h_axis].spacing );
   else
     Console(3) << "Warning: NRRD file " << url
          << " lacks spacing information in axis 1. Sets to default 0.0003\n";
@@ -381,12 +391,28 @@ Image *H3DUtil::loadNrrdFile( const string &url ) {
   if( nin->dim >= 1 ) {
     width = nin->axis[w_axis].size;
   if(!airIsNaN(nin->axis[w_axis].spacing))
-    spacing.x = nin->axis[w_axis].spacing;
+    spacing.x = (H3DFloat)( nin->axis[w_axis].spacing );
   else
     Console(3) << "Warning: NRRD file " << url
          << " lacks spacing information in axis 0. Sets to default 0.0003\n";
   }
 
+  // Allocate the data.
+  // The reason for allocating the memory for the data ourself instead of
+  // letting the teem library take care of that is to make sure that there
+  // are no problems with deleting data from H3DUtil that is allocated
+  // in another shared library on a Windows system.
+  unsigned int size = (width * height * depth * bits_per_pixel)/8;
+  unsigned char * data = new unsigned char[ size ];
+  nin->data = data;
+  if( nrrdLoad( nin, url.c_str(), NULL ) ) {
+    // free nrrd struct memory but not data.
+    nrrdNix(nin);
+    delete [] data;
+    return NULL;
+  }
+  // We assume this will work well on other systems, note that this is not
+  // yet tested properly.
   Image *image =  new PixelImage( width, height, depth, bits_per_pixel,
                                   pixel_type, component_type,
                                   (unsigned char *)nin->data,
@@ -633,7 +659,7 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
             DCM_ImagePositionPatient, string_value, 2 );
           if( res == EC_Normal ) {
             if( first_patient_pos_set ) {
-              patient_pos2 = atof( string_value.c_str() );
+              patient_pos2 = (H3DFloat)( atof( string_value.c_str() ) );
               OFString string_value2;
               OFCondition res2 = dataset->findAndGetOFStringArray(
                 DCM_ImageOrientationPatient, string_value2 );
@@ -641,8 +667,8 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
                 size_t start_pos = 0;
                 for( unsigned int j = 0; j < 6; j++ ) {
                   size_t pos = string_value2.find( "\\", start_pos, 2 );
-                  patient_orn[j] = atof( string_value2.substr( 
-                    start_pos, pos - start_pos ).c_str() );
+                  patient_orn[j] = (H3DFloat)( atof( string_value2.substr(
+                    start_pos, pos - start_pos ).c_str() ) );
                   start_pos = pos + 1;
                 }
                 if( patient_pos2 > patient_pos1 ) {
@@ -668,7 +694,7 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
               }
             } else {
               // Set patient_pos1 and break.
-              patient_pos1 = atof( string_value.c_str() );
+              patient_pos1 = (H3DFloat)( atof( string_value.c_str() ) );
               first_patient_pos_set = true;
             }
           }

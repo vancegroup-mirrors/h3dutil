@@ -460,6 +460,23 @@ int PeriodicThread::asynchronousCallback( CallbackFunc func, void *data ) {
 
 bool PeriodicThread::removeAsynchronousCallback( int callback_handle ) {
   callback_lock.lock();
+  callbacks_added_lock.lock();
+  // For threads with a low frequency it could be that the callback is
+  // in callbacks_added, therefore lock both locks and then go through
+  // both lists.
+  for( CallbackList::iterator i = callbacks_added.begin();
+       i != callbacks_added.end(); i++ ) {
+  if( (*i).first == callback_handle ) {
+      // Add callback_handle integer to the free_ids list in order
+      // to reuse id later.
+      free_ids.push_back( callback_handle );
+      callbacks_added.erase( i );
+      callbacks_added_lock.unlock();
+      callback_lock.unlock();
+      return true;
+    }
+  }
+
   for( CallbackList::iterator i = callbacks.begin();
        i != callbacks.end(); i++ ) {
     if( (*i).first == callback_handle ) {
@@ -467,10 +484,12 @@ bool PeriodicThread::removeAsynchronousCallback( int callback_handle ) {
       // to reuse id later.
       free_ids.push_back( callback_handle );
       callbacks.erase( i );
+      callbacks_added_lock.unlock();
       callback_lock.unlock();
       return true;
     }
   }
+  callbacks_added_lock.unlock();
   callback_lock.unlock();
   return false;
 }
@@ -478,6 +497,19 @@ bool PeriodicThread::removeAsynchronousCallback( int callback_handle ) {
 /// Remove all callbacks.
 void PeriodicThread::clearAllCallbacks() {
   callback_lock.lock();
+  callbacks_added_lock.lock();
+  // For threads with a low frequency it could be that the callback is
+  // in callbacks_added, therefore lock both locks and then go through
+  // both lists.
+
+  // All the ids should be added to the free_ids list in
+  // order to be reused later.
+  for( CallbackList::iterator i = callbacks_added.begin();
+       i != callbacks_added.end(); i++ ) {
+    free_ids.push_back( (*i).first );
+  }
+  callbacks_added.clear();
+
   // All the ids should be added to the free_ids list in
   // order to be reused later.
   for( CallbackList::iterator i = callbacks.begin();
@@ -485,6 +517,7 @@ void PeriodicThread::clearAllCallbacks() {
     free_ids.push_back( (*i).first );
   }
   callbacks.clear();
+  callbacks_added_lock.unlock();
   callback_lock.unlock();
 }
 

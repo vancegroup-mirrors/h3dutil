@@ -36,6 +36,18 @@
 using namespace std;
 using namespace H3DUtil;
 
+string convertSlashToBackslash( string tmp_string ) {
+  string return_string = "";
+  for( unsigned int i = 0; i < tmp_string.size(); i++ ) {
+    if( tmp_string[i] == '/' ) {
+      return_string += "\\";
+    } else {
+      return_string += tmp_string[i];
+    }
+  }
+  return return_string;
+}
+
 string DynamicLibrary::last_error = "";
 
 DynamicLibrary::LIBHANDLE DynamicLibrary::load( const std::string &lib_name ) {
@@ -44,7 +56,10 @@ DynamicLibrary::LIBHANDLE DynamicLibrary::load( const std::string &lib_name ) {
   LIBHANDLE handle = GetModuleHandle( lib_name.c_str() );
   if( handle ) return handle;
 
-  handle = LoadLibrary( lib_name.c_str() );
+  // Convert slash to backslash since this is required by the LoadLibrary
+  // function to handle all urls correctly. There might be problems with
+  // white space (and other characters) otherwise.
+  handle = LoadLibrary( convertSlashToBackslash(lib_name).c_str() );
   if( !handle ) {
     TCHAR buffer[80]; 
     DWORD dw = GetLastError(); 

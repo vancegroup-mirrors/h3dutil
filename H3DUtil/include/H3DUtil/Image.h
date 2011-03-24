@@ -90,6 +90,10 @@ namespace H3DUtil {
       return Vec3f( 1, 1, 1 );
     }
 
+    /// Returns the number of components each pixel contains. E.g. LUMINANCE 
+    /// image contains 1 component and RGB image contains 3.
+    unsigned int nrPixelComponents();
+
     /// Returns a pointer to the raw image data. The ownership of the 
     /// pointer is held by the Image class, if any memory allocations
     /// are made for the pointer the Image class is responsible for 
@@ -214,8 +218,31 @@ namespace H3DUtil {
       return byte_alignment;
     }
 
-	protected:
-	  int byte_alignment;
+    /// Returns the image data as a float array with the same number of elements
+    /// as getImageData but with the values normalized to the range [0,1] with
+    /// the lowest value that can be held by the data type used in the image maps
+    /// to 0 and the highest to 1. 
+    ///
+    /// This function only works on images with pixel component type SIGNED or
+    /// UNSIGNED.
+    /// 
+    /// It is the responsibility of the caller to free the memory of the returned
+    /// pointer when it is finished with it.
+    float *convertToNormalizedFloatData();
+
+    /// Returns the image data as a double array with the same number of elements
+    /// as getImageData but with the values normalized to the range [0,1] with
+    /// the lowest value that can be held by the data type used in the image maps
+    /// to 0 and the highest to 1. 
+    ///
+    /// This function only works on images with pixel component type SIGNED or
+    /// UNSIGNED.
+    /// 
+    /// It is the responsibility of the caller to free the memory of the returned
+    /// pointer when it is finished with it.
+    double *convertToNormalizedDoubleData();
+  protected:
+    int byte_alignment;
   };
 }
 

@@ -698,3 +698,96 @@ void Image::RGBAToImageValue( const H3DUtil::RGBA &rgba, void *_pixel_data ) {
   }
   };
 }
+
+unsigned int Image::nrPixelComponents() {
+  PixelType pixel_type = pixelType();
+  if( pixel_type == LUMINANCE ) return 1;
+  if( pixel_type == LUMINANCE_ALPHA ) return 2;
+  if( pixel_type == RGB ||
+      pixel_type == BGR ||
+      pixel_type == VEC3 ) return 3;
+  if( pixel_type == RGBA ||
+      pixel_type == BGRA ) return 4;
+  return 0;
+}
+
+namespace ImageInternals {
+  template< class A, class FloatType >
+  void buildNormalizedData( FloatType *normalized_data, 
+			    void *orig_data,
+			    unsigned int nr_elements,
+			    float scale,
+			    float bias ) {
+    A *d = (A*) orig_data;
+    
+    for (unsigned int i = 0; i < nr_elements; i++) {
+      normalized_data[i] = 
+	(d[ i ] / FloatType( numeric_limits<A >::max() ) ) * scale + bias;
+      if( normalized_data[i] < 0 ) normalized_data[i] = 0;
+    }
+  }
+  
+  template< class FloatType >
+  FloatType *convertToNormalizedData( Image *image ) {
+    int width = image->width();
+    int height = image->height();
+    int depth = image->depth();
+    int nr_voxels = width*height*depth;
+    
+    int scale = 1;
+    int bias = 0;
+    Image::PixelType pixel_type = image->pixelType();
+    Image::PixelComponentType pixel_component_type = image->pixelComponentType();
+    unsigned int bits_per_pixel = image->bitsPerPixel();
+
+    unsigned int nr_components = image->nrPixelComponents();
+    
+    // allocate memory for normalized data.
+    FloatType *normalized_data = NULL;
+    try {
+      normalized_data = new FloatType[nr_voxels];
+    } catch (bad_alloc& ba) {
+      Console(4) << ba.what() << endl;
+      return NULL;
+    }
+    
+    if( pixel_component_type ==Image::UNSIGNED ) {
+      if( bits_per_pixel == 8*nr_components ) {
+	  buildNormalizedData< unsigned char >( normalized_data, image->getImageData(), 
+						nr_voxels * nr_components, scale, bias ); 
+      } else if( bits_per_pixel == 16*nr_components ) {
+	buildNormalizedData< unsigned short >( normalized_data, image->getImageData(), 
+					       nr_voxels * nr_components, scale, bias );
+      } else if( bits_per_pixel == 32*nr_components ) {
+	  buildNormalizedData< unsigned int >( normalized_data, image->getImageData(), 
+					       nr_voxels * nr_components, scale, bias ); 
+      } else {
+	return NULL;
+      }
+    } else if( pixel_component_type == Image::SIGNED ) { 
+      if( bits_per_pixel == 8*nr_components ) {
+	buildNormalizedData< char >( normalized_data, image->getImageData(), 
+				     nr_voxels * nr_components, scale, bias ); 
+      } else if( bits_per_pixel == 16*nr_components ) {
+	buildNormalizedData< short >( normalized_data, image->getImageData(), 
+				      nr_voxels * nr_components, scale, bias );
+      } else if( bits_per_pixel == 32*nr_components ) {
+	buildNormalizedData< int >( normalized_data, image->getImageData(), 
+				    nr_voxels * nr_components, scale, bias ); 
+      } else { 
+	return NULL;
+      }
+    } else {
+      return NULL;
+    }
+    return normalized_data;
+  }
+}
+  
+float *Image::convertToNormalizedFloatData() {
+  return ImageInternals::convertToNormalizedData< float >( this );
+}
+
+double *Image::convertToNormalizedDoubleData() {
+  return ImageInternals::convertToNormalizedData< double >( this );
+}

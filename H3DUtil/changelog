@@ -1,3 +1,16 @@
+Changes for version 1.2
+
+- Fixed a bug in assignment operator of AutoRefVector that would cause a crash
+if NULL was added to the vector .
+- Fixed a bug that could result in thread locking when a PeriodicThread was 
+destructed.
+- Updates to compile with gcc 4.5.
+- Fixed bug that could cause a problem when deallocating PixelImage instances
+created by the loadNrrdFile.
+- Fixed a bug that could result in callbacks not being removed from 
+removeAsynchronousCallback and clearAllCallbacks.
+- Added nrPixelComponents and convertToNormalizedData function to Image class.
+
 Changes for version 1.1.1:
 
 - Updates to compile with gcc 3.1.1 on Ubuntu 9.10 and Visual Studio 2010.

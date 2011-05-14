@@ -198,7 +198,7 @@ void H3DUtil::DicomImage::loadImage( const vector< string > &urls ) {
                                     H3D_FULL_LOCATION );
     w = image->getWidth();
     h = image->getHeight();
-    d = urls.size();
+    d = (unsigned int) urls.size();
     bits_per_pixel = image->getDepth();
     if( !isPowerOfTwo( bits_per_pixel ) ) {
       bits_per_pixel = nextPowerOfTwo( bits_per_pixel );

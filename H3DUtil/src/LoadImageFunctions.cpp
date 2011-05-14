@@ -202,19 +202,19 @@ Image *H3DUtil::loadRawImage( const string &url,
   }
   
   is.read( (char *)data, expected_size );
-  int actual_size = is.gcount();
+  unsigned int actual_size = (unsigned int) is.gcount();
   is.close();
   
 #ifdef HAVE_ZLIB
   
-  if( actual_size < (int)expected_size ){
+  if( actual_size < expected_size ){
     
     unsigned char * data2 = new unsigned char[expected_size];
 //    unsigned long int uncompressed_size = expected_size;
     
     int err;
     z_stream strm = {
-      data, actual_size, 0,
+      data, (uInt)actual_size, 0,
       data2, expected_size, 0
     };
     
@@ -357,7 +357,7 @@ Image *H3DUtil::loadNrrdFile( const string &url ) {
     h_axis = 2;
     d_axis = 3;
 
-    int nr_components = nin->axis[0].size;
+    size_t nr_components = nin->axis[0].size;
     if( nr_components == 2 ) {
       pixel_type = Image::LUMINANCE_ALPHA;
       bits_per_pixel *= 2;
@@ -369,9 +369,9 @@ Image *H3DUtil::loadNrrdFile( const string &url ) {
       bits_per_pixel *= 4;
     }
   }
-
+   
   if( nin->dim >= 3 ) {
-    depth = nin->axis[d_axis].size;
+    depth = (unsigned int) nin->axis[d_axis].size;
   if(!airIsNaN(nin->axis[d_axis].spacing))
     spacing.z = (H3DFloat)( nin->axis[d_axis].spacing );
   else
@@ -380,7 +380,7 @@ Image *H3DUtil::loadNrrdFile( const string &url ) {
   }
 
   if( nin->dim >= 2 ) {
-    height = nin->axis[h_axis].size;
+    height = (unsigned int) nin->axis[h_axis].size;
   if(!airIsNaN(nin->axis[h_axis].spacing))
     spacing.y = (H3DFloat)( nin->axis[h_axis].spacing );
   else
@@ -389,7 +389,7 @@ Image *H3DUtil::loadNrrdFile( const string &url ) {
   }
 
   if( nin->dim >= 1 ) {
-    width = nin->axis[w_axis].size;
+    width = (unsigned int) nin->axis[w_axis].size;
   if(!airIsNaN(nin->axis[w_axis].spacing))
     spacing.x = (H3DFloat)( nin->axis[w_axis].spacing );
   else
@@ -675,7 +675,7 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
                   // Sort in reverse alphabetical order.
                   vector< string > tmp_filenames;
                   tmp_filenames.reserve( filenames.size() );
-                  for( int j = filenames.size() - 1; j >= 0; j-- )
+                  for( size_t j = filenames.size() - 1; j >= 0; j-- )
                     tmp_filenames.push_back( filenames[j] );
                   filenames = tmp_filenames;
                 }

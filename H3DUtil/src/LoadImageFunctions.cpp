@@ -675,7 +675,7 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
                   // Sort in reverse alphabetical order.
                   vector< string > tmp_filenames;
                   tmp_filenames.reserve( filenames.size() );
-                  for( size_t j = filenames.size() - 1; j >= 0; j-- )
+                  for( int j = (int)filenames.size() - 1; j >= 0; j-- )
                     tmp_filenames.push_back( filenames[j] );
                   filenames = tmp_filenames;
                 }

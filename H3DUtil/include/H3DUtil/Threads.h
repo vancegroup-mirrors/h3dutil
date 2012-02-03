@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004-2007, SenseGraphics AB
+//    Copyright 2004-2012, SenseGraphics AB
 //
 //    This file is part of H3DUtil.
 //
@@ -268,7 +268,7 @@ namespace H3DUtil {
                   void *args = NULL,
                   Priority thread_priority = NORMAL_PRIORITY );
     
-    /// Deprecated.
+    /// \deprecated Use the other constructor instead.
     SimpleThread( void *(func)(void *),
                   void *args,
                   int thread_priority );

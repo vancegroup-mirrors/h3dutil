@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004-2007, SenseGraphics AB
+//    Copyright 2004-2012, SenseGraphics AB
 //
 //    This file is part of H3DUtil.
 //
@@ -57,7 +57,7 @@ namespace H3DUtil {
       /// Conversion from Vec4d.
       explicit Vec4f( const Vec4d &v );
 
-       /// Return the components by their index, 
+      /// Return the components by their index, 
       /// x has index 0
       /// y has index 1
       /// z has index 2

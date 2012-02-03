@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004-2007, SenseGraphics AB
+//    Copyright 2004-2012, SenseGraphics AB
 //
 //    This file is part of H3DUtil.
 //
@@ -85,7 +85,7 @@ Quaternion::Quaternion( const Vec3d &euler ) {
 }
 
 
-/// Constructor. From Rotation object.
+// Constructor. From Rotation object.
 Quaternion::Quaternion( const Rotation &r ) {
   H3DFloat half_angle = r.angle / (H3DFloat) 2.0;
   v = r.axis * H3DSin( half_angle );
@@ -97,7 +97,7 @@ Quaternion::Quaternion( const Matrix3d &m ) {
   *this = Quaternion( matrix );
 }
 
-/// Constructor. From Matrix3f that is a rotation matrix. 
+// Constructor. From Matrix3f that is a rotation matrix. 
 Quaternion::Quaternion( const Matrix3f &m ) {
   H3DFloat trace = m[0][0]+m[1][1]+m[2][2];
   
@@ -157,7 +157,7 @@ Vec3f Quaternion::toEulerAngles() {
   return Matrix3f( *this ).toEulerAngles();
 }
 
-/// SLERP interpolation between two quaternions
+// SLERP interpolation between two quaternions
 Quaternion Quaternion::slerp( const Quaternion &b, 
                               H3DFloat frac ) const {
   Quaternion a = *this;

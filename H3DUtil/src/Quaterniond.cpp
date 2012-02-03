@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004-2007, SenseGraphics AB
+//    Copyright 2004-2012, SenseGraphics AB
 //
 //    This file is part of H3DUtil.
 //
@@ -66,7 +66,7 @@ Quaterniond::Quaterniond( const Rotationd &r ) {
 }
       
 
-/// Constructor. From Matrix3d that is a rotation matrix. 
+// Constructor. From Matrix3d that is a rotation matrix. 
 Quaterniond::Quaterniond( const Matrix3d &m ) {
   H3DDouble trace = m[0][0]+m[1][1]+m[2][2];
   
@@ -126,7 +126,7 @@ Vec3d Quaterniond::toEulerAngles() {
   return Matrix3d( *this ).toEulerAngles();
 }
 
-/// SLERP interpolation between two quaternions
+// SLERP interpolation between two quaternions
 Quaterniond Quaterniond::slerp( const Quaterniond &b, 
                               H3DDouble frac ) const {
   Quaterniond a = *this;

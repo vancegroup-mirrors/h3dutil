@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004-2007, SenseGraphics AB
+//    Copyright 2004-2012, SenseGraphics AB
 //
 //    This file is part of H3DUtil.
 //
@@ -192,7 +192,6 @@ namespace H3DUtil {
     /// termination. 
     class QuitAPI: public H3DException {};
    
-    ///
     /// The << operator calls the print() function of the H3DException.
     /// \param os an ostream
     /// \param e the H3DException to put into the stream.

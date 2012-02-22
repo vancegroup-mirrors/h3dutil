@@ -10,6 +10,7 @@ created by the loadNrrdFile.
 - Fixed a bug that could result in callbacks not being removed from 
 removeAsynchronousCallback and clearAllCallbacks.
 - Added nrPixelComponents and convertToNormalizedData function to Image class.
+- Fixed a bug for size_t being unsigned.
 
 Changes for version 1.1.1:
 

@@ -641,6 +641,7 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
     H3DFloat patient_pos2;
     H3DFloat patient_orn[6];
     bool first_patient_pos_set = false;
+    bool second_patient_pos_set = false;
     // Iterate through filename and get the two first valid ones and try
     // to read information from them. If information is read from two, then
     // break. This could perhaps be coupled with the other for loop.
@@ -660,6 +661,7 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
           if( res == EC_Normal ) {
             if( first_patient_pos_set ) {
               patient_pos2 = (H3DFloat)( atof( string_value.c_str() ) );
+              second_patient_pos_set = true;
               OFString string_value2;
               OFCondition res2 = dataset->findAndGetOFStringArray(
                 DCM_ImageOrientationPatient, string_value2 );
@@ -700,6 +702,13 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
           }
         }
       }
+    }
+
+    // use ImagePositionPatient if available to set pixel_size z.
+    // If it does not exist SliceThickness is used.
+    if( second_patient_pos_set ) {
+      H3DFloat slice_distance = H3DAbs(patient_pos1 - patient_pos2);
+      pixel_size.z = slice_distance * 1e-3; // to metres
     }
 
     // read all files and compose them into one image.

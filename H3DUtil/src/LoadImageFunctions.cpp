@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004-2007, SenseGraphics AB
+//    Copyright 2004-2012, SenseGraphics AB
 //
 //    This file is part of H3DUtil.
 //
@@ -658,6 +658,23 @@ H3DUTIL_API Image *H3DUtil::loadDicomFile( const string &url,
             string_value == orig_series_instance_UID ) {
           OFCondition res = dataset->findAndGetOFString(
             DCM_ImagePositionPatient, string_value, 2 );
+
+#ifdef H3D_WINDOWS
+          // Get locale string, used to test what is used as
+          // decimal separator . or ,
+          // DICOM always use . as decimal separator so we need to make sure that
+          // it is used properly.
+          string locale_string( setlocale( LC_NUMERIC, NULL ) );
+          if( locale_string.length() < 7 || locale_string.substr( 0, 7 ) != "English" ) {
+            H3DFloat test_data_comma( atof( "0,2" ) );
+            if( test_data_comma > 0.1 ) {
+              for( unsigned int j = 0; j < string_value.size(); j++ ) {
+                if( string_value[j] == '.' )
+                  string_value[j] = ',';
+              }
+            }
+          }
+#endif
           if( res == EC_Normal ) {
             if( first_patient_pos_set ) {
               patient_pos2 = (H3DFloat)( atof( string_value.c_str() ) );

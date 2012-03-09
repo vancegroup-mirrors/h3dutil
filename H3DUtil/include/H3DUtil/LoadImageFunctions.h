@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-//    Copyright 2004-2007, SenseGraphics AB
+//    Copyright 2004-2012, SenseGraphics AB
 //
 //    This file is part of H3DUtil.
 //
@@ -66,6 +66,44 @@ namespace H3DUtil {
 #ifdef HAVE_DCMTK
   /// \ingroup ImageLoaderFunctions
   /// Loads a file in the DICOM file format as an image.
+  /// The DICOM standard (section C.7.6.2.1.1) says the following:
+  ///  "The %Image Position (0020,0032) specifies the x, y, and z coordinates of
+  /// the upper left hand corner of the image; it is the center of the first 
+  /// voxel transmitted. %Image Orientation (0020,0037) specifies the direction
+  /// cosines of the first row and the first column with respect to the
+  /// patient.
+  ///
+  /// These Attributes shall be provide as a pair. Row value for the x, y, and
+  /// z axes respectively followed by the Column value for the x, y, and z axes
+  /// respectively. The direction of the axes is defined fully by the patient's
+  /// orientation. The x-axis is increasing to the left hand side of the
+  /// patient. The y-axis is increasing to the posterior side of the patient.
+  /// The z-axis is increasing toward the head of the patient.
+  ///
+  /// The patient based coordinate system is a right handed system"
+  /// Basically this means that the ImagePositionPatient and
+  /// ImageOrientationPatient data entries in dicom file should be used when
+  /// positioning the data in world space. Since this function loads the file
+  /// as an Image with three dimension the ImageOrientationPatient is assumed
+  /// to be the default value of "1/0/0/0/1/0". If this is not the case a
+  /// warning is printed to the Console. Because the image class specifies
+  /// origo in the bottom left corner whereas the DICOM class specifies origo
+  /// in the top left corner the y-coordinate will be flipped. This means that
+  /// if the top left corner of the DICOM image is desired the texture
+  /// coordinate (0,1) have to be used.
+  ///
+  /// When composing a voxel data set using several dicom files it is assumed
+  /// that the numbering of the files corresponds to decreasing or increasing
+  /// z-values in the ImagePositionPatient data entry. If this is true the
+  /// slices will be stacked such that the first slice is the slice with the
+  /// highest z-value of ImagePositionPatient. It might be worth noting that
+  /// the default X3D Texture coordinate generation is from +Z to -Z for the
+  /// r texture coordinate (3rd value) which means that when a DICOM voxel data
+  /// set is displayed using that setup it will look as if the first slice in
+  /// the data set is in the back. Flipping the data set in the z direction
+  /// ( or generate other texture coordinates ) will fix this issue.
+  /// See image below for a graphical description of the above information:
+  /// \image html DICOM_coord_system.png
   /// \param url The url of the image to load.
   /// \param load_single_file If true the loader will only load the
   /// file url specifies. If false, it will look in the same directory

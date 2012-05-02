@@ -66,28 +66,28 @@ namespace H3DUtil {
 
     /// Returns a HSV color scheme representation of the RGB color.
     inline Vec3f toHSV() const {
-      int i; 	
-      H3DFloat v, x, f; 	
-      x = H3DMin(r, H3DMin( g, b ) ); 	
-      v = H3DMax(r, H3DMax( g, b ) ); 	
-      if(v == x) return Vec3f(0, 0, v); 	
-      f = (r == x) ? g - b : ((g == x) ? b - r : r - g); 	
-      i = (r == x) ? 3 : ((g == x) ? 5 : 1); 	
+      int i;    
+      H3DFloat v, x, f;         
+      x = H3DMin(r, H3DMin( g, b ) );   
+      v = H3DMax(r, H3DMax( g, b ) );   
+      if(v == x) return Vec3f(0, 0, v);         
+      f = (r == x) ? g - b : ((g == x) ? b - r : r - g);        
+      i = (r == x) ? 3 : ((g == x) ? 5 : 1);    
       return Vec3f(i - f /(v - x), (v - x)/v, v);
     }
 
     /// Sets the RGB from a HSV color scheme representation.
     inline void fromHSV( const Vec3f &hsv ) {
-      H3DFloat h = hsv.x, s = hsv.y, v = hsv.z, m, n, f; 	
-      int i; 	
+      H3DFloat h = hsv.x, s = hsv.y, v = hsv.z, m, n, f;        
+      int i;    
       if( h == 0.0 ) r = g = b = v;
-      i = (int) H3DFloor(h); 	
-      f = h - i; 	
-      if(!(i & 1)) f = 1 - f; // if i is even 	
-      m = v * (1 - s); 	
-      n = v * (1 - s * f); 	
-      switch (i) { 	
-      case 6: 	
+      i = (int) H3DFloor(h);    
+      f = h - i;        
+      if(!(i & 1)) f = 1 - f; // if i is even   
+      m = v * (1 - s);  
+      n = v * (1 - s * f);      
+      switch (i) {      
+      case 6:   
       case 0: r = v; g = n; b = m; break;
       case 1: r = n; g = v; b = m; break;
       case 2: r = m; g = v; b = n; break;
@@ -111,11 +111,15 @@ namespace H3DUtil {
       b( (H3DFloat) 0 ),
       a( (H3DFloat) 0 ) {}
 
-	  /// Constructor.
+    /// Constructor.
     RGBA( H3DFloat _r,
           H3DFloat _g,
           H3DFloat _b,
           H3DFloat _a ) : r(_r), g(_g), b(_b), a(_a) {}
+
+    /// Constructor.
+    RGBA( const RGB &c,
+	  H3DFloat _a ) : r(c.r), g(c.g), b(c.b), a(_a) {}
     H3DFloat r, g, b, a;
   };
 

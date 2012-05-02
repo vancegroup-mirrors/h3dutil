@@ -34,6 +34,7 @@
 #include <H3DUtil/H3DBasicTypes.h>
 #include <H3DUtil/TemplateOperators.h>
 #include <H3DUtil/Vec4f.h>
+#include <H3DUtil/Vec3d.h>
 #include <H3DUtil/Exception.h>
 
 namespace H3DUtil {
@@ -50,6 +51,10 @@ namespace H3DUtil {
              H3DDouble _y,
              H3DDouble _z,
              H3DDouble _w = 1 ) : x(_x), y(_y), z(_z), w(_w) {}
+
+      /// Constructor.
+      Vec4d( const Vec3d &v,
+             H3DDouble _w = 1 ) : x(v.x), y(v.y), z(v.z), w(_w) {}
       
       /// Conversion from Vec4d.
       Vec4d( const Vec4f &v ): x( v.x ), y( v.y ), z( v.z ), w( v.w ) {}

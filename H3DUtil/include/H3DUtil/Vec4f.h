@@ -31,6 +31,7 @@
 #define __VEC4F_H__
 
 #include <H3DUtil/H3DUtil.h>
+#include <H3DUtil/Vec3f.h>
 #include <H3DUtil/H3DBasicTypes.h>
 #include <H3DUtil/TemplateOperators.h>
 #include <H3DUtil/Exception.h>
@@ -53,6 +54,10 @@ namespace H3DUtil {
              H3DFloat _y,
              H3DFloat _z,
              H3DFloat _w = 1 ) : x(_x), y(_y), z(_z), w(_w) {}
+
+      /// Constructor.
+      Vec4f( const Vec3f &v,
+             H3DFloat _w = 1 ) : x(v.x), y(v.y), z(v.z), w(_w) {}
 
       /// Conversion from Vec4d.
       explicit Vec4f( const Vec4d &v );

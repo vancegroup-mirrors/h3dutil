@@ -736,7 +736,6 @@ namespace ImageInternals {
     
     int scale = 1;
     int bias = 0;
-    Image::PixelType pixel_type = image->pixelType();
     Image::PixelComponentType pixel_component_type = image->pixelComponentType();
     unsigned int bits_per_pixel = image->bitsPerPixel();
 
@@ -754,26 +753,26 @@ namespace ImageInternals {
     if( pixel_component_type ==Image::UNSIGNED ) {
       if( bits_per_pixel == 8*nr_components ) {
 	  buildNormalizedData< unsigned char >( normalized_data, image->getImageData(), 
-						nr_voxels * nr_components, scale, bias ); 
+						nr_voxels * nr_components, (float)scale, (float)bias ); 
       } else if( bits_per_pixel == 16*nr_components ) {
 	buildNormalizedData< unsigned short >( normalized_data, image->getImageData(), 
-					       nr_voxels * nr_components, scale, bias );
+					       nr_voxels * nr_components, (float)scale, (float)bias );
       } else if( bits_per_pixel == 32*nr_components ) {
 	  buildNormalizedData< unsigned int >( normalized_data, image->getImageData(), 
-					       nr_voxels * nr_components, scale, bias ); 
+					       nr_voxels * nr_components, (float)scale, (float)bias ); 
       } else {
 	return NULL;
       }
     } else if( pixel_component_type == Image::SIGNED ) { 
       if( bits_per_pixel == 8*nr_components ) {
 	buildNormalizedData< char >( normalized_data, image->getImageData(), 
-				     nr_voxels * nr_components, scale, bias ); 
+				     nr_voxels * nr_components, (float)scale, (float)bias ); 
       } else if( bits_per_pixel == 16*nr_components ) {
 	buildNormalizedData< short >( normalized_data, image->getImageData(), 
-				      nr_voxels * nr_components, scale, bias );
+				      nr_voxels * nr_components, (float)scale, (float)bias );
       } else if( bits_per_pixel == 32*nr_components ) {
 	buildNormalizedData< int >( normalized_data, image->getImageData(), 
-				    nr_voxels * nr_components, scale, bias ); 
+				    nr_voxels * nr_components, (float)scale, (float)bias ); 
       } else { 
 	return NULL;
       }

@@ -49,7 +49,7 @@ namespace H3DUtil {
     /// Type that defines what format each pixel in the image is
     /// on.
     typedef enum {
-      LUMINANCE, 
+      LUMINANCE = 0, 
       LUMINANCE_ALPHA,
       RGB,
       RGBA,
@@ -61,7 +61,7 @@ namespace H3DUtil {
         
     /// Type of each component in the pixel. 
     typedef enum {
-      SIGNED,
+      SIGNED = 0,
       UNSIGNED,
       RATIONAL
     } PixelComponentType;

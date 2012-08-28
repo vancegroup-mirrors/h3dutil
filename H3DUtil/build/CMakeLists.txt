@@ -129,31 +129,28 @@ ADD_LIBRARY(H3DUtil SHARED ${H3DUTIL_SRCS} ${H3DUTIL_HEADERS})
 
 # make sure that the H3DUtil.rc contains the correct svn-version
 IF( MSVC )
-  EXECUTE_PROCESS( COMMAND ${H3DUtil_SOURCE_DIR}/FindSVNVersion ${H3DUtil_SOURCE_DIR}/../src/.svn/entries 
-                   OUTPUT_VARIABLE H3DUTIL_SVN_VERSION )
+  SET( H3DUTIL_SVN_VERSION "0" )
+  # Find SubWCRev.exe
+  FIND_FILE( SubWCRev
+             NAMES "SubWCRev.exe"
+             DOC   "Set to SubWCRev.exe that comes with TortoiseSVN. Used to find svn revision number." )
+
+  IF( SubWCRev )
+    SET( H3DUTIL_SVN_VERSION "$WCREV$" )
+  ENDIF( SubWCRev )
+
   # autogenerate H3DUtil.rc depending on the version
   CONFIGURE_FILE( H3DUtil.rc.cmake ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc )
-  # Add option to disable UpdateResourceFile call, ON by default if this is an svn checkout.
-  # OFF if this is not an svn checkout.
-  IF( H3DUTIL_SVN_VERSION EQUAL 0 )
-    OPTION( CallUpdateResourceFile
-            "If ON then a pre build command is added to call UpdateResourceFile. This is ON if H3DUtil is a subversion checkout, OFF if it is not."
-            OFF )
-  ELSE( H3DUTIL_SVN_VERSION EQUAL 0 )
-    OPTION( CallUpdateResourceFile
-            "If ON then a pre build command is added to call UpdateResourceFile. This is ON if H3DUtil is a subversion checkout, OFF if it is not."
-            ON )
-  ENDIF( H3DUTIL_SVN_VERSION EQUAL 0 )
 
-  IF( CallUpdateResourceFile )
+  IF( SubWCRev )
+    # Update SVN revision in file.
+    EXECUTE_PROCESS( COMMAND ${SubWCRev} ${H3DUtil_SOURCE_DIR}/../ ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc )
+
     ADD_CUSTOM_COMMAND( TARGET H3DUtil 
                         PRE_BUILD 
-                        COMMAND ${H3DUtil_SOURCE_DIR}/UpdateResourceFile 
-                        ARGS H3DUTIL ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc ${H3DUtil_SOURCE_DIR}/H3DUtil.rc.cmake
-                        ${H3DUTIL_MAJOR_VERSION} ${H3DUTIL_MINOR_VERSION}
-                        ${H3DUTIL_BUILD_VERSION}
-                        ${H3DUtil_SOURCE_DIR}/../src/.svn/entries )
-  ENDIF( CallUpdateResourceFile )
+                        COMMAND ${SubWCRev} 
+                        ARGS ${H3DUtil_SOURCE_DIR}/../ ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc )
+  ENDIF( SubWCRev )
 ENDIF(MSVC)
 
 # set the install directory to the H3D directory on Windows

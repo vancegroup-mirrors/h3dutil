@@ -88,7 +88,7 @@ BEGIN
             VALUE "InternalName", "H3DUtil"
             VALUE "LegalCopyright", "Copyright (C) 2008"
             VALUE "LegalTrademarks", "www.h3d.org; www.sensegraphics.com"
-            VALUE "OriginalFilename", "H3DUtil.dll"
+            VALUE "OriginalFilename", "${H3DUTIL_Output_Name}"
             VALUE "ProductName", " H3DUtil Dynamic Link Library"
             VALUE "ProductVersion",  "${H3DUTIL_MAJOR_VERSION}, ${H3DUTIL_MINOR_VERSION}, ${H3DUTIL_BUILD_VERSION}, ${H3DUTIL_SVN_VERSION}"
         END

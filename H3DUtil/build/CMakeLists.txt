@@ -141,6 +141,15 @@ IF( MSVC )
 
   # autogenerate H3DUtil.rc depending on the version
   CONFIGURE_FILE( H3DUtil.rc.cmake ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc )
+  
+  ADD_CUSTOM_COMMAND( TARGET H3DUtil
+											PRE_BUILD
+											COMMAND ${H3DUtil_SOURCE_DIR}/UpdateResourceFile 
+											ARGS H3DUTIL ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc ${H3DUtil_SOURCE_DIR}/H3DUtil.rc.cmake
+											${H3DUTIL_MAJOR_VERSION} ${H3DUTIL_MINOR_VERSION}
+											${H3DUTIL_BUILD_VERSION} "${H3DUTIL_SVN_VERSION}"
+											"H3DUTIL_Output_Name"
+											"$(TargetFileName)" )
 
   IF( SubWCRev )
     # Update SVN revision in file.

@@ -179,7 +179,7 @@ namespace H3DUtil {
         *outputstream << std::basic_stringbuf<CharT, TraitsT>::str().c_str();
       }
       
-      str( std::basic_string<CharT>() ); // Clear the string buffer
+      this->str( std::basic_string<CharT>() ); // Clear the string buffer
       
       if( unlock_mutex_func.first )
         unlock_mutex_func.first( unlock_mutex_func.second );

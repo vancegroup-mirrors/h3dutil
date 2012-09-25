@@ -286,7 +286,8 @@ H3DUtil::RGBA Image::imageValueToRGBA( void *_pixel_data ) {
     }
     };
   }
-  case Image::RGB: {
+  case Image::RGB:
+  case Image::VEC3: {
     unsigned int bytes_per_component = bytes_per_pixel / 3;
     switch( pixelComponentType() ) { 
     case Image::UNSIGNED: {
@@ -512,7 +513,8 @@ void Image::RGBAToImageValue( const H3DUtil::RGBA &rgba, void *_pixel_data ) {
     }
     };
   }
-  case Image::RGB: {
+  case Image::RGB:
+  case Image::VEC3: {
     unsigned int bytes_per_component = bytes_per_pixel / 3;
     switch( pixelComponentType() ) { 
     case Image::UNSIGNED: {

@@ -24,7 +24,7 @@ IF( NOT DEFINED PREFER_STATIC_LIBRARIES )
 ENDIF( NOT DEFINED PREFER_STATIC_LIBRARIES )
 
 IF( PREFER_STATIC_LIBRARIES )
-  SET( CMAKE_FIND_LIBRARY_SUFFIXES .a;${CMAKE_FIND_LIBRARY_SUFFIXES} )	
+  SET( CMAKE_FIND_LIBRARY_SUFFIXES .a;${CMAKE_FIND_LIBRARY_SUFFIXES} )  
 ENDIF( PREFER_STATIC_LIBRARIES )
 
 SET( H3DUTIL_MAJOR_VERSION 1 )
@@ -86,50 +86,6 @@ IF(PTHREAD_FOUND)
   SET(requiredLibs ${requiredLibs} ${PTHREAD_LIBRARIES} )
 ENDIF(PTHREAD_FOUND)
 
-# To allow other projects that use H3DUtil as a subproject to add extra include directories
-# when packaging.
-IF( GENERATE_CPACK_PROJECT )
-  IF( WIN32 )
-    SET( H3DUTIL_CPACK_INSTALLED_DIRECTORIES ""
-           CACHE INTERNAL "Installed directories of H3DUtil." )
-
-    IF( FREEIMAGE_FOUND )
-      SET( H3DUTIL_CPACK_INSTALLED_DIRECTORIES "${FREEIMAGE_INCLUDE_DIR}/..;External/include/FreeImage"
-           CACHE INTERNAL "Installed directories of H3DUtil." )
-    ENDIF( FREEIMAGE_FOUND )
-    
-    IF( ZLIB_FOUND )
-      SET( H3DUTIL_CPACK_INSTALLED_DIRECTORIES ${H3DUTIL_CPACK_INSTALLED_DIRECTORIES}
-                                               "${ZLIB_INCLUDE_DIR};External/include/zlib"
-           CACHE INTERNAL "Installed directories of H3DUtil." )
-    ENDIF( ZLIB_FOUND )
-  
-    IF( PTHREAD_FOUND )
-      SET( H3DUTIL_CPACK_INSTALLED_DIRECTORIES ${H3DUTIL_CPACK_INSTALLED_DIRECTORIES}
-                                               "${PTHREAD_INCLUDE_DIR};External/include/pthread"
-           CACHE INTERNAL "Installed directories of H3DUtil." )
-    ENDIF( PTHREAD_FOUND )
-  ENDIF( WIN32 ) 
-  
-  SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "H3DUtil. Help functions and utility functions for H3D API and HAPI.")
-  SET(CPACK_PACKAGE_VENDOR "SenseGraphics AB")
-  SET(CPACK_PACKAGE_CONTACT "support@sensegraphics.com" )
-#  SET(CPACK_PACKAGE_DESCRIPTION_FILE "${H3DUtil_SOURCE_DIR}/../ReadMe.txt")
-  SET(CPACK_RESOURCE_FILE_LICENSE "${H3DUtil_SOURCE_DIR}/../LICENSE")
-  SET(CPACK_INSTALL_CMAKE_PROJECTS "${CMAKE_CURRENT_BINARY_DIR};H3DUtil;ALL;/" )
-  SET(CPACK_PACKAGE_INSTALL_DIRECTORY "H3DUtil" )
-  SET(CPACK_PACKAGE_VERSION_MAJOR ${H3DUTIL_MAJOR_VERSION})
-  SET(CPACK_PACKAGE_VERSION_MINOR ${H3DUTIL_MINOR_VERSION})
-  SET(CPACK_PACKAGE_VERSION_PATCH ${H3DUTIL_BUILD_VERSION})
-  SET(DEBIAN_PACKAGE_DEPENDS "zlib1g-dev, libfreeimage-dev" )	      
-
-  INCLUDE(CPack)
-  INCLUDE(UseDebian)
-  IF(DEBIAN_FOUND)
-    ADD_DEBIAN_TARGETS(H3DUtil)
-  ENDIF(DEBIAN_FOUND)
-ENDIF( GENERATE_CPACK_PROJECT )
-
 # H3DUtil shared library definition.
 ADD_LIBRARY(H3DUtil SHARED ${H3DUTIL_SRCS} ${H3DUTIL_HEADERS})
 
@@ -149,13 +105,13 @@ IF( MSVC )
   CONFIGURE_FILE( H3DUtil.rc.cmake ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc )
   
   ADD_CUSTOM_COMMAND( TARGET H3DUtil
-											PRE_BUILD
-											COMMAND ${H3DUtil_SOURCE_DIR}/UpdateResourceFile 
-											ARGS H3DUTIL ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc ${H3DUtil_SOURCE_DIR}/H3DUtil.rc.cmake
-											${H3DUTIL_MAJOR_VERSION} ${H3DUTIL_MINOR_VERSION}
-											${H3DUTIL_BUILD_VERSION} "${H3DUTIL_SVN_VERSION}"
-											"H3DUTIL_Output_Name"
-											"$(TargetFileName)" )
+                      PRE_BUILD
+                      COMMAND ${H3DUtil_SOURCE_DIR}/UpdateResourceFile 
+                      ARGS H3DUTIL ${CMAKE_CURRENT_BINARY_DIR}/H3DUtil.rc ${H3DUtil_SOURCE_DIR}/H3DUtil.rc.cmake
+                      ${H3DUTIL_MAJOR_VERSION} ${H3DUTIL_MINOR_VERSION}
+                      ${H3DUTIL_BUILD_VERSION} "${H3DUTIL_SVN_VERSION}"
+                      "H3DUTIL_Output_Name"
+                      "$(TargetFileName)" )
 
   IF( SubWCRev )
     # Update SVN revision in file.
@@ -227,14 +183,16 @@ SET_TARGET_PROPERTIES( H3DUtil PROPERTIES COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS
 CONFIGURE_FILE( ${H3DUtil_SOURCE_DIR}/../include/H3DUtil/H3DUtil.cmake ${H3DUtil_SOURCE_DIR}/../include/H3DUtil/H3DUtil.h )
 
 INSTALL( TARGETS H3DUtil 
-         LIBRARY DESTINATION lib
-         RUNTIME DESTINATION bin
-         ARCHIVE DESTINATION lib )
+         LIBRARY DESTINATION lib COMPONENT H3DUtil_cpack_runtime
+         RUNTIME DESTINATION bin COMPONENT H3DUtil_cpack_runtime
+         ARCHIVE DESTINATION lib COMPONENT H3DUtil_cpack_libraries )
 
-IF(NOT WIN32)
+IF( NOT ( WIN32 OR GENERATE_CPACK_PROJECT ) )
+  # Install header files on non-windows system (e.g. Unix).
   INSTALL( FILES ${H3DUTIL_HEADERS}
            DESTINATION include/H3DUtil )
-ENDIF(NOT WIN32)
+ENDIF( NOT ( WIN32 OR GENERATE_CPACK_PROJECT ) )
 
-    
-
+IF( NOT HAPI_SOURCE_DIR )
+  include( ${H3DUtil_SOURCE_DIR}/H3DUtilCPack.cmake )
+ENDIF( NOT HAPI_SOURCE_DIR )

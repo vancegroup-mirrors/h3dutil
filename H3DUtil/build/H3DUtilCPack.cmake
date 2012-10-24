@@ -24,11 +24,7 @@ IF( GENERATE_CPACK_PROJECT )
     # HAPI is located. If not set then FIND modules will be used instead.
     IF( NOT DEFINED HAPI_CPACK_EXTERNAL_ROOT )
       IF( NOT DEFINED H3DUtil_CPACK_EXTERNAL_ROOT )
-        IF( $ENV{H3D_EXTERNAL_ROOT} STREQUAL "" )
-          SET( H3DUtil_CPACK_EXTERNAL_ROOT "" CACHE PATH "Set to the External directory used with H3DUtil, needed to pack properly. If not set FIND_modules will be used instead." )
-        ELSE( $ENV{H3D_EXTERNAL_ROOT} STREQUAL "" )
-          SET( H3DUtil_CPACK_EXTERNAL_ROOT "$ENV{H3D_EXTERNAL_ROOT}" CACHE PATH "Set to the External directory used with H3DUtil, needed to pack properly. If not set FIND_modules will be used instead." )
-        ENDIF( $ENV{H3D_EXTERNAL_ROOT} STREQUAL "" )
+        SET( H3DUtil_CPACK_EXTERNAL_ROOT "$ENV{H3D_EXTERNAL_ROOT}" CACHE PATH "Set to the External directory used with H3DUtil, needed to pack properly. If not set FIND_modules will be used instead." )
         MARK_AS_ADVANCED(H3DUtil_CPACK_EXTERNAL_ROOT)
       ENDIF( NOT DEFINED H3DUtil_CPACK_EXTERNAL_ROOT )
     ELSE( NOT DEFINED HAPI_CPACK_EXTERNAL_ROOT )
@@ -37,7 +33,7 @@ IF( GENERATE_CPACK_PROJECT )
     
     SET( EXTERNAL_BIN_PATH "bin32" )
     SET( EXTERNAL_BIN_REPLACE_PATH "bin64" )
-    IF( CMAKE_SIZEOF_VOID_P EQUAL 8 )
+    IF( CMAKE_SIZEOF_VOID_P EQUAL 8 ) # check if the system is 64 bit
       SET( EXTERNAL_BIN_PATH "bin64" )
       SET( EXTERNAL_BIN_REPLACE_PATH "bin32" )
     ENDIF( CMAKE_SIZEOF_VOID_P EQUAL 8 )
@@ -74,7 +70,7 @@ IF( GENERATE_CPACK_PROJECT )
                              ${H3DUtil_CPACK_EXTERNAL_ROOT}/${EXTERNAL_BIN_PATH}/zlib1.dll
                              ${H3DUtil_CPACK_EXTERNAL_ROOT}/${EXTERNAL_BIN_PATH}/teem.dll )
 
-    ELSE( EXISTS ${H3DUtil_CPACK_EXTERNAL_ROOT} )
+    ELSEIF( NOT DEFINED HAPI_CPACK_EXTERNAL_ROOT )
       MESSAGE( WARNING "H3DUtil_CPACK_EXTERNAL_ROOT must be set to the External directory used by H3DUtil in order to package properly." )
     ENDIF( EXISTS ${H3DUtil_CPACK_EXTERNAL_ROOT} )
     
@@ -189,6 +185,7 @@ IF( GENERATE_CPACK_PROJECT )
                  ${H3DUtil_SOURCE_DIR}/H3DUtil.rc.cmake
                  ${H3DUtil_SOURCE_DIR}/H3DUtilSourceFiles.txt
                  ${H3DUtil_SOURCE_DIR}/UpdateResourceFile.exe
+                 ${H3DUtil_SOURCE_DIR}/H3DUtilCPack.cmake
            DESTINATION H3DUtil/build
            COMPONENT H3DUtil_cpack_sources )
 
@@ -231,12 +228,12 @@ IF( GENERATE_CPACK_PROJECT )
   
   set(CPACK_COMPONENT_GROUP_H3DUTIL_CPACK_GROUP_DISPLAY_NAME "H3DUtil")
 
-  IF( NOT TARGET HAPI )
+  IF( NOT H3D_USE_DEPENDENCIES_ONLY )
     INCLUDE(CPack)
     INCLUDE(UseDebian)
     IF(DEBIAN_FOUND)
       ADD_DEBIAN_TARGETS(H3DUtil)
     ENDIF(DEBIAN_FOUND)
-  ENDIF( NOT TARGET HAPI )
+  ENDIF( NOT H3D_USE_DEPENDENCIES_ONLY )
   
 ENDIF( GENERATE_CPACK_PROJECT )

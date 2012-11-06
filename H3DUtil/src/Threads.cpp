@@ -278,6 +278,7 @@ PeriodicThread::PeriodicThread( int _thread_priority,
   p.sched_priority = _thread_priority;
   pthread_attr_init( &attr );
   pthread_attr_setschedparam( &attr, &p );
+  pthread_attr_setschedpolicy( &attr, SCHED_OTHER );
   pthread_create( &thread_id, &attr, thread_func, this ); 
   pthread_attr_destroy( &attr );
 #ifdef WIN32

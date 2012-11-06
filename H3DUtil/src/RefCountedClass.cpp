@@ -63,8 +63,11 @@ RefCountedClass::~RefCountedClass() {
 }
 
 void RefCountedClass::ref() {
-  if( ref_count_lock_pointer )
+	bool locked = false;
+  if( ref_count_lock_pointer ) {
     ref_count_lock_pointer->lock();
+		locked = true;
+	}
   ref_count++;
 #ifdef REF_COUNT_DEBUG
   Console(1) << "Ref " << getName() << " " << this << ": " 
@@ -73,7 +76,7 @@ void RefCountedClass::ref() {
   if( !manual_initialize && ref_count == 1 ) {
     initialize();
   }
-  if( ref_count_lock_pointer )
+  if( locked && ref_count_lock_pointer )
     ref_count_lock_pointer->unlock();
 }
 

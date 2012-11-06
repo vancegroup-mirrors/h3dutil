@@ -273,19 +273,12 @@ PeriodicThread::PeriodicThread( int _thread_priority,
                                 int _thread_frequency ):
   frequency( _thread_frequency ),
   thread_func_is_running( true ) {
-  pthread_attr_t attr;
-  sched_param p;
-  p.sched_priority = _thread_priority;
-  pthread_attr_init( &attr );
-  pthread_attr_setschedparam( &attr, &p );
-  pthread_attr_setschedpolicy( &attr, SCHED_OTHER );
-  pthread_create( &thread_id, &attr, thread_func, this ); 
-  pthread_attr_destroy( &attr );
 #ifdef WIN32
   priority = _thread_priority == THREAD_PRIORITY_LOWEST ? LOW_PRIORITY :
              _thread_priority == THREAD_PRIORITY_NORMAL ? NORMAL_PRIORITY :
              _thread_priority == THREAD_PRIORITY_ABOVE_NORMAL ? HIGH_PRIORITY :
              REALTIME_PRIORITY;
+	int policy = SCHED_OTHER;
 #else
   // This is actually not really correct but is put here anyways since priority
   // should be set to something. In old code 20 was used for HIGH_PRIORITY
@@ -293,7 +286,19 @@ PeriodicThread::PeriodicThread( int _thread_priority,
   priority = _thread_priority < 20 ? NORMAL_PRIORITY :
              _thread_priority < 99 ? HIGH_PRIORITY :
              REALTIME_PRIORITY;
+	int policy =
+    priority > NORMAL_PRIORITY ?
+    SCHED_FIFO : SCHED_OTHER;
 #endif
+
+	pthread_attr_t attr;
+  sched_param p;
+  p.sched_priority = _thread_priority;
+  pthread_attr_init( &attr );
+  pthread_attr_setschedparam( &attr, &p );
+  pthread_attr_setschedpolicy( &attr, policy );
+  pthread_create( &thread_id, &attr, thread_func, this ); 
+  pthread_attr_destroy( &attr );
 }
 
 PeriodicThread::PeriodicThread( Priority _thread_priority,

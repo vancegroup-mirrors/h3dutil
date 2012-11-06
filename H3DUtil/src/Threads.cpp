@@ -211,8 +211,8 @@ void *PeriodicThread::thread_func( void * _data ) {
       last_time = TimeStamp();
 #endif
     }
-    thread->callback_lock.lock();
     vector< PeriodicThread::CallbackList::iterator > to_remove;
+    thread->callback_lock.lock();
     for( PeriodicThread::CallbackList::iterator i = thread->callbacks.begin();
          i != thread->callbacks.end(); i++ ) {
       PeriodicThread::CallbackCode c = ( (*i).second ).first(
@@ -248,9 +248,20 @@ void *PeriodicThread::thread_func( void * _data ) {
     }
 
     thread->callback_lock.unlock();
+
     sched_yield();
+#ifndef WIN32
+		// According to documentation usleep(0) should not do anything so it should
+		// not do any harm to add this code. The reason to add it is that
+		// sched_yield does not seem to do what we expect it to
+		// do on linux ubuntu. It should yield to other threads of same or
+		// higher priority but even if there are threads waiting to obtain
+		// a lock that lock is in some cases never obtained when sched_yield
+		// is used. Therefore usleep(0) is added because it must do something
+		// since the lock is suddenly obtained.
+		usleep(0);
+#endif
   }
-  return NULL;
 } 
 
 ThreadBase::ThreadId ThreadBase::main_thread_id =

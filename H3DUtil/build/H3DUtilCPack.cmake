@@ -127,7 +127,7 @@ IF( GENERATE_CPACK_PROJECT )
       # a user wants to build H3D or against it.
       STRING( REGEX REPLACE "(/${EXTERNAL_BIN_PATH}/)" "/${EXTERNAL_BIN_REPLACE_PATH}/" other_binary ${binary} )
       IF( EXISTS ${other_binary} )
-        INSTALL( FILES ${binary}
+        INSTALL( FILES ${other_binary}
                  DESTINATION External/${EXTERNAL_BIN_REPLACE_PATH}
                  COMPONENT H3DUtil_cpack_external_source )
       ENDIF( EXISTS ${other_binary} )
@@ -170,6 +170,11 @@ IF( GENERATE_CPACK_PROJECT )
   INSTALL( FILES ${H3DUTIL_HEADERS}
            DESTINATION H3DUtil/include/H3DUtil
            COMPONENT H3DUtil_cpack_headers )
+
+  # H3DUtil.cmake that goes to headers is not needed unless sources is required.
+  INSTALL( FILES ${H3DUtil_SOURCE_DIR}/../include/H3DUtil/H3DUtil.cmake
+			DESTINATION H3DUtil/include/H3DUtil
+			COMPONENT H3DUtil_cpack_sources )
   
   # Install src files.
   INSTALL( FILES ${H3DUTIL_SRCS}

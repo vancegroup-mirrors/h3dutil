@@ -146,13 +146,45 @@ IF( GENERATE_CPACK_PROJECT )
     set(CPACK_COMPONENT_H3DUTIL_CPACK_EXTERNAL_SOURCE_GROUP "H3DUtil_cpack_group")
     set(CPACK_COMPONENT_H3DUTIL_CPACK_EXTERNAL_SOURCE_INSTALL_TYPES Developer Full)
   ENDIF( WIN32 )
+
+  # Add a cache variable H3D_cmake_runtime_path to point to cmake binary.
+  SET (H3D_cmake_runtime_path_default "")
+  IF( NOT DEFINED H3D_cmake_runtime_path )
+    IF( WIN32 AND NOT UNIX )
+      SET (VERSION_CMAKES "4.0" "3.9" "3.8" "3.7" "3.6" "3.5" "3.4" "3.3" "3.2" "3.1" "3.0" "2.9" "2.8" "2.7" "2.6")
+      foreach (version_cmake ${VERSION_CMAKES} )
+        IF (EXISTS "C:/Program Files/CMake ${version_cmake}/bin/cmake.exe")
+          SET( H3D_cmake_runtime_path_default "C:/Program Files/CMake ${version_cmake}/bin/cmake.exe" )
+          break()
+        ENDIF (EXISTS "C:/Program Files/CMake ${version_cmake}/bin/cmake.exe")
+        
+        IF (EXISTS "C:/Program Files (x86)/CMake ${version_cmake}/bin/cmake.exe")
+          SET( H3D_cmake_runtime_path_default "C:/Program Files (x86)/CMake ${version_cmake}/bin/cmake.exe" )
+          break()
+        ENDIF (EXISTS "C:/Program Files (x86)/CMake ${version_cmake}/bin/cmake.exe")
+        
+        IF ( EXISTS "C:/Program/CMake ${version_cmake}/bin/cmake.exe")
+          SET( H3D_cmake_runtime_path_default "C:/Program/CMake ${version_cmake}/bin/cmake.exe" )
+          break()
+        ENDIF ( EXISTS "C:/Program/CMake ${version_cmake}/bin/cmake.exe")
+      endforeach (version_cmake )
+    ELSE( WIN32 AND NOT UNIX )
+      SET( H3D_cmake_runtime_path_default "cmake" )
+    ENDIF( WIN32 AND NOT UNIX )
+    SET( H3D_cmake_runtime_path ${H3D_cmake_runtime_path_default} CACHE FILEPATH "The path to the cmake runtime." )
+    MARK_AS_ADVANCED(H3D_cmake_runtime_path)
+  ENDIF( NOT DEFINED H3D_cmake_runtime_path )
   
-  SET( INSTALL_RUNTIME_AND_LIBRARIES_ONLY_DEPENDENCIES ${INSTALL_RUNTIME_AND_LIBRARIES_ONLY_DEPENDENCIES} H3DUtil )
-  SET( INSTALL_RUNTIME_AND_LIBRARIES_ONLY_POST_BUILD ${INSTALL_RUNTIME_AND_LIBRARIES_ONLY_POST_BUILD}
-                                                     COMMAND ${H3D_cmake_runtime_path} 
-                                                     ARGS -DBUILD_TYPE=$(Configuration) -DCOMPONENT=H3DUtil_cpack_runtime -P cmake_install.cmake
-                                                     COMMAND ${H3D_cmake_runtime_path} 
-                                                     ARGS -DBUILD_TYPE=$(Configuration) -DCOMPONENT=H3DUtil_cpack_libraries -P cmake_install.cmake )
+  IF( H3D_cmake_runtime_path )
+    SET( INSTALL_RUNTIME_AND_LIBRARIES_ONLY_DEPENDENCIES ${INSTALL_RUNTIME_AND_LIBRARIES_ONLY_DEPENDENCIES} H3DUtil )
+    SET( INSTALL_RUNTIME_AND_LIBRARIES_ONLY_POST_BUILD ${INSTALL_RUNTIME_AND_LIBRARIES_ONLY_POST_BUILD}
+                                                       COMMAND ${H3D_cmake_runtime_path} 
+                                                       ARGS -DBUILD_TYPE=$(Configuration) -DCOMPONENT=H3DUtil_cpack_runtime -P cmake_install.cmake
+                                                       COMMAND ${H3D_cmake_runtime_path} 
+                                                       ARGS -DBUILD_TYPE=$(Configuration) -DCOMPONENT=H3DUtil_cpack_libraries -P cmake_install.cmake )
+  ELSE( H3D_cmake_runtime_path )
+    MESSAGE (STATUS "H3D_cmake_runtime_path is not set, please set it to continue")
+  ENDIF( H3D_cmake_runtime_path )
   
   SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "H3DUtil. Help functions and utility functions for H3D API and HAPI.")
   SET(CPACK_PACKAGE_VENDOR "SenseGraphics AB")
@@ -234,11 +266,13 @@ IF( GENERATE_CPACK_PROJECT )
   set(CPACK_COMPONENT_GROUP_H3DUTIL_CPACK_GROUP_DISPLAY_NAME "H3DUtil")
 
   IF( NOT H3D_USE_DEPENDENCIES_ONLY )
-    INCLUDE(CPack)
-    INCLUDE(UseDebian)
-    IF(DEBIAN_FOUND)
-      ADD_DEBIAN_TARGETS(H3DUtil)
-    ENDIF(DEBIAN_FOUND)
+    IF (NOT TARGET HAPI)
+      INCLUDE(CPack)
+      INCLUDE(UseDebian)
+      IF(DEBIAN_FOUND)
+        ADD_DEBIAN_TARGETS(H3DUtil)
+      ENDIF(DEBIAN_FOUND)
+    ENDIF (NOT TARGET HAPI)
   ENDIF( NOT H3D_USE_DEPENDENCIES_ONLY )
   
 ENDIF( GENERATE_CPACK_PROJECT )

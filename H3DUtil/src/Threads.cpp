@@ -34,9 +34,11 @@
 #include <algorithm>
 #include <vector>
 #include <iostream>
-#include <unistd.h>
 using namespace std;
 #include <H3DUtil/Threads.h>
+#ifndef H3D_WINDOWS
+#include <unistd.h>
+#endif
 #include <errno.h>
 
 #ifdef MACOSX

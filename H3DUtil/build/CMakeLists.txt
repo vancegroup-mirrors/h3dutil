@@ -3,6 +3,16 @@ IF(WIN32)
 ENDIF(WIN32)
 PROJECT(H3DUtil)
 
+
+# Make sure the full path is used for installed libraries
+SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+# the RPATH to be used when installing, but only if it's not a system directory
+LIST(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${CMAKE_INSTALL_PREFIX}/lib" isSystemDir)
+IF("${isSystemDir}" STREQUAL "-1")
+   SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
+ENDIF("${isSystemDir}" STREQUAL "-1")
+
+
 # set the install directory to the H3D directory on Windows
 IF( WIN32 AND CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT AND NOT H3D_CMAKE_INSTALL_PREFIX_ALREADY_SET )
   SET( CMAKE_INSTALL_PREFIX ${H3DUtil_SOURCE_DIR}/../.. CACHE PATH "Install path prefix, prepended onto install directories." FORCE )
@@ -143,6 +153,14 @@ SET_TARGET_PROPERTIES( H3DUtil PROPERTIES DEBUG_POSTFIX "_d" )
 
 # set the version of the library
 SET_TARGET_PROPERTIES( H3DUtil PROPERTIES VERSION ${H3DUTIL_FULL_VERSION} )
+
+
+IF(APPLE)
+  SET_TARGET_PROPERTIES (H3DUtil
+	  	         PROPERTIES 
+#			 BUILD_WITH_INSTALL_RPATH 1
+                         INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
+ENDIF(APPLE)
 
 # change the name depending on compiler to be able to tell them apart
 # since they are not compatible with each other. 

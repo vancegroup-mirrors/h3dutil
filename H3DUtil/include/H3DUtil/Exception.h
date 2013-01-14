@@ -44,7 +44,7 @@ namespace H3DUtil {
     public:
       
       /// Constructor
-      /// \param _message optional message associtiated with the exception.
+      /// \param _message optional message associated with the exception.
       ///
       H3DException( const string &_message = "" ) : message( _message ) {}
 
@@ -56,7 +56,7 @@ namespace H3DUtil {
         os << "H3DException: " << message;
       }
 
-      /// The message assoiciated with this exception
+      /// The message associated with this exception
       string message;
     };
 

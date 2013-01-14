@@ -162,37 +162,47 @@ IF(APPLE)
                          INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib")
 ENDIF(APPLE)
 
-# change the name depending on compiler to be able to tell them apart
-# since they are not compatible with each other. 
-IF(MSVC70 OR MSVC71)
-  SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc7
+IF( MSVC )
+  SET( H3D_MSVC_VERSION 6 )
+  SET( TEMP_MSVC_VERSION 1299 )
+  WHILE( ${MSVC_VERSION} GREATER ${TEMP_MSVC_VERSION} )
+    MATH( EXPR H3D_MSVC_VERSION "${H3D_MSVC_VERSION} + 1" )
+    MATH( EXPR TEMP_MSVC_VERSION "${TEMP_MSVC_VERSION} + 100" )
+  ENDWHILE( ${MSVC_VERSION} GREATER ${TEMP_MSVC_VERSION} )
+
+  # change the name depending on compiler to be able to tell them apart
+  # since they are not compatible with each other. 
+  SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME ${PROJECT_NAME}_vc${H3D_MSVC_VERSION}
                                             LINK_FLAGS_DEBUG " /NODEFAULTLIB:msvcrt" )
-  SET( H3DAPI_COMPILE_FLAGS "${H3DAPI_COMPILE_FLAGS} /Zc:wchar_t")
-ELSEIF(MSVC80)
-  SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc8
-                                            LINK_FLAGS_DEBUG " /NODEFAULTLIB:msvcrt" )
-  SET( H3DUTIL_COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS} -D_CRT_SECURE_NO_DEPRECATE" )
-  
-  # This might be useful for visual studio 2005 users that often recompile the api.
-  IF( NOT DEFINED USE_VC8_MP_FLAG )
-    SET( USE_VC8_MP_FLAG "NO" CACHE BOOL "In visual studio 8 the MP flag exists but is not documented. Maybe it is unsafe to use. If you want to use it then set this flag to yes." )
-  ENDIF( NOT DEFINED USE_VC8_MP_FLAG )
-  
-  IF( USE_VC8_MP_FLAG )
+
+  # Treat wchar_t as built in type for all visual studio versions.
+  # This is default for every version above 7 ( so far ) but we still set it for all.
+  SET( H3DUTIL_COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS} /Zc:wchar_t")
+
+  IF( MSVC80 )
+    # This might be useful for visual studio 2005 users that often recompile the api.
+    IF( NOT DEFINED USE_VC8_MP_FLAG )
+      SET( USE_VC8_MP_FLAG "NO" CACHE BOOL "In visual studio 8 the MP flag exists but is not documented. Maybe it is unsafe to use. If you want to use it then set this flag to yes." )
+    ENDIF( NOT DEFINED USE_VC8_MP_FLAG )
+
+    IF( USE_VC8_MP_FLAG )
+      SET( H3DUTIL_COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS} /MP" )
+    ENDIF( USE_VC8_MP_FLAG )
+  ENDIF( MSVC80 )
+
+  IF( ${MSVC_VERSION} GREATER 1399 )
+    # Remove compiler warnings about deprecation for visual studio versions 8 and above.
+    SET( H3DUTIL_COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS} -D_CRT_SECURE_NO_DEPRECATE" )
+  ENDIF( ${MSVC_VERSION} GREATER 1399 )
+
+  IF( ${MSVC_VERSION} GREATER 1499 )
+    # Build using several threads for visual studio versions 9 and above.
     SET( H3DUTIL_COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS} /MP" )
-  ENDIF( USE_VC8_MP_FLAG )
-ELSEIF(MSVC90)
-  SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc9
-                                            LINK_FLAGS_DEBUG " /NODEFAULTLIB:msvcrt" )
-  SET( H3DUTIL_COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS} /MP -D_CRT_SECURE_NO_DEPRECATE" )
-ELSEIF(MSVC10)
-  SET_TARGET_PROPERTIES( H3DUtil PROPERTIES OUTPUT_NAME H3DUtil_vc10
-                                            LINK_FLAGS_DEBUG " /NODEFAULTLIB:msvcrt" )
-  SET( H3DUTIL_COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS} /MP -D_CRT_SECURE_NO_DEPRECATE" )
+  ENDIF( ${MSVC_VERSION} GREATER 1499 )
 ELSEIF(CMAKE_COMPILER_IS_GNUCC OR CMAKE_COMPILER_IS_GNUCXX)
   #used to link in dynamic library load functions. Needed by some examples in HAPI
   SET_TARGET_PROPERTIES( H3DUtil PROPERTIES LINK_FLAGS "-ldl" )
-ENDIF(MSVC70 OR MSVC71)
+ENDIF( MSVC )
 
 # set compile flags.
 SET_TARGET_PROPERTIES( H3DUtil PROPERTIES COMPILE_FLAGS "${H3DUTIL_COMPILE_FLAGS}"  )
